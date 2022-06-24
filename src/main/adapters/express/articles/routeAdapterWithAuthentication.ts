@@ -4,10 +4,12 @@ import { validateUser } from '../../../../external/jwt/jwt'
 import { CreateArticleController } from '../../../../adapters/http/controllers/articles/createArticleController'
 import { IHttpRequest } from '../../../../adapters/http/controllers/ports/http'
 import { DeleteArticleController } from 'src/adapters/http/controllers/articles/deleteArticleController'
+import { UpdateArticleController } from '@src/adapters/http/controllers/articles/updateArticleController'
 
 export const adapterRouteWithAuthentication = (
   controller:
   CreateArticleController |
+  UpdateArticleController |
   DeleteArticleController
 ): any => {
   return async (req: Request, res: Response) => {
