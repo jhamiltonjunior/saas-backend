@@ -19,6 +19,7 @@ export class UpdateArticleController {
       author,
       category: httpRequest.body.category,
       createdAt: new Date(),
+      updatedAt: new Date(),
       url: httpRequest.body.url,
     }
 
