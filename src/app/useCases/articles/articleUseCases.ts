@@ -12,7 +12,7 @@ import { IArticleRepository } from '../../repositories/articleRepository'
 import { IArticleData } from '../../../domain/entities/articles/interfaces/articleData'
 import { AuthorData } from '../../../domain/entities/articles/validators/author'
 import { ShowUniqueArticleResponse } from './responses/showUniqueArticleResponse'
-import { CreateArticleResponse } from './responses/allErrorsArticleResponse'
+import { allErrorsArticleResponse } from './responses/allErrorsArticleResponse'
 import { ArticleInterface } from './interfaces/articleInterface'
 import { InvalidURLNotFound } from './errors/invalidURLNotFound'
 import { IUserRepository } from '../../repositories/userRepository'
@@ -72,7 +72,7 @@ export class ArticleUseCases implements ArticleInterface {
    * He go verify if exist a URL equal if not exist and the user have permission of writer
    * the article go be created
    */
-  async createArticleOnDatabase (articleData: IArticleData, author: AuthorData): Promise<CreateArticleResponse> {
+  async createArticleOnDatabase (articleData: IArticleData, author: AuthorData): Promise<allErrorsArticleResponse> {
     const articleOrError: Either<
     InvalidTitleError |
     InvalidBodyError |
@@ -116,7 +116,61 @@ export class ArticleUseCases implements ArticleInterface {
     return right(articleData)
   }
 
-  // async updateArticle (): Promise< {}
+  async updateArticle (articleData: IArticleData, author: AuthorData): Promise<allErrorsArticleResponse> {
+    const articleOrError: Either<
+    InvalidTitleError |
+    InvalidBodyError |
+    InvalidAuthorError |
+    InvalidCategoryError |
+    InvalidCreatedAtError |
+    InvalidURLError |
+    InvalidUpdatedAtError,
+    Article> = Article.create(articleData)
+
+    if (articleOrError.isLeft()) {
+      return left(articleOrError.value)
+    }
+
+    const article: Article = articleOrError.value
+
+    // article.url.value vai enviar a string da url já com o valor formatado
+    const result = await this.articleRepository.findByURL(article.url.value)
+    const permissions = await this.userRepository?.getPermission(article.author.value.user_id)
+
+    console.log('id do author', (<any>result).author.user_id)
+    console.log('id atual', String(author.user_id))
+    console.log(String(author.user_id) === (<any>result).author.user_id)
+
+    if (
+      permissions?.includes('writer')
+    ) {
+      if (
+        result === undefined
+      ) {
+        await this.articleRepository.add({
+          /**
+           * (<any>result)... this is to maintain the datas
+           * case not be actualized with some value
+           */
+
+          title: article.title.value || (<any>result).title,
+          author: article.author.value || (<any>result).author,
+          body: article.body.value || (<any>result).body,
+          url: article.url.value || (<any>result).url,
+          category: article.category.value || (<any>result).category,
+          createdAt: (<any>result).createdAt,
+          updatedAt: article.updatedAt?.value
+        },
+        String(author.user_id)
+        )
+      }
+      // Aqui poderia ter um else caso exist uma url igual
+    } else {
+      return left(new InvalidUserDoesNotPermission(article.author.value.name))
+    }
+
+    return right(articleData)
+  }
 
   async deleteArticle (urlParams: string): Promise<DeleteArticleResponse> {
     const urlOrError = URL.create(urlParams)

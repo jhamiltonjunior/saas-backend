@@ -9,7 +9,7 @@ import { InvalidURLError } from '../../../../domain/entities/articles/errors/inv
 import { InvalidUserDoesNotPermission } from '../errors/invalidUserDoesNotPermission'
 import { Either } from '../../../../shared/either'
 
-export type CreateArticleResponse = Either<
+export type allErrorsArticleResponse = Either<
 InvalidTitleError |
 InvalidBodyError |
 InvalidAuthorError |

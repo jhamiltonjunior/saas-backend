@@ -5,7 +5,7 @@ import { MissingParamError } from '../errors/missingParamError'
 import { AuthorData } from '../../../../domain/entities/articles/validators/author'
 import { ArticleUseCases } from 'src/app/useCases/articles/articleUseCases'
 
-export class CreateArticleController {
+export class UpdateArticleController {
   private readonly articleUseCases: ArticleUseCases
 
   constructor (articleUseCases: ArticleUseCases) {
@@ -13,8 +13,6 @@ export class CreateArticleController {
   }
 
   async handle (httpRequest: IHttpRequest, author: AuthorData): Promise<IHttpResponse> {
-    // const url = httpRequest.body.url.trim().replace(/( )+/g, ' ').split(' ').join('-')
-
     const articleData = {
       title: httpRequest.body.title,
       body: httpRequest.body.body,
