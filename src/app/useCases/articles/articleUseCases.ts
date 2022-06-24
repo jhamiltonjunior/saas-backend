@@ -12,7 +12,7 @@ import { IArticleRepository } from '../../repositories/articleRepository'
 import { IArticleData } from '../../../domain/entities/articles/interfaces/articleData'
 import { AuthorData } from '../../../domain/entities/articles/validators/author'
 import { ShowUniqueArticleResponse } from './responses/showUniqueArticleResponse'
-import { CreateArticleResponse } from './responses/createArticleResponse'
+import { CreateArticleResponse } from './responses/allErrorsArticleResponse'
 import { ArticleInterface } from './interfaces/articleInterface'
 import { InvalidURLNotFound } from './errors/invalidURLNotFound'
 import { IUserRepository } from '../../repositories/userRepository'
@@ -115,6 +115,8 @@ export class ArticleUseCases implements ArticleInterface {
 
     return right(articleData)
   }
+
+  // async updateArticle (): Promise< {}
 
   async deleteArticle (urlParams: string): Promise<DeleteArticleResponse> {
     const urlOrError = URL.create(urlParams)

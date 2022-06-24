@@ -1,6 +1,6 @@
 import { IHttpRequest, IHttpResponse } from '../ports/http'
 import { badRequest, created, serverError } from '../helpers/httpHelper'
-import { CreateArticleResponse } from '../../../../app/useCases/articles/responses/createArticleResponse'
+import { CreateArticleResponse } from '../../../../app/useCases/articles/responses/allErrorsArticleResponse'
 import { MissingParamError } from '../errors/missingParamError'
 import { AuthorData } from '../../../../domain/entities/articles/validators/author'
 import { ArticleUseCases } from 'src/app/useCases/articles/articleUseCases'

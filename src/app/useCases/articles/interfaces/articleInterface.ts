@@ -1,7 +1,7 @@
 import { IArticleRepository } from '../../../repositories/articleRepository'
 import { IArticleData } from '../../../../domain/entities/articles/interfaces/articleData'
 import { AuthorData } from '../../../../domain/entities/articles/validators/author'
-import { CreateArticleResponse } from '../responses/createArticleResponse'
+import { CreateArticleResponse } from '../responses/allErrorsArticleResponse'
 import { DeleteArticleResponse } from '../responses/deleteArticleResponse'
 import { ShowUniqueArticleResponse } from '../responses/showUniqueArticleResponse'
 
