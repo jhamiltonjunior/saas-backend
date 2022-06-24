@@ -1,5 +1,5 @@
 import { ArticleUseCases } from '../../../../app/useCases/articles/articleUseCases'
-import { ShowUniqueArticleResponse } from '../../../../app/useCases/articles/showUniqueArticleResponse'
+import { ShowUniqueArticleResponse } from '../../../../app/useCases/articles/responses/showUniqueArticleResponse'
 import { MissingParamError } from '../errors/missingParamError'
 import { badRequest, ok, serverError } from '../helpers/httpHelper'
 import { IHttpRequest, IHttpResponse } from '../ports/http'
