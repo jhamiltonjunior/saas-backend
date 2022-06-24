@@ -1,0 +1,44 @@
+{
+  "compilerOptions": {
+    "target": "es2017",                  
+    "module": "commonjs",                                
+    // "rootDir": ".",
+    "outDir": "./dist",                            
+    "resolveJsonModule": true,                        
+    "esModuleInterop": true,                             
+    "forceConsistentCasingInFileNames": true,            
+    "strict": true,                                      
+    "skipLibCheck": true,
+    // "allowJs": true,
+    "baseUrl": ".",
+    "removeComments": true, 
+    "typeRoots": [
+      "./node_modules/@types",
+      "./src/main/@types"
+    ],
+    "paths": {
+      "@src/*": [
+        "./src/*"
+      ],
+      "@entities/*": [
+        "./src/entities/*"
+      ],
+      "@useCases/*": [
+        "./src/app/useCases/*"
+      ],
+      "@repositories/*": [
+        "./src/app/repositories/*"
+      ],
+      "@controllers/*": [
+        "./src/adapters/http/controllers/*"
+      ],
+      "@external/*": [
+        "./src/external/*"
+      ],
+      "@shared/*": [
+        "./src/shared/*"
+      ],
+      
+    }                              
+  }
+}
