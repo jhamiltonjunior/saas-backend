@@ -4,7 +4,7 @@ import app from './config/app'
 
 dotenvConfig()
 
-app.listen(process.envd.PORT, () => {
+app.listen(process.env.PORT, () => {
   console.log(`Server running at http://localhost:${process.env.PORT}`)
 })
 
