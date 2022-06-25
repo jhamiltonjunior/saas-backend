@@ -1,4 +1,4 @@
-import { Router, Request, Response } from 'express'
+import { Router } from 'express'
 import { adapterRouteShowArticle } from '../adapters/express/articles/routeAdapterShowUnique'
 import { adapterRouteWithAuthentication } from '../adapters/express/articles/routeAdapterWithAuthentication'
 import { makeCreateArticleController } from '../factories/articles/create'
@@ -13,10 +13,4 @@ export default (router: Router): void => {
   router.post('/article', adapterRouteWithAuthentication(makeCreateArticleController()))
   router.post('/article/:url', adapterRouteWithAuthentication(makeUpdateArticleController()))
   router.delete('/article/:url', adapterRouteWithAuthentication(makeDeleteArticleController()))
-
-  router.get('/article/test', (req: Request, res: Response) => {
-    res.json({
-      message: 'Funcionando!'
-    })
-  })
 }
