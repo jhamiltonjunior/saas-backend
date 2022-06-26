@@ -10,7 +10,9 @@ import { makeUpdateArticleController } from '../factories/articles/update'
 export default (router: Router): void => {
   router.get('/article', adapterRouteShowArticle(makeShowAllArticleController()))
   router.get('/article/:url', adapterRouteShowArticle(makeShowUniqueArticleConstroller()))
+
   router.post('/article', adapterRouteWithAuthentication(makeCreateArticleController()))
   router.post('/article/:url', adapterRouteWithAuthentication(makeUpdateArticleController()))
+
   router.delete('/article/:url', adapterRouteWithAuthentication(makeDeleteArticleController()))
 }

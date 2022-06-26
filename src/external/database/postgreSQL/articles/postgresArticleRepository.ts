@@ -55,6 +55,37 @@ export class PostgresArticleRepository implements IArticleRepository {
     )
   }
 
+  async update (article: IArticleData, userId: string): Promise<any> {
+    await this.postgresHelper.query(
+      `INSERT INTO articles(
+        article_id,
+        user_id,
+        title,
+        body,
+        category,
+        url,
+        createdAt
+      ) VALUES(
+        $1,
+        $2,
+        $3,
+        $4,
+        $5,
+        $6,
+        $7
+      )`,
+      [
+        uuidv4(),
+        userId,
+        article.title,
+        article.body,
+        article.category,
+        article.url,
+        new Date(),
+      ]
+    )
+  }
+
   async deleteByURL (url: string): Promise<void> {
     await this.postgresHelper.query(`
       DELETE FROM articles

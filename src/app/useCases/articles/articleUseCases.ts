@@ -116,7 +116,7 @@ export class ArticleUseCases implements ArticleInterface {
     return right(articleData)
   }
 
-  async updateArticle (articleData: IArticleData, author: AuthorData): Promise<allErrorsArticleResponse> {
+  async updateArticle (articleData: IArticleData, author: AuthorData, urlOfParams: string): Promise<allErrorsArticleResponse> {
     const articleOrError: Either<
     InvalidTitleError |
     InvalidBodyError |
@@ -134,18 +134,19 @@ export class ArticleUseCases implements ArticleInterface {
     const article: Article = articleOrError.value
 
     // article.url.value vai enviar a string da url já com o valor formatado
-    const result = await this.articleRepository.findByURL(article.url.value)
+    const result = await this.articleRepository.findByURL(urlOfParams)
     const permissions = await this.userRepository?.getPermission(article.author.value.user_id)
 
-    console.log('id do author', (<any>result).author.user_id)
+    console.log('id do author', (<any>result).user_id)
     console.log('id atual', String(author.user_id))
-    console.log(String(author.user_id) === (<any>result).author.user_id)
+    console.log('id do author que ta no article', article.author.value.user_id)
+    // console.log(String(author.user_id) === (<any>result).author.user_id)
 
     if (
       permissions?.includes('writer')
     ) {
       if (
-        result === undefined
+        result !== undefined
       ) {
         await this.articleRepository.add({
           /**
@@ -158,10 +159,10 @@ export class ArticleUseCases implements ArticleInterface {
           body: article.body.value || (<any>result).body,
           url: article.url.value || (<any>result).url,
           category: article.category.value || (<any>result).category,
-          createdAt: (<any>result).createdAt,
+          createdAt: result.createdAt,
           updatedAt: article.updatedAt?.value
         },
-        String(author.user_id)
+        String((<any>result).user_id)
         )
       }
       // Aqui poderia ter um else caso exist uma url igual

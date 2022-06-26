@@ -13,6 +13,8 @@ export class UpdateArticleController {
   }
 
   async handle (httpRequest: IHttpRequest, author: AuthorData): Promise<IHttpResponse> {
+    const urlOfParams: string = httpRequest.params.url
+
     const articleData = {
       title: httpRequest.body.title,
       body: httpRequest.body.body,
@@ -39,7 +41,7 @@ export class UpdateArticleController {
         return badRequest(new MissingParamError(field))
       }
       const articleResponse: allErrorsArticleResponse =
-        await this.articleUseCases.createArticleOnDatabase(articleData, author)
+        await this.articleUseCases.updateArticle(articleData, author, urlOfParams)
 
       if (articleResponse.isLeft()) {
         return badRequest(articleResponse.value)

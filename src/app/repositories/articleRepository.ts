@@ -5,4 +5,5 @@ export interface IArticleRepository {
   findByURL: (url: string) => Promise<IArticleData>
   deleteByURL: (id: string) => Promise<void>
   add: (article: IArticleData, id: string) => Promise<void>
+  update: (article: IArticleData, id: string) => Promise<void>
 }
