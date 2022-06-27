@@ -145,6 +145,8 @@ export class ArticleUseCases implements ArticleInterface {
     if (
       // the permission check if user have permission
       permissions?.includes('writer') &&
+
+      // only user who create the article can edit it
       author.user_id === (<any>result).user_id
     ) {
       if (
