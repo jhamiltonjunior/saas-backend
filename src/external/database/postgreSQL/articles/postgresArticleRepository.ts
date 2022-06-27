@@ -55,33 +55,26 @@ export class PostgresArticleRepository implements IArticleRepository {
     )
   }
 
-  async update (article: IArticleData, userId: string): Promise<any> {
+  async update (article: IArticleData, urlParams: string): Promise<any> {
     await this.postgresHelper.query(
-      `INSERT INTO articles(
-        article_id,
-        user_id,
-        title,
-        body,
-        category,
-        url,
-        createdAt
-      ) VALUES(
-        $1,
-        $2,
-        $3,
-        $4,
-        $5,
-        $6,
-        $7
-      )`,
+      `
+      UPDATE articles
+      SET 
+        title = $1,
+        body = $2,
+        category = $3,
+        url = $4,
+        updatedAt = $5
+      WHERE
+        url = $6
+      `,
       [
-        uuidv4(),
-        userId,
         article.title,
         article.body,
         article.category,
         article.url,
         new Date(),
+        urlParams
       ]
     )
   }
