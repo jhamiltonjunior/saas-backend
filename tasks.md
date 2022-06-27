@@ -13,8 +13,11 @@ Refatorei os arquivos de criação de usuário, mas ainda não testei se realmen
 Refatorei a url do artigo para deixar mais seguro
 
 Agora o usario é criado com uuid, mas somente no postgres,
-vou mudar para que isso seja responsabilidade da aplicação, porque se eu mudar de banco de dados isso
-não venha me atrapalhar
+vou mudar para que isso seja responsabilidade da aplicação,para que se eu mudar de banco de dados isso não me atrapalhar
+
+# new Date: 22:19 - 26/06/2022
+
+Parei com esse negócio de new Date a tempo, chato demais
 
 # All features
 
@@ -27,7 +30,7 @@ não venha me atrapalhar
 - [x] criar artigo
 - [x] ler um unico artigo
 - [x] ler varios artigos
-- [ ] atualizar artigo
+- [x] atualizar artigo
 - [x] Deletar artigo
 
 - [x] o artigo mostra o usuário que o criou
