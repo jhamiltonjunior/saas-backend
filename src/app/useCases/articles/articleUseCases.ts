@@ -137,13 +137,15 @@ export class ArticleUseCases implements ArticleInterface {
     const result = await this.articleRepository.findByURL(urlParams)
     const permissions = await this.userRepository?.getPermission(article.author.value.user_id)
 
-    // console.log('id do author', (<any>result).user_id)
-    // console.log('id atual', String(author.user_id))
-    // console.log('id do author que ta no article', article.author.value.user_id)
-    // console.log(String(author.user_id) === (<any>result).author.user_id)
+    console.log('id do author', (<any>result).user_id)
+    console.log('id atual', String(author.user_id))
+    console.log('id do author que ta no article', article.author.value.user_id)
+    console.log(author.user_id === article.author.value.user_id)
 
     if (
-      permissions?.includes('writer')
+      // the permission check if user have permission
+      permissions?.includes('writer') &&
+      author.user_id === (<any>result).user_id
     ) {
       if (
         result !== undefined
