@@ -1,13 +1,13 @@
-import { left } from '../../../shared/either'
-import { InvalidAuthorError } from './errors/invalidAuthor'
-import { InvalidBodyError } from './errors/invalidBody'
-import { InvalidCategoryError } from './errors/invalidCategory'
-import { InvalidCommentaryError } from './errors/invalidCommentary'
-import { InvalidCreatedAtError } from './errors/invalidCreatedAt'
-import { InvalidTitleError } from './errors/invalidTitle'
-import { InvalidURLError } from './errors/invalidURL'
-import { InvalidUpdatedAtError } from './errors/invalidUpdatedAt'
-import { Article } from './article'
+import { left } from '../../../../src/shared/either'
+import { InvalidAuthorError } from '../../../../src/domain/entities/articles/errors/invalidAuthor'
+import { InvalidBodyError } from '../../../../src/domain/entities/articles/errors/invalidBody'
+import { InvalidCategoryError } from '../../../../src/domain/entities/articles/errors/invalidCategory'
+import { InvalidCommentaryError } from '../../../../src/domain/entities/articles/errors/invalidCommentary'
+import { InvalidCreatedAtError } from '../../../../src/domain/entities/articles/errors/invalidCreatedAt'
+import { InvalidTitleError } from '../../../../src/domain/entities/articles/errors/invalidTitle'
+import { InvalidURLError } from '../../../../src/domain/entities/articles/errors/invalidURL'
+import { InvalidUpdatedAtError } from '../../../../src/domain/entities/articles/errors/invalidUpdatedAt'
+import { Article } from '../../../../src/domain/entities/articles/article'
 
 // const content = {
 //   title: 'sdddddddddddd',
