@@ -9,19 +9,6 @@ import { InvalidURLError } from '../../../../src/domain/entities/articles/errors
 import { InvalidUpdatedAtError } from '../../../../src/domain/entities/articles/errors/invalidUpdatedAt'
 import { Article } from '../../../../src/domain/entities/articles/article'
 
-// const content = {
-//   title: 'sdddddddddddd',
-//   body: 'strinddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddgddddddddddddddd',
-//   createdAt: new Date,
-//   // updatedAt: Date,
-//   url: 'stringddddd',
-//   author: {
-//     id: 'string',
-//     name: 'string',
-//   },
-//   category: 'strinddg',
-// }
-
 describe('Article Domain Entity', () => {
   it('Should not create article with invalid title (little characters)', () => {
     const title = 'o'
