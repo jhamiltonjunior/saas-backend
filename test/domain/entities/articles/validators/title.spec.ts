@@ -21,4 +21,12 @@ describe('Title Domain Validator', () => {
 
     expect(title).toEqual({value: new InvalidTitleError(content)})
   })
+
+  it('Should not create title if null', () => {
+    const content = ''
+
+    const title = Title.create(content)
+
+    expect(title).toEqual({value: new InvalidTitleError(content)})
+  })
 })
