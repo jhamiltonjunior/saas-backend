@@ -1,0 +1,199 @@
+[33mcommit 43bcc6be21a50a4e1eeaebdd436c41f9f31d85a3[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m
+Author: jhamiltonjunior <josehamiltonsantosjunior@gmail.com>
+Date:   Sun Jul 10 14:58:22 2022 -0300
+
+    Revert "test: should not create url with much characters added and passed"
+    
+    This reverts commit 3d9994b74670f3b06cf78484b2af3ac6d2237f56.
+
+[33mcommit 2eb2fe17678848b0558107b66ddafd26981c949f[m
+Author: jhamiltonjunior <josehamiltonsantosjunior@gmail.com>
+Date:   Sun Jul 10 14:57:40 2022 -0300
+
+    refactorsrc/app/useCases/articles/interfaces/createArticle.ts deleted
+
+[33mcommit 3d9994b74670f3b06cf78484b2af3ac6d2237f56[m
+Author: jhamiltonjunior <josehamiltonsantosjunior@gmail.com>
+Date:   Sun Jul 10 14:42:15 2022 -0300
+
+    test: should not create url with much characters added and passed
+
+[33mcommit 7ae822a0f7af7e681b0de04d68ed8cf101a4fcc1[m
+Author: jhamiltonjunior <josehamiltonsantosjunior@gmail.com>
+Date:   Sun Jul 10 14:39:35 2022 -0300
+
+    test: should not create url with few characters added and passed
+
+[33mcommit 3b4b45de86b542b04889027e013edaa37e17ac50[m[33m ([m[1;31morigin/master[m[33m)[m
+Author: jhamiltonjunior <josehamiltonsantosjunior@gmail.com>
+Date:   Sun Jul 10 14:33:42 2022 -0300
+
+    test: url altered to test pass
+
+[33mcommit 71b8097e30206d133fdf7e4324cd1fa29e6d5564[m
+Author: jhamiltonjunior <josehamiltonsantosjunior@gmail.com>
+Date:   Thu Jul 7 20:03:28 2022 -0300
+
+    test: Should create url without much hypen added and passed
+
+[33mcommit d3d6f5c66914c45e6887092ecf61ddc8de76b822[m
+Author: jhamiltonjunior <josehamiltonsantosjunior@gmail.com>
+Date:   Thu Jul 7 19:19:03 2022 -0300
+
+    test: Should not create title if null added and passed
+
+[33mcommit f9123245dab81d9d112ca7517a9413a11b143ad3[m
+Author: jhamiltonjunior <josehamiltonsantosjunior@gmail.com>
+Date:   Thu Jul 7 19:14:19 2022 -0300
+
+    test: Should not create title with Much characters added
+
+[33mcommit 0cae14c9e32579d08409c126b608848a59812298[m
+Author: jhamiltonjunior <josehamiltonsantosjunior@gmail.com>
+Date:   Tue Jul 5 20:16:20 2022 -0300
+
+    test: author.spec.ts deleted
+
+[33mcommit 3d51514563b5d9074c1fe6a0c1ec541864e6c616[m
+Author: jhamiltonjunior <josehamiltonsantosjunior@gmail.com>
+Date:   Tue Jul 5 20:15:02 2022 -0300
+
+    test: title.spec.ts initialized
+
+[33mcommit 7a560077f06a62f2e7ce9300c32d90c0d44f59ba[m
+Author: jhamiltonjunior <josehamiltonsantosjunior@gmail.com>
+Date:   Tue Jul 5 19:40:57 2022 -0300
+
+    test: directory of tests added
+
+[33mcommit a1100cf5ef6bfd326ffae195dd7359c0f5f38846[m
+Author: jhamiltonjunior <josehamiltonsantosjunior@gmail.com>
+Date:   Sun Jul 3 21:54:47 2022 -0300
+
+    cors imported in config/app and executed
+
+[33mcommit 921c90560aa623d62efa0b0c44ac08b4ab19304c[m
+Author: jhamiltonjunior <josehamiltonsantosjunior@gmail.com>
+Date:   Sun Jul 3 21:53:03 2022 -0300
+
+    @types/cors installed
+
+[33mcommit 9c72f96b9df7bd770c6fc6bde0025a7db1dbfe8d[m
+Author: jhamiltonjunior <josehamiltonsantosjunior@gmail.com>
+Date:   Sun Jul 3 21:51:01 2022 -0300
+
+    cors installed
+
+[33mcommit ea2a07dc6d347b2b79c6b7a55eaea62ac176b1a4[m
+Author: jhamiltonjunior <josehamiltonsantosjunior@gmail.com>
+Date:   Sun Jun 26 22:20:49 2022 -0300
+
+    refactor: readme changed
+
+[33mcommit 11e11f51d257f2c9ec49e355cc13d48cbd3cbdf4[m
+Author: jhamiltonjunior <josehamiltonsantosjunior@gmail.com>
+Date:   Sun Jun 26 22:12:37 2022 -0300
+
+    refactor: commentary added in articleUseCases for update method
+
+[33mcommit 2942ebf1b370c75c2073630a044f8de938daa15e[m
+Author: jhamiltonjunior <josehamiltonsantosjunior@gmail.com>
+Date:   Sun Jun 26 22:08:15 2022 -0300
+
+    feature: now only the user create the article can edit it
+
+[33mcommit d137c83eac941adfc16f66b579a5cd8e6ba5db70[m
+Author: jhamiltonjunior <josehamiltonsantosjunior@gmail.com>
+Date:   Sun Jun 26 21:51:54 2022 -0300
+
+    feature: now is possible update the articles if user have permission
+
+[33mcommit f07860f27c2f70ac165712b25a280819d3904c8b[m
+Author: jhamiltonjunior <josehamiltonsantosjunior@gmail.com>
+Date:   Sun Jun 26 21:26:56 2022 -0300
+
+    refactor: router for edit article changed of post to put
+
+[33mcommit b1cd689f9eeb8e813d25be7f0ee9b009d74e462b[m
+Author: jhamiltonjunior <josehamiltonsantosjunior@gmail.com>
+Date:   Sun Jun 26 18:38:21 2022 -0300
+
+    refactor: getting the url in request params
+
+[33mcommit 66681c1b931eae68dad6c6bed034409000354e69[m
+Author: jhamiltonjunior <josehamiltonsantosjunior@gmail.com>
+Date:   Sat Jun 25 19:37:07 2022 -0300
+
+    refactor: route of test removed
+
+[33mcommit 1f813f04d9acda8a8b9a09330cf7018a47f152ea[m
+Author: jhamiltonjunior <josehamiltonsantosjunior@gmail.com>
+Date:   Fri Jun 24 20:01:39 2022 -0300
+
+    feature: add make update article in routes/artilce
+
+[33mcommit 9b5cc5652957e7df317d4ae4cd4765931827f2ff[m
+Author: jhamiltonjunior <josehamiltonsantosjunior@gmail.com>
+Date:   Fri Jun 24 19:53:12 2022 -0300
+
+    add file: main/factories/update.ts
+
+[33mcommit 99eb3363f6b7028465f973089bbcc98ffdc0737e[m
+Author: jhamiltonjunior <josehamiltonsantosjunior@gmail.com>
+Date:   Fri Jun 24 19:45:28 2022 -0300
+
+    add file: updateArticleController.ts and your content
+
+[33mcommit 61d919394e5ae34e10353ab2d5deb81f3ddedd78[m
+Author: jhamiltonjunior <josehamiltonsantosjunior@gmail.com>
+Date:   Fri Jun 24 19:45:13 2022 -0300
+
+    add file: updateArticleController.ts and your content
+
+[33mcommit 4d1ef30d6e99ecc2d5ca800984bc986826131cec[m
+Author: jhamiltonjunior <josehamiltonsantosjunior@gmail.com>
+Date:   Fri Jun 24 18:00:32 2022 -0300
+
+    refactor createArticleResponse renomed to allErrorsArticleResponse.ts
+
+[33mcommit 45c87cf6823a14893b3b78c1bdaf9829f911a5a7[m
+Author: jhamiltonjunior <josehamiltonsantosjunior@gmail.com>
+Date:   Fri Jun 24 17:57:11 2022 -0300
+
+    refactor: method update added in domain/entities/article.ts
+
+[33mcommit 6ed36f428295847171c9e0dba9df3903b59d1483[m
+Author: jhamiltonjunior <josehamiltonsantosjunior@gmail.com>
+Date:   Fri Jun 24 17:54:28 2022 -0300
+
+    refactor: createArticleResponse and showUniqueArticleResponse moved to useCases/responses
+
+[33mcommit c2998db64308991c7caff069a893bf476e9d0a05[m
+Author: jhamiltonjunior <josehamiltonsantosjunior@gmail.com>
+Date:   Fri Jun 24 17:52:32 2022 -0300
+
+    createArticle deleted of useCases
+
+[33mcommit fc373e866061f9843ce5b6ccc86d3e7cc26c88d4[m
+Author: jhamiltonjunior <josehamiltonsantosjunior@gmail.com>
+Date:   Fri Jun 24 15:23:56 2022 -0300
+
+    test commit
+
+[33mcommit ad7c7a291d0cf8dbffdf0bb81e197eaf5da148f1[m
+Author: jose-hamilton-1652575244 <hamiltonjr.dev@gmail.com>
+Date:   Fri Jun 24 15:18:16 2022 -0300
+
+    test commit
+
+[33mcommit 767b15168b1cd43fe5d8675c33ca3d11f43fbfa4[m
+Author: jose-hamilton-1652575244 <hamiltonjr.dev@gmail.com>
+Date:   Fri Jun 24 15:06:53 2022 -0300
+
+    refactor: server.ts is clean
+
+[33mcommit 4336d468949db84a8392c9733249a03364066afd[m
+Author: jose-hamilton-1652575244 <hamiltonjr.dev@gmail.com>
+Date:   Fri Jun 24 14:44:38 2022 -0300
+
+    initialize micro repository
