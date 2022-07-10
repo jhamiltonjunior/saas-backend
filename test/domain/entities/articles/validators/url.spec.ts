@@ -35,4 +35,18 @@ describe('URL Domain Validator', () => {
       value: new InvalidURLError(content)
     })
   })
+
+  it('Should not create url with much characters', () => {
+    let content = ''
+
+    for (let i = 0; i < content.length; i++) {
+      content = 'i'
+    }
+
+    const url = URL.create(content)
+    
+    expect(url).toEqual({
+      value: new InvalidURLError(content)
+    })
+  })
 })
