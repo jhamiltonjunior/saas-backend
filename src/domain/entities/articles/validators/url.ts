@@ -11,7 +11,7 @@ export class URL {
   static create (url: string): Either<InvalidURLError, URL> {
     url = url
       .toLowerCase()
-      .replace(/( )+/g, ' ')
+      .replace(/( )+/g, '-')
       .replace(/(-)+/g, ' ')
       .trim()
       .split(' ')
