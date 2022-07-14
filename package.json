@@ -5,7 +5,7 @@
   "scripts": {
     "start": "nodemon --exec ts-node-dev -r tsconfig-paths/register ./src/main/server.ts --ignore node_modules",
     "build": "tsc --project ./",
-    "production": "node ./dist/main/server.js",
+    "production": "node ./dist/src/main/server.js",
     "test": "jest --passWithNoTests --noStackTrace --runInBand",
     "test:watch": "npm test -- --watch"
   },
