@@ -1,6 +1,7 @@
 import { Either, left, right } from '../../../../shared/either'
 import { InvalidBodyError } from '../errors/invalidBody'
 
+// change
 export class Body {
   private readonly body: string
   constructor (body: string) {
