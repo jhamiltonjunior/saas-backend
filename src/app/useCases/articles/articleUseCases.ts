@@ -93,7 +93,9 @@ export class ArticleUseCases implements ArticleInterface {
     const result = await this.articleRepository.findByURL(article.url.value)
     const permissions = await this.userRepository?.getPermission(article.author.value.user_id)
 
-    if (permissions?.includes('writer')) {
+
+    // "reader" is temporary
+    if (permissions?.includes('reader')) {
       if (
         result === undefined
       ) {

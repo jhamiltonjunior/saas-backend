@@ -20,7 +20,7 @@ CREATE TABLE articles(
   -- article_id uuid DEFAULT uuid_generate_v4 (),
   -- article_id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY NOT NULL,
   title VARCHAR(255),
-  body TEXT,
+  body json,
   category VARCHAR(20),
   url VARCHAR(100) UNIQUE,
 
