@@ -1,17 +1,16 @@
 import { Either, left, right } from '../../../../shared/either'
 import { InvalidBodyError } from '../errors/invalidBody'
 
-// change
 export class Body {
-  private readonly body: string
-  constructor (body: string) {
+  private readonly body: Object
+  constructor (body: Object) {
     this.body = body
 
     Object.freeze(this)
   }
 
-  static create (body: string): Either<InvalidBodyError, Body> {
-    body = body.trim().replace(/( )+/g, ' ')
+  static create (body: Object): Either<InvalidBodyError, Body> {
+    // body = body.trim().replace(/( )+/g, ' ')
 
     if (!Body.validator(body)) {
       return left(new InvalidBodyError(body))
@@ -20,14 +19,14 @@ export class Body {
     return right(new Body(body))
   }
 
-  get value (): string {
+  get value (): Object {
     return this.body
   }
 
-  static validator (body: string): boolean {
+  static validator (body: Object): boolean {
     if (
-      !body ||
-      body.length < 100
+      !body
+      // body.length < 100
     ) {
       return false
     }
