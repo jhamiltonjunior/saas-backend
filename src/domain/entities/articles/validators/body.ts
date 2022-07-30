@@ -25,7 +25,8 @@ export class Body {
 
   static validator (body: Object): boolean {
     if (
-      !body
+      !body ||
+      typeof body !== 'object'
       // body.length < 100
     ) {
       return false

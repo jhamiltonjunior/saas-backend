@@ -28,14 +28,12 @@ export class CreateArticleController {
       if (
         !httpRequest.body.url ||
         !httpRequest.body.body ||
-        !httpRequest.body.title ||
-        !httpRequest.body.category
+        !httpRequest.body.title
       ) {
         const field = !httpRequest.body
           ? 'url' ||
-        'title' ||
-        'author'
-          : 'category'
+        'title'
+          : 'author'
 
         return badRequest(new MissingParamError(field))
       }

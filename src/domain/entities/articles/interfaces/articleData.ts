@@ -2,7 +2,7 @@ import { AuthorData } from '../validators/author'
 
 export interface IArticleData {
   title: string
-  body: string
+  body: Object
   author: AuthorData,
   // eslint-disable-next-line camelcase
   // user_id: string,

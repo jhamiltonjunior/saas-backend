@@ -47,7 +47,7 @@ export class PostgresArticleRepository implements IArticleRepository {
         uuidv4(),
         userId,
         article.title,
-        article.body,
+        JSON.stringify(article.body),
         article.category,
         article.url,
         new Date(),
@@ -70,7 +70,7 @@ export class PostgresArticleRepository implements IArticleRepository {
       `,
       [
         article.title,
-        article.body,
+        JSON.stringify(article.body),
         article.category,
         article.url,
         new Date(),
