@@ -1,13 +1,13 @@
 import { left } from '../../../../src/shared/either'
-import { InvalidAuthorError } from '../../../../src/domain/entities/taskss/errors/invalidAuthor'
-import { InvalidBodyError } from '../../../../src/domain/entities/taskss/errors/invalidBody'
-import { InvalidCategoryError } from '../../../../src/domain/entities/taskss/errors/invalidCategory'
-import { InvalidCommentaryError } from '../../../../src/domain/entities/taskss/errors/invalidCommentary'
-import { InvalidCreatedAtError } from '../../../../src/domain/entities/taskss/errors/invalidCreatedAt'
-import { InvalidTitleError } from '../../../../src/domain/entities/taskss/errors/invalidTitle'
-import { InvalidURLError } from '../../../../src/domain/entities/taskss/errors/invalidURL'
-import { InvalidUpdatedAtError } from '../../../../src/domain/entities/taskss/errors/invalidUpdatedAt'
-import { Tasks } from '../../../../src/domain/entities/taskss/tasks'
+import { InvalidAuthorError } from '../../../../src/domain/entities/tasks/errors/invalidAuthor'
+import { InvalidBodyError } from '../../../../src/domain/entities/tasks/errors/invalidBody'
+import { InvalidCategoryError } from '../../../../src/domain/entities/tasks/errors/invalidCategory'
+import { InvalidCommentaryError } from '../../../../src/domain/entities/tasks/errors/invalidCommentary'
+import { InvalidCreatedAtError } from '../../../../src/domain/entities/tasks/errors/invalidCreatedAt'
+import { InvalidTitleError } from '../../../../src/domain/entities/tasks/errors/invalidTitle'
+import { InvalidURLError } from '../../../../src/domain/entities/tasks/errors/invalidURL'
+import { InvalidUpdatedAtError } from '../../../../src/domain/entities/tasks/errors/invalidUpdatedAt'
+import { Tasks } from '../../../../src/domain/entities/tasks/tasks'
 
 describe('Tasks Domain Entity', () => {
   it('Should not create tasks with invalid title (little characters)', () => {
