@@ -13,12 +13,12 @@ CREATE TABLE users(
 
 
 
-DROP TABLE IF EXISTS articles;
+DROP TABLE IF EXISTS taskss;
 
-CREATE TABLE articles(
-  article_id uuid PRIMARY KEY,
-  -- article_id uuid DEFAULT uuid_generate_v4 (),
-  -- article_id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY NOT NULL,
+CREATE TABLE taskss(
+  tasks_id uuid PRIMARY KEY,
+  -- tasks_id uuid DEFAULT uuid_generate_v4 (),
+  -- tasks_id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY NOT NULL,
   title VARCHAR(255),
   body json,
   category VARCHAR(20),
@@ -68,7 +68,7 @@ INSERT INTO permissions (
 )
 VALUES (
   uuid_generate_v4(),
-  'this user only can make comment in articles',
+  'this user only can make comment in taskss',
   NOW()
 );
 
@@ -82,7 +82,7 @@ INSERT INTO permissions (
 VALUES (
   uuid_generate_v4(),
   'writer',
-  'this user also can create articles',
+  'this user also can create taskss',
   NOW()
 );
 
@@ -155,7 +155,7 @@ INSERT INTO permissions (
 )
 VALUES (
   uuid_generate_v4(),
-  'this user only can make comment in articles',
+  'this user only can make comment in taskss',
   NOW()
 );
 
@@ -193,8 +193,8 @@ CREATE TABLE users(
   -- PRIMARY KEY (id)
 );
 
-CREATE TABLE articles(
-  article_id uuid PRIMARY KEY,
+CREATE TABLE taskss(
+  tasks_id uuid PRIMARY KEY,
   -- id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   title VARCHAR(255) NOT NULL,
   body TEXT NOT NULL,

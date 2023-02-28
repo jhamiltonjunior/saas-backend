@@ -1,18 +1,18 @@
 import { left } from '../../../../src/shared/either'
-import { InvalidAuthorError } from '../../../../src/domain/entities/articles/errors/invalidAuthor'
-import { InvalidBodyError } from '../../../../src/domain/entities/articles/errors/invalidBody'
-import { InvalidCategoryError } from '../../../../src/domain/entities/articles/errors/invalidCategory'
-import { InvalidCommentaryError } from '../../../../src/domain/entities/articles/errors/invalidCommentary'
-import { InvalidCreatedAtError } from '../../../../src/domain/entities/articles/errors/invalidCreatedAt'
-import { InvalidTitleError } from '../../../../src/domain/entities/articles/errors/invalidTitle'
-import { InvalidURLError } from '../../../../src/domain/entities/articles/errors/invalidURL'
-import { InvalidUpdatedAtError } from '../../../../src/domain/entities/articles/errors/invalidUpdatedAt'
-import { Article } from '../../../../src/domain/entities/articles/article'
+import { InvalidAuthorError } from '../../../../src/domain/entities/taskss/errors/invalidAuthor'
+import { InvalidBodyError } from '../../../../src/domain/entities/taskss/errors/invalidBody'
+import { InvalidCategoryError } from '../../../../src/domain/entities/taskss/errors/invalidCategory'
+import { InvalidCommentaryError } from '../../../../src/domain/entities/taskss/errors/invalidCommentary'
+import { InvalidCreatedAtError } from '../../../../src/domain/entities/taskss/errors/invalidCreatedAt'
+import { InvalidTitleError } from '../../../../src/domain/entities/taskss/errors/invalidTitle'
+import { InvalidURLError } from '../../../../src/domain/entities/taskss/errors/invalidURL'
+import { InvalidUpdatedAtError } from '../../../../src/domain/entities/taskss/errors/invalidUpdatedAt'
+import { Tasks } from '../../../../src/domain/entities/taskss/tasks'
 
-describe('Article Domain Entity', () => {
-  it('Should not create article with invalid title (little characters)', () => {
+describe('Tasks Domain Entity', () => {
+  it('Should not create tasks with invalid title (little characters)', () => {
     const title = 'o'
-    const article = Article.create({
+    const tasks = Tasks.create({
       title,
       body: 'strinddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddgddddddddddddddd',
       createdAt: new Date,
@@ -25,13 +25,13 @@ describe('Article Domain Entity', () => {
       category: 'strinddg',
     })
 
-    expect(article).toEqual(left(new InvalidTitleError(title)))
+    expect(tasks).toEqual(left(new InvalidTitleError(title)))
   })
 
-  it('Should not create article with invalid body (little characters)', () => {
+  it('Should not create tasks with invalid body (little characters)', () => {
     const body = 'w'
     
-    const article = Article.create({
+    const tasks = Tasks.create({
       title: 'sdddddddddddd',
       body,
       createdAt: new Date,
@@ -44,12 +44,12 @@ describe('Article Domain Entity', () => {
       category: 'strinddg',
     })
 
-    expect(article).toEqual(left(new InvalidBodyError(body)))
+    expect(tasks).toEqual(left(new InvalidBodyError(body)))
   })
 
-  it('Should not create article with invalid url (little characters)', () => {
+  it('Should not create tasks with invalid url (little characters)', () => {
     const url = 'o'
-    const article = Article.create({
+    const tasks = Tasks.create({
       title: 'oddoooooooo',
       body: 'strinddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddgddddddddddddddd',
       createdAt: new Date,
@@ -62,17 +62,17 @@ describe('Article Domain Entity', () => {
       category: 'strinddg',
     })
 
-    expect(article).toEqual(left(new InvalidURLError(url)))
+    expect(tasks).toEqual(left(new InvalidURLError(url)))
   })
 
-  it('Should not create article with invalid title (very characters)', () => {
+  it('Should not create tasks with invalid title (very characters)', () => {
     let title = ''
 
     for (let i = 0; i < 265; i++) {
       title = 'o'
     }
 
-    const article = Article.create({
+    const tasks = Tasks.create({
       title,
       body: 'strinddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddgddddddddddddddd',
       createdAt: new Date,
@@ -85,17 +85,17 @@ describe('Article Domain Entity', () => {
       category: 'ddddddddddddd',
     })
 
-    expect(article).toEqual(left(new InvalidTitleError(title)))
+    expect(tasks).toEqual(left(new InvalidTitleError(title)))
   })
 
-  it('Should not create article with invalid url (very characters)', () => {
+  it('Should not create tasks with invalid url (very characters)', () => {
     let url = ''
     
     for (let i = 0; i < 100; i++) {
       url = 'o'
     }
 
-    const article = Article.create({
+    const tasks = Tasks.create({
       title: '000000d 0000',
       body: 'strinddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddgddddddddddddddd',
       createdAt: new Date,
@@ -108,6 +108,6 @@ describe('Article Domain Entity', () => {
       category: 'kdkkkkdkdkkddfdfdd',
     })
 
-    expect(article).toEqual(left(new InvalidURLError(url)))
+    expect(tasks).toEqual(left(new InvalidURLError(url)))
   })
 })

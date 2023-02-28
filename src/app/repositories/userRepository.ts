@@ -1,5 +1,5 @@
-import { AuthorData } from '../../domain/entities/articles/validators/author'
-import { IUserAuthData, IUserData } from '../../domain/entities/articles/interfaces/userData'
+import { AuthorData } from '../../domain/entities/tasks/validators/author'
+import { IUserAuthData, IUserData } from '../../domain/entities/tasks/interfaces/userData'
 
 export interface IRegisterUserRepository {
   findAllUsers: () => Promise<IUserData[]>

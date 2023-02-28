@@ -1,5 +1,5 @@
-import { InvalidURLError } from '../../../../../src/domain/entities/articles/errors/invalidURL';
-import { URL } from '../../../../../src/domain/entities/articles/validators/url';
+import { InvalidURLError } from '../../../../../src/domain/entities/taskss/errors/invalidURL';
+import { URL } from '../../../../../src/domain/entities/taskss/validators/url';
 
 describe('URL Domain Validator', () => {
   it('Should create url without much hypen', () => {

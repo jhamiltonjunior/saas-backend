@@ -1,5 +1,5 @@
-import { InvalidTitleError } from "../../../../../src/domain/entities/articles/errors/invalidTitle"
-import { Title } from "../../../../../src/domain/entities/articles/validators/title"
+import { InvalidTitleError } from "../../../../../src/domain/entities/taskss/errors/invalidTitle"
+import { Title } from "../../../../../src/domain/entities/taskss/validators/title"
 
 describe('Title Domain Validator', () => {
   it('Should not create title with little characters', () => {
