@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "main": "dist/main/server.js",
   "scripts": {
-    "start": "nodemon --exec ts-node-dev -r tsconfig-paths/register ./src/main/server.ts --ignore node_modules",
+    "start": "node ./dist/src/main/server.js",
+    "dev": "nodemon --exec ts-node-dev -r tsconfig-paths/register ./src/main/server.ts --ignore node_modules",
     "build": "tsc --project ./",
-    "production": "node ./dist/src/main/server.js",
     "test": "jest --passWithNoTests --noStackTrace --runInBand",
     "test:watch": "npm test -- --watch"
   },

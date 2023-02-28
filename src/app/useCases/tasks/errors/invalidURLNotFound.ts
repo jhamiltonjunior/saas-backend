@@ -1,4 +1,4 @@
-import { IDomainError } from '../../../../domain/entities/taskss/errors/domainError'
+import { IDomainError } from '../../../../domain/entities/tasks/errors/domainError'
 
 export class InvalidURLNotFound extends Error implements IDomainError {
   constructor (url: string) {
