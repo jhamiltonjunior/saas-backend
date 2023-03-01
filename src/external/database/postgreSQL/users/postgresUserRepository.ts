@@ -1,4 +1,4 @@
-import { AuthorData } from 'src/domain/entities/tasks/validators/author'
+import { AuthorData } from '../../../../domain/entities/tasks/validators/author'
 import { IUserRepository } from '../../../../app/repositories/userRepository'
 import { PostgresHelper } from '../helpers/postgresHelper'
 

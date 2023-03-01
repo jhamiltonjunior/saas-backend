@@ -1,8 +1,8 @@
 import { PostgresTasksRepository } from '../../../external/database/postgreSQL/tasks/postgresTasksRepository'
 import { connectionObject } from '../utils/connectionObject'
 import { PostgresUserRepository } from '../../../external/database/postgreSQL/users/postgresUserRepository'
-import { TasksUseCases } from '@useCases/tasks/tasksUseCases'
-import { UpdateTasksController } from '@src/adapters/http/controllers/tasks/updateTasksController'
+import { TasksUseCases } from '../../../app/useCases/tasks/tasksUseCases'
+import { UpdateTasksController } from '../../../adapters/http/controllers/tasks/updateTasksController'
 
 const userRepository = new PostgresUserRepository(connectionObject)
 

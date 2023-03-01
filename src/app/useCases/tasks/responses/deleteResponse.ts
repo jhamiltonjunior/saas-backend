@@ -1,4 +1,4 @@
-import { InvalidURLError } from '../../../../domain/entities/taskss/errors/invalidURL'
+import { InvalidURLError } from '../../../../domain/entities/tasks/errors/invalidURL'
 import { Either } from '../../../../shared/either'
 import { InvalidURLNotFound } from '../errors/invalidURLNotFound'
 

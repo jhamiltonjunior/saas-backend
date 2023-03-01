@@ -3,8 +3,8 @@ import { validateUser } from '../../../../external/jwt/jwt'
 
 import { CreateTasksController } from '../../../../adapters/http/controllers/tasks/createTasksController'
 import { IHttpRequest } from '../../../../adapters/http/controllers/ports/http'
-import { DeleteTasksController } from '@src/adapters/http/controllers/tasks/deleteTasksController'
-import { UpdateTasksController } from '@src/adapters/http/controllers/tasks/updateTasksController'
+import { DeleteTasksController } from '../../../../adapters/http/controllers/tasks/deleteTasksController'
+import { UpdateTasksController } from '../../../../adapters/http/controllers/tasks/updateTasksController'
 
 export const adapterRouteWithAuthentication = (
   controller:

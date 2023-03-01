@@ -3,7 +3,7 @@ import { badRequest, created, serverError } from '../helpers/httpHelper'
 import { allErrorsResponse } from '../../../../app/useCases/tasks/responses/allErrorsResponse'
 import { MissingParamError } from '../errors/missingParamError'
 import { AuthorData } from '../../../../domain/entities/tasks/validators/author'
-import { TasksUseCases } from 'src/app/useCases/tasks/tasksUseCases'
+import { TasksUseCases } from '../../../../app/useCases/tasks/tasksUseCases'
 
 export class CreateTasksController {
   private readonly tasksUseCases: TasksUseCases
