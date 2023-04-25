@@ -13,9 +13,9 @@ CREATE TABLE users(
 
 
 
-DROP TABLE IF EXISTS taskss;
+DROP TABLE IF EXISTS tasks;
 
-CREATE TABLE taskss(
+CREATE TABLE tasks(
   tasks_id uuid PRIMARY KEY,
   -- tasks_id uuid DEFAULT uuid_generate_v4 (),
   -- tasks_id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY NOT NULL,
@@ -68,7 +68,7 @@ INSERT INTO permissions (
 )
 VALUES (
   uuid_generate_v4(),
-  'this user only can make comment in taskss',
+  'this user only can make comment in tasks',
   NOW()
 );
 
@@ -82,7 +82,7 @@ INSERT INTO permissions (
 VALUES (
   uuid_generate_v4(),
   'writer',
-  'this user also can create taskss',
+  'this user also can create tasks',
   NOW()
 );
 
@@ -155,7 +155,7 @@ INSERT INTO permissions (
 )
 VALUES (
   uuid_generate_v4(),
-  'this user only can make comment in taskss',
+  'this user only can make comment in tasks',
   NOW()
 );
 
@@ -193,7 +193,7 @@ CREATE TABLE users(
   -- PRIMARY KEY (id)
 );
 
-CREATE TABLE taskss(
+CREATE TABLE tasks(
   tasks_id uuid PRIMARY KEY,
   -- id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   title VARCHAR(255) NOT NULL,
