@@ -1,0 +1,18 @@
+model User {
+  id        Int     @id @default(autoincrement())
+  title     String
+  content   String?
+  published Boolean @default(false)
+  authorId  Int
+}
+
+model Tasks {
+  tasks_id         @id @default(autoincrement())
+  title       String  @unique
+  description String?
+  link        String
+  published   Boolean @default(false)
+  video_time
+
+  author User @relation(fields: [authorId], references: [id])
+}
