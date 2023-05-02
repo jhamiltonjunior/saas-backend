@@ -3,7 +3,7 @@ import { AuthorData } from '../validators/author'
 export interface ITasksData {
   title: string
   body: Object
-  author: AuthorData,
+  author: AuthorData
   // eslint-disable-next-line camelcase
   // user_id: string,
   // change for slice of strings

@@ -1,0 +1,33 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = "postgresql://postgres:0000@172.17.0.3:5432/postgres"
+}
+
+model User {
+  id        String  @id @default(uuid())
+  title     String
+  content   String?
+  published Boolean @default(false)
+  authorId  Int
+  Tasks     Tasks[]
+}
+
+model Tasks {
+  id          String    @id @default(uuid())
+  title       String    @unique
+  description String?
+  link        String
+  published   Boolean   @default(false)
+  videoTime   Int
+  createdAt   DateTime
+  updatedAt   DateTime?
+  author      User      @relation(fields: [authorId], references: [id])
+  authorId    String
+}
