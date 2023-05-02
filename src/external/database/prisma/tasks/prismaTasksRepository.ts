@@ -3,7 +3,7 @@ import { PrismaClient } from '@prisma/client'
 import { ITasksData } from '../../../../domain/entities/tasks/interfaces/tasksData'
 import { ITasksRepository } from '../../../../app/repositories/tasksRepository'
 
-export class PrismaRepository implements ITasksRepository {
+export class PrismaTasksRepository implements ITasksRepository {
   private prisma: PrismaClient
 
   constructor () {
@@ -15,8 +15,10 @@ export class PrismaRepository implements ITasksRepository {
   }
 
   async findByURL (url: string): Promise<ITasksData> {
-    const tasks = await this.prisma.tasks.findFirst({
-      where: (<any>url)
+    const tasks = await this.prisma.tasks.findUnique({
+      where: {
+        url
+      }
     })
 
     return (<any>tasks)
@@ -31,12 +33,11 @@ export class PrismaRepository implements ITasksRepository {
       data: {
         title: tasks.title,
         description: 'text',
-        link: 'String',
+        url: 'my-first-video',
         published: false,
         videoTime: 642,
         createdAt: new Date(),
-        author: (<any>id),
-        authorId: 'ie'
+        authorId: id
       },
     }).then(async () => {
       await this.prisma.$disconnect()
