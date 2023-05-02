@@ -15,21 +15,11 @@ export class PrismaRepository implements ITasksRepository {
   }
 
   async findByURL (url: string): Promise<ITasksData> {
-    await this.prisma.tasks.findUnique
-    return {
-      title: '',
+    const tasks = await this.prisma.tasks.findFirst({
+      where: (<any>url)
+    })
 
-      body: 'Object',
-      author: { user_id: 'string', name: 'string' },
-      // eslint-disable-next-line camelcase
-      // user_id: string,
-      // change for slice of strings
-      // string []
-      category: 'string',
-      createdAt: new Date(),
-      url: url,
-      updatedAt: new Date()
-    }
+    return (<any>tasks)
   }
 
   async deleteByURL (id: string): Promise<void> {
