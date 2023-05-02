@@ -1,24 +1,26 @@
 import { AuthorData } from '../../../../domain/entities/tasks/validators/author'
 import { IUserRepository } from '../../../../app/repositories/userRepository'
-import { PostgresHelper } from '../helpers/postgresHelper'
+import { PrismaClient } from '@prisma/client'
 
-export class PostgresUserRepository implements IUserRepository {
-  postgresHelper: PostgresHelper
+export class PrismaUserRepository implements IUserRepository {
+  private prisma: PrismaClient
 
-  constructor (
-    connectionObject: object,
-  ) {
-    this.postgresHelper = new PostgresHelper(connectionObject)
+  constructor () {
+    this.prisma = new PrismaClient()
   }
 
   async findUserById (id: string): Promise<AuthorData> {
-    const result = await this.postgresHelper.query('SELECT * FROM users WHERE user_id = $1', [id])
+    const result = await this.prisma.user.findUnique({
+      where: {
+        id
+      }
+    })
 
-    return result.rows[0]
+    return (<any>result)
   }
 
   async getPermission (id: string): Promise<string> {
-    const usersPermissions = await this.postgresHelper.reader(
+    const usersPermissions = await this.prisma.user.findUnique(
       `
         SELECT *
         FROM users_permissions
@@ -33,7 +35,7 @@ export class PostgresUserRepository implements IUserRepository {
     })
 
     const permissionsNameToArrays = permissionsId.map(async (id: string): Promise<string> => {
-      const permissions = await this.postgresHelper.reader(
+      const permissions = await this.prisma.reader(
         `
           SELECT *
           FROM permissions
