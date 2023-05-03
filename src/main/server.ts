@@ -13,3 +13,5 @@ app.listen(process.env.PORT, () => {
 process.on('uncaughtException', (error, origin) => {
   console.log(`${origin} signal received. \n${error}`)
 })
+
+export default { app }
