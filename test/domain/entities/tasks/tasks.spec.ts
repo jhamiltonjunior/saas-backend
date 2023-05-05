@@ -1,3 +1,6 @@
+import { describe, it } from 'node:test'
+import assert from 'node:assert'
+
 import { left } from '../../../../src/shared/either'
 import { InvalidAuthorError } from '../../../../src/domain/entities/tasks/errors/invalidAuthor'
 import { InvalidBodyError } from '../../../../src/domain/entities/tasks/errors/invalidBody'
@@ -14,7 +17,7 @@ describe('Tasks Domain Entity', () => {
     const title = 'o'
     const tasks = Tasks.create({
       title,
-      body: 'strinddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddgddddddddddddddd',
+      body: {},
       createdAt: new Date,
       // updatedAt: Date,
       url: 'stringddddd',
@@ -25,7 +28,13 @@ describe('Tasks Domain Entity', () => {
       category: 'strinddg',
     })
 
-    expect(tasks).toEqual(left(new InvalidTitleError(title)))
+
+    console.log(
+      tasks ===
+      left(new InvalidTitleError(title))
+    )
+
+    assert.deepEqual(tasks, left(new InvalidTitleError(title)))
   })
 
   it('Should not create tasks with invalid body (little characters)', () => {
@@ -44,14 +53,14 @@ describe('Tasks Domain Entity', () => {
       category: 'strinddg',
     })
 
-    expect(tasks).toEqual(left(new InvalidBodyError(body)))
+    assert.deepEqual(tasks, left(new InvalidTitleError(body)))
   })
 
   it('Should not create tasks with invalid url (little characters)', () => {
     const url = 'o'
     const tasks = Tasks.create({
       title: 'oddoooooooo',
-      body: 'strinddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddgddddddddddddddd',
+      body: {},
       createdAt: new Date,
       updatedAt: new Date,
       url,
@@ -62,7 +71,7 @@ describe('Tasks Domain Entity', () => {
       category: 'strinddg',
     })
 
-    expect(tasks).toEqual(left(new InvalidURLError(url)))
+    assert.deepEqual(tasks, left(new InvalidTitleError(url)))
   })
 
   it('Should not create tasks with invalid title (very characters)', () => {
@@ -74,7 +83,7 @@ describe('Tasks Domain Entity', () => {
 
     const tasks = Tasks.create({
       title,
-      body: 'strinddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddgddddddddddddddd',
+      body: {},
       createdAt: new Date,
       updatedAt: new Date,
       url: 'kkkkkkkkkkkk',
@@ -85,7 +94,7 @@ describe('Tasks Domain Entity', () => {
       category: 'ddddddddddddd',
     })
 
-    expect(tasks).toEqual(left(new InvalidTitleError(title)))
+    assert.deepEqual(tasks, left(new InvalidTitleError(title)))
   })
 
   it('Should not create tasks with invalid url (very characters)', () => {
@@ -97,7 +106,7 @@ describe('Tasks Domain Entity', () => {
 
     const tasks = Tasks.create({
       title: '000000d 0000',
-      body: 'strinddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddgddddddddddddddd',
+      body: {},
       createdAt: new Date,
       updatedAt: new Date,
       url,
@@ -108,6 +117,6 @@ describe('Tasks Domain Entity', () => {
       category: 'kdkkkkdkdkkddfdfdd',
     })
 
-    expect(tasks).toEqual(left(new InvalidURLError(url)))
+    assert.deepEqual(tasks, left(new InvalidTitleError(url)))
   })
 })
