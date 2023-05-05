@@ -1,4 +1,4 @@
-import { Request, Response } from 'express'
+import { ClientRequest, ServerResponse } from 'node:http'
 
 import { IHttpRequest } from '../../../../adapters/http/controllers/ports/http'
 import { ShowUniqueTasksController } from '../../../../adapters/http/controllers/tasks/showUniqueTasksController'
@@ -7,13 +7,14 @@ import { ShowAllTasksController } from '../../../../adapters/http/controllers/ta
 export const adapterRouteShowTasks = (
   controller: ShowUniqueTasksController | ShowAllTasksController
 ): any => {
-  return async (req: Request, res: Response) => {
+  return async (req: ClientRequest, res: ServerResponse) => {
     const httpRequest: IHttpRequest = {
-      params: req.params
+      params: req
     }
 
     const httpResponse = await controller.handle(httpRequest)
 
-    res.status(httpResponse.statusCode).json(httpResponse.body)
+    res.setHeader(httpResponse.statusCode).json(httpResponse.body)
+    res.set
   }
 }
