@@ -1,7 +1,3 @@
-# Divisão
-
-cada pasta dentro desse repository é equivalente a um service
-
 # Preparing the environment
 
 ## You need:
