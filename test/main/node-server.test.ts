@@ -10,7 +10,9 @@ describe('Testing the Tasks', () => {
     await new Promise(resolve => _server.once('listening', resolve))
   })
 
-  it('should get a main router with status code 200', () => {})
-
   after(done => _server.close(done))
+
+  it('should get a main router with status code 200', () => {
+    // _server
+  })
 })
