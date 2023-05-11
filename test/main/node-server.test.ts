@@ -5,7 +5,7 @@ describe('Testing the Tasks', () => {
   let _server: Server = {}
 
   before(async () => {
-    _server = (await import('../../../src/main/config/app')).app
+    _server = (await import('../../src/main/config/app')).app
 
     await new Promise(resolve => _server.once('listening', resolve))
   })
