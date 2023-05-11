@@ -1,11 +1,11 @@
-import { Pool } from 'pg'
+import pg from 'pg'
 import { IDatabase } from '../../interfaces/database'
 
 export class PostgresHelper implements IDatabase {
-  pool: Pool
+  pool: pg.Pool
 
   constructor (connectionObject: object) {
-    this.pool = new Pool(connectionObject)
+    this.pool = new pg.Pool(connectionObject)
   }
 
   /**
