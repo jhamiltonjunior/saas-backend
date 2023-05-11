@@ -1,6 +1,6 @@
 import { config as dotenvConfig } from 'dotenv'
 
-import app from './config/app'
+import app from './config/express'
 
 dotenvConfig()
 
