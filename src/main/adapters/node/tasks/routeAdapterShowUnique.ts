@@ -1,4 +1,5 @@
-import { ClientRequest, ServerResponse } from 'node:http'
+import { IncomingMessage, ServerResponse } from 'node:http'
+import { parse } from 'node:url'
 
 import { IHttpRequest } from '../../../../adapters/http/controllers/ports/http'
 import { ShowUniqueTasksController } from '../../../../adapters/http/controllers/tasks/showUniqueTasksController'
@@ -7,14 +8,22 @@ import { ShowAllTasksController } from '../../../../adapters/http/controllers/ta
 export const adapterRouteShowTasks = (
   controller: ShowUniqueTasksController | ShowAllTasksController
 ): any => {
-  return async (req: ClientRequest, res: ServerResponse) => {
+  return async (request: IncomingMessage, response: ServerResponse) => {
+    let query
+
+    if (request.url !== '/' && request.url) {
+      query = request.url
+      console.log(query)
+    }
+
     const httpRequest: IHttpRequest = {
-      params: req
+      params: query
     }
 
     const httpResponse = await controller.handle(httpRequest)
 
-    res.setHeader(httpResponse.statusCode).json(httpResponse.body)
-    res.set
+    response.writeHead(httpResponse.statusCode)
+    response.write(httpResponse.body)
+    response.end()
   }
 }
