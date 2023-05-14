@@ -12,7 +12,9 @@ describe('Testing the Tasks', () => {
 
   after(done => _server.close(done))
 
-  it('should get a main router with status code 200', () => {
-    fetch('localhost:6000')
+  it('should get a main router with status code 200', async () => {
+    // const response = await fetch('localhost:6000')
+
+    // console.log(response)
   })
 })

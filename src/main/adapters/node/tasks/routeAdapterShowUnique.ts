@@ -12,7 +12,8 @@ export const adapterRouteShowTasks = (
     let query
 
     if (request.url !== '/' && request.url) {
-      query = request.url
+      query = request.url ? parse(request.url, true) : false
+
       console.log(query)
     }
 
