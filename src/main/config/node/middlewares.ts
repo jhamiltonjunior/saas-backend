@@ -1,14 +1,14 @@
 import connect from 'connect'
 import cors from 'cors'
-import bodyParser from 'body-parser'
-import contentType from '@src/main/middleware/node/contentType'
+
+import contentType from '../../middleware/node/contentType'
+import bodyParser from '../../middleware/node/bodyParser'
 
 const middleware = connect()
 
 middleware.use(cors())
 
+bodyParser(middleware)
 contentType(middleware)
-
-middleware.use(bodyParser.urlencoded({ extended: false }))
 
 export default middleware
