@@ -7,7 +7,7 @@ export default (app: Express): void => {
   app.use('/api', router)
 
   // eslint-disable-next-line node/no-path-concat
-  readdirSync('/home/is_me/.app/saas/backend/tasks/src/main/routes').map(async (file) => {
+  readdirSync(`${__dirname}/../../routes/node`).map(async (file) => {
     if (!file.includes('.test.' || '.spec.')) {
       (await import(`../routes/${file}`)).default(router)
     }

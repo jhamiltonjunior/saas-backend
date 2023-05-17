@@ -7,7 +7,7 @@ import { config as dotenvConfig } from 'dotenv'
 import cors from 'cors'
 
 import express from 'express'
-import routes from '../../src/main/config/routes-test'
+import routes from '../../src/main/config/node/routes'
 import middlewares from '../../src/main/config/middlewares'
 import { equal, strictEqual } from 'node:assert'
 

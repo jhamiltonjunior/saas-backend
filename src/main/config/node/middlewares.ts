@@ -4,11 +4,8 @@ import cors from 'cors'
 import contentType from '../../middleware/node/contentType'
 import bodyParser from '../../middleware/node/bodyParser'
 
-const middleware = connect()
-
-middleware.use(cors())
-
-bodyParser(middleware)
-contentType(middleware)
-
-export default middleware
+export default (connect: connect.Server): void => {
+  connect.use(cors())
+  connect.use(bodyParser)
+  connect.use(contentType)
+}

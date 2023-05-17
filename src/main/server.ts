@@ -1,6 +1,6 @@
 import { config as dotenvConfig } from 'dotenv'
 
-import app from './config/express'
+import app from './config/node/app'
 
 dotenvConfig()
 
@@ -13,3 +13,5 @@ app.listen(process.env.PORT, () => {
 process.on('uncaughtException', (error, origin) => {
   console.log(`${origin} signal received. \n${error}`)
 })
+
+export default app
