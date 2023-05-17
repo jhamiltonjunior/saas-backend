@@ -9,13 +9,9 @@ export const adapterRouteShowTasks = (
   controller: ShowUniqueTasksController | ShowAllTasksController
 ): any => {
   return async (request: IncomingMessage, response: ServerResponse) => {
-    let query
+    const query = request.url ? parse(request.url, true) : false
 
-    if (request.url !== '/' && request.url) {
-      query = request.url ? parse(request.url, true) : false
-
-      console.log(query)
-    }
+    console.log(query)
 
     const httpRequest: IHttpRequest = {
       params: query
@@ -25,6 +21,5 @@ export const adapterRouteShowTasks = (
 
     response.writeHead(httpResponse.statusCode)
     response.write(httpResponse.body)
-    response.end()
   }
 }
