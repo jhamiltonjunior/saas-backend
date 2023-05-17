@@ -1,3 +1,4 @@
+import { parse } from 'node:url'
 import { Request, Response } from 'express'
 import { validateUser } from '../../../../external/jwt/jwt'
 
@@ -12,22 +13,22 @@ export const adapterRouteWithAuthentication = (
   UpdateTasksController |
   DeleteTasksController
 ): any => {
-  return async (req: Request, res: Response) => {
+  return async (request: Request, response: Response) => {
     const httpRequest: IHttpRequest = {
-      body: req.body,
-      params: req.params
+      body: request.body,
+      params: request.url ? parse(request.url, true) : false
     }
 
-    const authHeaders = req.headers.authorization
+    const authHeaders = request.headers.authorization
 
     if (authHeaders === undefined) {
-      res.status(401).json({ message: 'Token error' })
+      response.status(401).json({ message: 'Token error' })
       return
     }
 
     const parts = authHeaders.split(' ')
 
-    if (parts.length !== 2) { res.status(401).json({ message: 'Token error' }) }
+    if (parts.length !== 2) { response.status(401).json({ message: 'Token error' }) }
 
     const [, token] = parts
 
@@ -40,6 +41,6 @@ export const adapterRouteWithAuthentication = (
 
     const httpResponse = await controller.handle(httpRequest, author)
 
-    res.status(httpResponse.statusCode).json(httpResponse.body)
+    response.status(httpResponse.statusCode).json(httpResponse.body)
   }
 }

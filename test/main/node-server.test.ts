@@ -24,6 +24,7 @@ describe('Testing the Tasks', () => {
       const response = await fetch(`${BASE_URL}/`)
 
       console.log(response.status)
+      console.log(response.body)
 
       strictEqual(response.status, 200)
     } catch (error: any) {
