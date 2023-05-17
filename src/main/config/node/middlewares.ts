@@ -1,11 +1,7 @@
 import connect from 'connect'
 import cors from 'cors'
 
-const middileware = connect()
+const middleware = connect()
+middleware.use(cors())
 
-middileware.use((request, response, next) => {
-  middileware.use(cors())
-  next()
-})
-
-export default middileware
+export default middleware

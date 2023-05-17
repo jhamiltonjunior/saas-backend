@@ -1,17 +1,20 @@
 import { IncomingMessage, ServerResponse, createServer } from 'node:http'
-import middlewares from './middlewares'
-const port = 6000
+import middleware from './middlewares'
+// import connect from 'connect'
+// import compression from 'compression'
 
-const handler = (request: IncomingMessage, response: ServerResponse) => {
+// middleware.use(cors())
+
+const handler = async (request: IncomingMessage, response: ServerResponse) => {
   if (request.url === '/' && request.method === 'GET') {
     response.writeHead(200)
-    response.end('ok')
+    response.end(`${response.statusCode}`)
   }
 }
 
-middlewares.use(handler)
+middleware.use(handler)
 
-const app = createServer(middlewares)
-  .listen(port, () => console.log('server is running'))
+const app = createServer(middleware)
+  .listen(8000, () => console.log('server is running'))
 
 export default app

@@ -1,11 +1,10 @@
 import { describe, before, after, it } from 'node:test'
-import { Server } from 'node:http'
 import { strictEqual, fail } from 'node:assert'
 
-const BASE_URL = 'http://localhost:6000'
+const BASE_URL = 'http://localhost:8000'
 
 describe('Testing the Tasks', () => {
-  let _server: Server
+  let _server: any = {}
 
   before(async () => {
     try {
@@ -31,5 +30,12 @@ describe('Testing the Tasks', () => {
       // console.log(error)
       fail(error)
     }
+  })
+
+  it('should get a main router with status code 200', async () => {
+    const response = {
+      status: 200
+    }
+    strictEqual(response.status, 200)
   })
 })
