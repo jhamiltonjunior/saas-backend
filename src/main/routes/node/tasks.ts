@@ -1,4 +1,4 @@
-import { IncomingMessage } from 'http'
+import { IncomingMessage, ServerResponse } from 'http'
 
 import { adapterRouteShowTasks } from '../../adapters/node/tasks/routeAdapterShowUnique'
 // import { adapterRouteWithAuthentication } from '../../adapters/express/tasks/routeAdapterWithAuthentication'
@@ -8,7 +8,12 @@ import { makeShowAllTasksController } from '../../factories/tasks/showAll'
 // import { makeDeleteTasksController } from '../../factories/tasks/delete'
 // import { makeUpdateTasksController } from '../../factories/tasks/update'
 
-export default (request: IncomingMessage /* , response: ServerResponse */): void => {
+export default (request: IncomingMessage, response: ServerResponse): void => {
+  if (request.url === '/' && request.method === 'GET') {
+    response.writeHead(200)
+    response.end('ok')
+  }
+
   if (request.url === '/tasks' && request.method === 'GET') {
     adapterRouteShowTasks(makeShowAllTasksController())
   }

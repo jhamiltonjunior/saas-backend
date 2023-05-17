@@ -21,7 +21,7 @@ describe('Testing the Tasks', () => {
 
   it('should get a main router with status code 200', async () => {
     try {
-      const response = await fetch(`${BASE_URL}/`)
+      const response = await fetch(`${BASE_URL}`)
 
       console.log(response.status)
       console.log(response.body)

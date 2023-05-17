@@ -6,6 +6,6 @@ import bodyParser from '../../middleware/node/bodyParser'
 
 export default (connect: connect.Server): void => {
   connect.use(cors())
-  connect.use(bodyParser)
-  connect.use(contentType)
+  bodyParser(connect)
+  contentType(connect)
 }

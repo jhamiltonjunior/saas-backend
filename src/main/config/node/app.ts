@@ -1,12 +1,18 @@
 import connect from 'connect'
+import { createServer } from 'http'
 
 import middlewares from './middlewares'
+import routes from './routes'
 
 const app = connect()
 
 middlewares(app)
 
-export default app
+routes(app)
+
+const server = createServer(app)
+
+export default server
 
 // import { IncomingMessage, ServerResponse, createServer } from 'node:http'
 // import middleware from './middlewares'
