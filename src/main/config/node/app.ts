@@ -8,7 +8,9 @@ const app = connect()
 
 middlewares(app)
 
-routes(app)
+app.use(routes)
+
+// routes(app)
 
 const server = createServer(app)
 

@@ -15,11 +15,12 @@ export default (request: IncomingMessage, response: ServerResponse): void => {
   }
 
   if (request.url === '/tasks' && request.method === 'GET') {
-    adapterRouteShowTasks(makeShowAllTasksController())
+    return adapterRouteShowTasks(makeShowAllTasksController())
   }
 
-  if (request.url === '/tasks/:url' && request.method === 'GET') {
+  if (request.url === '/tasks/url' && request.method === 'GET') {
     adapterRouteShowTasks(makeShowUniqueTasksConstroller())
+    // response.end('ok')
   }
 
   // if (request.url === '/tasks' && request.method === 'POST') {

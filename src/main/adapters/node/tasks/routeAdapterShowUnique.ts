@@ -21,5 +21,6 @@ export const adapterRouteShowTasks = (
 
     response.writeHead(httpResponse.statusCode)
     response.write(httpResponse.body)
+    response.end()
   }
 }

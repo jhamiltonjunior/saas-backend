@@ -19,24 +19,23 @@ describe('Testing the Tasks', () => {
 
   after(done => _server.close(done))
 
-  it('should get a main router with status code 200', async () => {
+  it('should get main router with status code 200', async () => {
     try {
-      const response = await fetch(`${BASE_URL}/tasks`)
-
-      console.log(response.status)
-      console.log(response.body)
+      const response = await fetch(`${BASE_URL}/`)
 
       strictEqual(response.status, 200)
     } catch (error: any) {
-      // console.log(error)
       fail(error)
     }
   })
 
-  it('should get a main router with status code 200', async () => {
-    const response = {
-      status: 200
+  it('should get tasks router with status code 200', async () => {
+    try {
+      const response = await fetch(`${BASE_URL}/tasks`)
+
+      strictEqual(response.status, 200)
+    } catch (error: any) {
+      fail(error)
     }
-    strictEqual(response.status, 200)
   })
 })
