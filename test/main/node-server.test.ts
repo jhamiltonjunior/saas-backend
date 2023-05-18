@@ -38,4 +38,14 @@ describe('Testing the Tasks', () => {
       fail(error)
     }
   })
+
+  it('should get the url from tasks router with status code 200', async () => {
+    try {
+      const response = await fetch(`${BASE_URL}/tasks/:url`)
+
+      strictEqual(response.status, 200)
+    } catch (error: any) {
+      fail(error)
+    }
+  })
 })

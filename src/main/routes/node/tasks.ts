@@ -15,20 +15,18 @@ export default (request: IncomingMessage, response: ServerResponse): void => {
   }
 
   if (request.url === '/tasks' && request.method === 'GET') {
-    return adapterRouteShowTasks(makeShowAllTasksController())
+    adapterRouteShowTasks(makeShowAllTasksController())
+    response.end('ok')
+    return
   }
 
-  if (request.url === '/tasks/url' && request.method === 'GET') {
+  if (request.url === '/tasks/:url' && request.method === 'GET') {
     adapterRouteShowTasks(makeShowUniqueTasksConstroller())
-    // response.end('ok')
+    response.end('ok')
+    return
   }
 
-  // if (request.url === '/tasks' && request.method === 'POST') {
-  // }
-
-  // if (request.url === '/tasks/:url' && request.method === 'PUT') {
-  // }
-
-  // if (request.url === '/tasks/:url' && request.method === 'DELETE') {
-  // }
+  if (response.statusCode === 404) {
+    response.end('This Page does not exist!')
+  }
 }
