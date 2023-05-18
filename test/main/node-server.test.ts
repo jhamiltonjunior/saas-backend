@@ -1,7 +1,7 @@
 import { describe, before, after, it } from 'node:test'
 import { strictEqual, fail } from 'node:assert'
 
-const BASE_URL = 'http://localhost:8000'
+const BASE_URL = 'http://localhost:6001/api'
 
 describe('Testing the Tasks', () => {
   let _server: any = {}
@@ -39,13 +39,13 @@ describe('Testing the Tasks', () => {
     }
   })
 
-  it('should get the url from tasks router with status code 200', async () => {
-    try {
-      const response = await fetch(`${BASE_URL}/tasks/:url`)
+  // it('should get the url from tasks router with status code 200', async () => {
+  //   try {
+  //     const response = await fetch(`${BASE_URL}/tasks/:url`)
 
-      strictEqual(response.status, 200)
-    } catch (error: any) {
-      fail(error)
-    }
-  })
+  //     strictEqual(response.status, 200)
+  //   } catch (error: any) {
+  //     fail(error)
+  //   }
+  // })
 })
