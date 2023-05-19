@@ -20,7 +20,7 @@ export default async (request: IncomingMessage, response: ServerResponse): Promi
     return handler(request, response)
   }
 
-  if (request.url === `${BASE_URL}/tasks` && request.method === 'GET') {
+  if (request.url === `${BASE_URL}/tasks/register` && request.method === 'POST') {
     await adapterRouteShowTasks(
       makeShowAllTasksController(),
       request, response

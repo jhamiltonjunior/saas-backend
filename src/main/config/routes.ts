@@ -8,7 +8,8 @@ export default (app: Express): void => {
 
   // eslint-disable-next-line node/no-path-concat
   readdirSync((`${__dirname}/../routes`)).map(async (file) => {
-    if (!file.includes('.test.' || '.spec.')) {
+    console.log(file)
+    if (!file.includes('.test.' || '.spec.' || 'node' || 'express')) {
       (await import(`../routes/${file}`)).default(router)
     }
   })
