@@ -1,6 +1,6 @@
 import { IncomingMessage, ServerResponse } from 'http'
 
-import { adapterRouteShowTasks } from '../../adapters/node/tasks/routeAdapterShowUnique'
+import { adapterRouteShowTasks } from '../../adapters/node/tasks/routeAdapterShowTasks'
 // import { adapterRouteWithAuthentication } from '../../adapters/express/tasks/routeAdapterWithAuthentication'
 // import { makeCreateTasksController } from '../../factories/tasks/create'
 // import { makeShowUniqueTasksConstroller } from '../../factories/tasks/showUnique'
