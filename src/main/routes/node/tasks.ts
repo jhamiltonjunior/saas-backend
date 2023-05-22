@@ -25,6 +25,13 @@ export default async (request: IncomingMessage, response: ServerResponse): Promi
       makeShowAllTasksController(),
       request, response
     )
+  }
+
+  if (request.url === `${BASE_URL}/tasks/auth` && request.method === 'POST') {
+    await adapterRouteShowTasks(
+      makeShowAllTasksController(),
+      request, response
+    )
   } else {
     response.statusCode = 404
     response.end()

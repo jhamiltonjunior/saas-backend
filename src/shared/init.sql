@@ -1,4 +1,10 @@
+DROP TABLE IF EXISTS users_permissions;
+DROP TABLE IF EXISTS permissions;
+DROP TABLE IF EXISTS tasks;
 DROP TABLE IF EXISTS users;
+
+
+
 
 CREATE TABLE users(
   user_id uuid PRIMARY KEY,
@@ -8,12 +14,13 @@ CREATE TABLE users(
   
   name VARCHAR(80),
   email VARCHAR(80),
-  password VARCHAR(80)
+  password VARCHAR(80),
+
+  user_payment_id VARCHAR(20)
 );
 
 
 
-DROP TABLE IF EXISTS tasks;
 
 CREATE TABLE tasks(
   tasks_id uuid PRIMARY KEY,
@@ -34,8 +41,30 @@ CREATE TABLE tasks(
         ON UPDATE CASCADE
 );
 
+CREATE TABLE permissions (
+  permissions_id uuid PRIMARY KEY,
+  
+  name VARCHAR(20) DEFAULT 'reader',
+  description VARCHAR (50),
 
+  created_at TIMESTAMP
+);
+CREATE TABLE users_permissions (
+  users_permissions_id uuid PRIMARY KEY,
 
+  user_id uuid,
+  permissions_id uuid,
+  
+  FOREIGN KEY(user_id)
+    REFERENCES users(user_id)
+      ON DELETE CASCADE
+        ON UPDATE CASCADE,
+
+  FOREIGN KEY(permissions_id)
+    REFERENCES permissions(permissions_id)
+      ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
 
 
 
@@ -49,16 +78,8 @@ CREATE TABLE tasks(
 
       -- PERMISSIONS
 
-DROP TABLE IF EXISTS permissions;
 
-CREATE TABLE permissions (
-  permissions_id uuid PRIMARY KEY,
-  
-  name VARCHAR(20) DEFAULT 'reader',
-  description VARCHAR (50),
 
-  created_at TIMESTAMP
-);
 
 
 INSERT INTO permissions (
@@ -94,24 +115,8 @@ VALUES (
 
 --        USERS_PERMISSSIONS
 
-DROP TABLE IF EXISTS users_permissions;
 
-CREATE TABLE users_permissions (
-  users_permissions_id uuid PRIMARY KEY,
 
-  user_id uuid,
-  permissions_id uuid,
-  
-  FOREIGN KEY(user_id)
-    REFERENCES users(user_id)
-      ON DELETE CASCADE
-        ON UPDATE CASCADE,
-
-  FOREIGN KEY(permissions_id)
-    REFERENCES permissions(permissions_id)
-      ON DELETE CASCADE
-        ON UPDATE CASCADE
-);
 
 
 

@@ -14,10 +14,7 @@ export const adapterRouteShowTasks = async (
     params: query
   }
 
-  // O erro esta acontecendo por causa da conexao com o banco de dados
-
   const httpResponse = await controller.handle(httpRequest)
-  console.log(httpResponse)
 
   response.writeHead(httpResponse.statusCode)
 

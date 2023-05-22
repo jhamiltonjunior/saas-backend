@@ -29,29 +29,23 @@ describe('Testing the Tasks', () => {
     }
   })
 
-  it('should get tasks router with status code 200', async () => {
-    try {
-      const response = await fetch(`${BASE_URL}/tasks/register`)
-
-      strictEqual(response.status, 200)
-    } catch (error: any) {
-      fail(error)
-    }
-  })
-
-  it('should autheticate tasks router with status code 200', async () => {
-    try {
-      const response = await fetch(`${BASE_URL}/tasks/auth`)
-
-      strictEqual(response.status, 200)
-    } catch (error: any) {
-      fail(error)
-    }
-  })
-
   it('should register new tasks with status code 200', async () => {
     try {
-      const response = await fetch(`${BASE_URL}/tasks/register`)
+      const response = await fetch(`${BASE_URL}/tasks/register`, {
+        method: 'POST'
+      })
+
+      strictEqual(response.status, 200)
+    } catch (error: any) {
+      fail(error)
+    }
+  })
+
+  it('should check if user is authenticate for create new tasks with status code 200', async () => {
+    try {
+      const response = await fetch(`${BASE_URL}/tasks/auth`, {
+        method: 'POST'
+      })
 
       strictEqual(response.status, 200)
     } catch (error: any) {
