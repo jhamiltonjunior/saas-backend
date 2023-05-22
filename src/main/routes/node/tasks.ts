@@ -20,18 +20,19 @@ export default async (request: IncomingMessage, response: ServerResponse): Promi
     return handler(request, response)
   }
 
-  if (request.url === `${BASE_URL}/tasks/register` && request.method === 'POST') {
+  if (request.url === `${BASE_URL}/tasks` && request.method === 'GET') {
     await adapterRouteShowTasks(
       makeShowAllTasksController(),
       request, response
     )
   }
 
+  if (request.url === `${BASE_URL}/tasks/register` && request.method === 'POST') {
+    return handler(request, response)
+  }
+
   if (request.url === `${BASE_URL}/tasks/auth` && request.method === 'POST') {
-    await adapterRouteShowTasks(
-      makeShowAllTasksController(),
-      request, response
-    )
+    return handler(request, response)
   } else {
     response.statusCode = 404
     response.end()

@@ -29,6 +29,16 @@ describe('Testing the Tasks', () => {
     }
   })
 
+  it('should get main router with status code 200', async () => {
+    try {
+      const response = await fetch(`${BASE_URL}/tasks`)
+
+      strictEqual(response.status, 200)
+    } catch (error: any) {
+      fail(error)
+    }
+  })
+
   it('should register new tasks with status code 200', async () => {
     try {
       const response = await fetch(`${BASE_URL}/tasks/register`, {
