@@ -16,11 +16,9 @@ export const adapterRouteShowTasks = async (
 
   const httpResponse = await controller.handle(httpRequest)
 
-  console.log(httpResponse)
-
   response.writeHead(httpResponse.statusCode)
 
-  if (httpResponse.body.legth <= 1) response.write(httpResponse.body)
+  if (httpResponse.body.length >= 1) response.write(JSON.stringify(httpResponse.body))
 
   response.end()
 }

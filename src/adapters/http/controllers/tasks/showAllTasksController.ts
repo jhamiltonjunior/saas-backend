@@ -14,8 +14,6 @@ export class ShowAllTasksController {
       const tasksResponse =
         await this.tasksUseCases.showAllTasks()
 
-      console.log('oi')
-
       httpRequest.body = tasksResponse
     } catch (error) {
       console.log(error)

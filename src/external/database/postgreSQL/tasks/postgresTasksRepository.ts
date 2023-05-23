@@ -13,7 +13,7 @@ export class PostgresTasksRepository implements ITasksRepository {
   }
 
   async findAllTasks (): Promise<ITasksData[]> {
-    const result = await this.postgresHelper.query('SELECT * FROM Tasks', [])
+    const result = await this.postgresHelper.query('SELECT * FROM tasks', [])
 
     return result.rows
   }

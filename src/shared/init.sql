@@ -76,10 +76,77 @@ CREATE TABLE users_permissions (
 
 
 
-      -- PERMISSIONS
+      -- user and tasks
+
+user_id uuid PRIMARY KEY,
+  -- user_id uuid PRIMARY KEY DEFAULT uuid_generate_v4 (),
+  -- user_id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY NOT NULL,
+  -- user_id TEXT PRIMARY KEY NOT NULL,
+  
+  name VARCHAR(80),
+  email VARCHAR(80),
+  password VARCHAR(80),
+
+  user_payment_id VARCHAR(20)
 
 
 
+INSERT INTO users (
+  user_id,
+    name,
+  password,
+  user_payment_id
+)
+VALUES (
+  uuid_generate_v4(),
+  'Jose',
+  'Joseddddddddd',
+  'Joseddddddddd'
+);
+
+
+
+
+
+
+
+
+INSERT INTO tasks (
+  tasks_id,
+  title,
+  body,
+  category,
+  url,
+  createdAt,
+  user_id
+)
+VALUES (
+  uuid_generate_v4(),
+  'this is broken?',
+  '{"p":"this user only can make comment in tasks"}',
+  'games',
+  'games-is-broken-broo',
+  NOW(),
+  '7a827365-0b6a-4024-9dcd-dac62c6c4ca2'
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        -- PERMISSIONS
 
 
 INSERT INTO permissions (
