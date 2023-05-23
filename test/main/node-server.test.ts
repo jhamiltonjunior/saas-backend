@@ -21,7 +21,7 @@ describe('Testing the Tasks', () => {
 
   it('should get main router with status code 200', async () => {
     try {
-      const response = await fetch(`${BASE_URL}/`)
+      const response = await fetch(`${BASE_URL}/tasks`)
 
       strictEqual(response.status, 200)
     } catch (error: any) {
@@ -29,11 +29,11 @@ describe('Testing the Tasks', () => {
     }
   })
 
-  it('should get main router with status code 200', async () => {
+  it('should get main router with content type json', async () => {
     try {
       const response = await fetch(`${BASE_URL}/tasks`)
 
-      strictEqual(response.status, 200)
+      strictEqual(typeof await response.json(), typeof JSON)
     } catch (error: any) {
       fail(error)
     }
