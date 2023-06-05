@@ -8,7 +8,7 @@ describe('Testing the Tasks', () => {
 
   before(async () => {
     try {
-      _server = (await import('../../src/main/server')).default
+      _server = (await import('../../../src/main/server')).default
       await new Promise(
         resolve => _server.once('listening', resolve)
       )

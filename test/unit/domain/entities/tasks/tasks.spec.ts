@@ -1,16 +1,16 @@
 import { describe, it } from 'node:test'
 import assert from 'node:assert'
 
-import { left } from '../../../../src/shared/either'
-import { InvalidAuthorError } from '../../../../src/domain/entities/tasks/errors/invalidAuthor'
-import { InvalidBodyError } from '../../../../src/domain/entities/tasks/errors/invalidBody'
-import { InvalidCategoryError } from '../../../../src/domain/entities/tasks/errors/invalidCategory'
-import { InvalidCommentaryError } from '../../../../src/domain/entities/tasks/errors/invalidCommentary'
-import { InvalidCreatedAtError } from '../../../../src/domain/entities/tasks/errors/invalidCreatedAt'
-import { InvalidTitleError } from '../../../../src/domain/entities/tasks/errors/invalidTitle'
-import { InvalidURLError } from '../../../../src/domain/entities/tasks/errors/invalidURL'
-import { InvalidUpdatedAtError } from '../../../../src/domain/entities/tasks/errors/invalidUpdatedAt'
-import { Tasks } from '../../../../src/domain/entities/tasks/tasks'
+import { left } from '../../../../../src/shared/either'
+import { InvalidAuthorError } from '../../../../../src/domain/entities/tasks/errors/invalidAuthor'
+import { InvalidBodyError } from '../../../../../src/domain/entities/tasks/errors/invalidBody'
+import { InvalidCategoryError } from '../../../../../src/domain/entities/tasks/errors/invalidCategory'
+import { InvalidCommentaryError } from '../../../../../src/domain/entities/tasks/errors/invalidCommentary'
+import { InvalidCreatedAtError } from '../../../../../src/domain/entities/tasks/errors/invalidCreatedAt'
+import { InvalidTitleError } from '../../../../../src/domain/entities/tasks/errors/invalidTitle'
+import { InvalidURLError } from '../../../../../src/domain/entities/tasks/errors/invalidURL'
+import { InvalidUpdatedAtError } from '../../../../../src/domain/entities/tasks/errors/invalidUpdatedAt'
+import { Tasks } from '../../../../../src/domain/entities/tasks/tasks'
 
 describe('Tasks Domain Entity', () => {
   it('Should not create tasks with invalid title (little characters)', () => {
