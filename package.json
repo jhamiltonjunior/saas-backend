@@ -8,7 +8,8 @@
     "dev": "nodemon --exec ts-node-dev ./src/main/server --ignore ./test --ignore node_modules",
     "build": "tsc --project ./",
     "test": "node --loader tsx --test test/main/node-server.test.ts",
-    "test:dev": "node --loader tsx --test --watch test/main/node-server.test.ts"
+    "test:dev": "node --loader tsx --test --watch test/end-to-end/main/node-server.test.ts",
+    "test:integration": "node --loader tsx --test --watch test/integration/database/postgresTasksRepository.test.ts"
   },
   "keywords": [],
   "author": "",
