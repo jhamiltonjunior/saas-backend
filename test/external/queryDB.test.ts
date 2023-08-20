@@ -39,8 +39,15 @@ describe('Use Cases of Tasks', () => {
     expect(!newTask).toBeFalsy()
   })
 
-  it('should find task if exists', async () => {
+  it('should update task if exists', async () => {
     const newTask = await postgresUserRepository.update(task, task.url)
+
+    expect(newTask).toBeTruthy()
+    expect(!newTask).toBeFalsy()
+  })
+
+  it('should find all task if exists', async () => {
+    const newTask = await postgresUserRepository.findAllTasks()
 
     expect(newTask).toBeTruthy()
     expect(!newTask).toBeFalsy()
