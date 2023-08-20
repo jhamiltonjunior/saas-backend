@@ -66,7 +66,7 @@ export class PostgresTasksRepository implements ITasksRepository {
   }
 
   async update (tasks: ITasksData, urlParams: string): Promise<any> {
-    await this.postgresHelper.query(
+    return await this.postgresHelper.query(
       `
       UPDATE tasks
       SET 
