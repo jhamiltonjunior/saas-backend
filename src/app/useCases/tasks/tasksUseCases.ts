@@ -15,20 +15,16 @@ import { ShowUniqueResponse } from './responses/showUniqueResponse'
 import { allErrorsResponse } from './responses/allErrorsResponse'
 import { TasksInterface } from './interfaces/tasksInterface'
 import { InvalidURLNotFound } from './errors/invalidURLNotFound'
-import { IUserRepository } from '../../repositories/userRepository'
 import { DeleteResponse } from './responses/deleteResponse'
 import { InvalidUserDoesNotPermission } from './errors/invalidUserDoesNotPermission'
 
 export class TasksUseCases implements TasksInterface {
   tasksRepository: ITasksRepository
-  userRepository?: IUserRepository
 
   constructor (
     tasksRepository: ITasksRepository,
-    userRepository?: IUserRepository
   ) {
     this.tasksRepository = tasksRepository
-    this.userRepository = userRepository
   }
 
   async showAllTasks (): Promise<string | ITasksData[]> {
@@ -126,18 +122,11 @@ export class TasksUseCases implements TasksInterface {
 
     // tasks.url.value vai enviar a string da url já com o valor formatado
     const result = await this.tasksRepository.findByURL(urlParams)
-    const permissions = await this.tasksRepository.getPermission(tasks.author.value.user_id)
-
-    console.log('--- tasks use case ----')
-    console.log('id do author', (<any>result).user_id)
-    console.log('id atual', String(author.user_id))
-    console.log('id do author que ta no tasks', tasks.author.value.user_id)
-    console.log(author.user_id === tasks.author.value.user_id)
-    console.log('--- tasks use case ----')
+    // const permissions = await this.tasksRepository.getPermission(tasks.author.value.user_id)
 
     if (
-      // the permission check if user have permission
-      permissions?.includes('writer') &&
+    // the permission check if user have permission
+    // permissions.includes('writer') &&
 
       // only user who create the tasks can edit it
       author.user_id === (<any>result).user_id
@@ -163,6 +152,8 @@ export class TasksUseCases implements TasksInterface {
         },
         urlParams
         )
+      } else {
+        return left(new InvalidURLNotFound(urlParams))
       }
       // Aqui poderia ter um else caso exist uma url igual
     } else {

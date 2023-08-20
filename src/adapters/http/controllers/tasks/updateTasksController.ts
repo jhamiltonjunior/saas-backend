@@ -14,24 +14,20 @@ export class UpdateTasksController {
 
   async handle (httpRequest: IHttpRequest, author: AuthorData): Promise<IHttpResponse> {
     const urlOfParams: string = httpRequest.params.url
+    const date = new Date()
 
     const tasksData = {
       title: httpRequest.body.title,
       body: httpRequest.body.body,
       author,
       category: httpRequest.body.category,
-      createdAt: new Date(),
-      updatedAt: new Date(),
+      createdAt: date,
+      updatedAt: date,
       url: httpRequest.body.url,
     }
 
     try {
-      if (
-        !httpRequest.body.url ||
-        !httpRequest.body.body ||
-        !httpRequest.body.title ||
-        !httpRequest.body.category
-      ) {
+      if (Object.keys(httpRequest.body).length < 1) {
         const field = !httpRequest.body
           ? 'url' ||
         'title' ||

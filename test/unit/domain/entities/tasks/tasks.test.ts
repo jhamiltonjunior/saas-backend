@@ -33,8 +33,7 @@ describe('Tasks Domain Entity', () => {
       tasks ===
       left(new InvalidTitleError(title))
     )
-
-    assert.deepEqual(tasks, left(new InvalidTitleError(title)))
+    expect(tasks).toEqual(left(new InvalidTitleError(title)))
   })
 
   it('Should not create tasks with invalid body (little characters)', () => {
@@ -52,8 +51,8 @@ describe('Tasks Domain Entity', () => {
       },
       category: 'strinddg',
     })
-
-    assert.deepEqual(tasks, left(new InvalidTitleError(body)))
+  
+    expect(tasks).toEqual(left(new InvalidBodyError(body)))
   })
 
   it('Should not create tasks with invalid url (little characters)', () => {
@@ -71,7 +70,7 @@ describe('Tasks Domain Entity', () => {
       category: 'strinddg',
     })
 
-    assert.deepEqual(tasks, left(new InvalidTitleError(url)))
+    expect(tasks).toEqual(left(new InvalidURLError(url)))
   })
 
   it('Should not create tasks with invalid title (very characters)', () => {
@@ -94,7 +93,7 @@ describe('Tasks Domain Entity', () => {
       category: 'ddddddddddddd',
     })
 
-    assert.deepEqual(tasks, left(new InvalidTitleError(title)))
+    expect(tasks).toEqual(left(new InvalidTitleError(title)))
   })
 
   it('Should not create tasks with invalid url (very characters)', () => {
@@ -117,6 +116,8 @@ describe('Tasks Domain Entity', () => {
       category: 'kdkkkkdkdkkddfdfdd',
     })
 
-    assert.deepEqual(tasks, left(new InvalidTitleError(url)))
+    expect(tasks).toEqual(left(new InvalidURLError(url)))
   })
 })
+
+  
