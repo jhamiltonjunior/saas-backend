@@ -19,7 +19,11 @@ export class PostgresTasksRepository implements ITasksRepository {
   }
 
   async findByURL (url: string): Promise<ITasksData> {
-    const result = await this.postgresHelper.query('SELECT * FROM tasks WHERE url = $1', [url])
+    const result = await this.postgresHelper.query(`
+      SELECT tasks.*, users.* as author FROM tasks
+      JOIN users ON users.user_id = tasks.user_id
+      WHERE url = $1 
+    `, [url])
 
     return result.rows[0]
   }

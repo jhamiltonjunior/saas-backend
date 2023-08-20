@@ -34,8 +34,6 @@ export class ShowUniqueTasksController {
       serverError('internal')
     }
 
-    console.log(httpRequest)
-
     return ok(httpRequest.body)
   }
 }

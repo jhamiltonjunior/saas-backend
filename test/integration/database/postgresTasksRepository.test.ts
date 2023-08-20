@@ -25,6 +25,6 @@ describe('The integration with PostgreSQL database', () => {
       connectionObject
     ).findAllTasks()
 
-    strictEqual(typeof result, typeof Object())
+    strictEqual(typeof (<any>(await result)[0]).tasks_id, typeof String())
   })
 })

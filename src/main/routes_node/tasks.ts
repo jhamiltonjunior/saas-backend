@@ -9,11 +9,11 @@ import { makeUpdateTasksController } from '../factories/tasks/update'
 
 export default (router: Router): void => {
   router.get('/tasks', adapterRouteShowTasks(makeShowAllTasksController()))
-  router.get('/tasks/find/:url', adapterRouteShowTasks(makeShowUniqueTasksConstroller()))
+  router.get('/tasks/:url', adapterRouteShowTasks(makeShowUniqueTasksConstroller()))
 
-  router.post('/tasks/create', adapterRouteWithAuthentication(makeCreateTasksController()))
+  router.post('/tasks/register', adapterRouteWithAuthentication(makeCreateTasksController()))
 
-  router.put('/tasks/edit/:url', adapterRouteWithAuthentication(makeUpdateTasksController()))
+  router.put('/tasks/:url', adapterRouteWithAuthentication(makeUpdateTasksController()))
 
-  router.delete('/tasks/delete/:url', adapterRouteWithAuthentication(makeDeleteTasksController()))
+  router.delete('/tasks/:url', adapterRouteWithAuthentication(makeDeleteTasksController()))
 }

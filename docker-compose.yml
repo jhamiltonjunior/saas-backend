@@ -1,30 +1,27 @@
-version: "3"
-
+version: "3.8"
 services:
-  app:
-    build: .
+  db:
+    image: postgres
+    container_name: local_pgdb
+    restart: always
     ports:
-      - "5001:5001"
-    command: "npm start"
-    links:
-    - db
-  # working_dir: "/src"
-  environment:
-    SEQ_DB: blog
-    SEQ_USER: postgres
-    SEQ_PW: 0000
-    PORT: 4242
-    # DATABASE_URL: postgres://postgres:0000@127.0.0.1:5432/blog
-  # volumes: ./:/src
-    
-db:
-  image:
-    postgres: 10.5-alpine
+      - "54320:5432"
     environment:
-    POSTGRES_USER: postgres         
-    POSTGRES_PASSWORD: 0000         
-    POSTGRES_DB: blog     
-  ports:
-    - 35432:543
-  volumes:
-    - /var/lib/postgresql/13/main    
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: admin
+    volumes:
+      - local_pgdata:/var/lib/postgresql/data
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin4_container
+    restart: always
+    ports:
+      - "5050:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: josehamiltonsantosjunior@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+volumes:
+  local_pgdata:
+  pgadmin-data:

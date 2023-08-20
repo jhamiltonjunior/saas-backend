@@ -50,16 +50,6 @@ export class TasksUseCases implements TasksInterface {
 
     const tasks = await this.tasksRepository.findByURL(url.value)
 
-    // isso é feito para que eu possa acessar o id do usuário
-    // pelo tasks não estava sendo possivel, mas existe maneira melhor de fazer isso
-    const userId: any = tasks
-
-    if (this.userRepository) {
-      const user = await this.userRepository.findUserById(userId.user_id)
-
-      tasks.author = user
-    }
-
     if (tasks !== undefined) {
       return right(tasks)
     } else {
@@ -91,24 +81,24 @@ export class TasksUseCases implements TasksInterface {
 
     // tasks.url.value vai enviar a string da url já com o valor formatado
     const result = await this.tasksRepository.findByURL(tasks.url.value)
-    const permissions = await this.userRepository?.getPermission(tasks.author.value.user_id)
+    // const permissions = await this.userRep ository?.getPermission(tasks.author.value.user_id)
 
     // "reader" is temporary
-    if (permissions?.includes('reader')) {
-      if (
-        result === undefined
-      ) {
-        await this.tasksRepository.add({
-          title: tasks.title.value,
-          author: tasks.author.value,
-          body: tasks.body.value,
-          url: tasks.url.value,
-          category: tasks.category.value,
-          createdAt: tasks.createdAt.value
-        },
-        String(author.user_id)
-        )
-      }
+    // if (permissions?.includes('reader')) {
+    if (
+      result === undefined
+    ) {
+      await this.tasksRepository.add({
+        title: tasks.title.value,
+        author: tasks.author.value,
+        body: tasks.body.value,
+        url: tasks.url.value,
+        category: tasks.category.value,
+        createdAt: tasks.createdAt.value
+      },
+      String(author.user_id)
+      )
+      // }
       // Aqui poderia ter um else caso exist uma url igual
     } else {
       return left(new InvalidUserDoesNotPermission(tasks.author.value.name))

@@ -1,6 +1,6 @@
 import { config as dotenvConfig } from 'dotenv'
 
-import server from './config/node/app'
+import server from './config/app'
 
 dotenvConfig()
 

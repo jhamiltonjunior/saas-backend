@@ -51,4 +51,18 @@ In your file .env you need insert IP of your container in ```DB_HOST```, for thi
 sudo docker inspect --format '{{ .NetworkSettings.IPAddress }}' [CONTAINER_ID]
 ```
 
+# Para usar o pgAdmin
+
+```bash
+docker pull dpage/pgadmin4
+
+docker network create --driver bridge postgres-network
+
+docker run --name teste-postgres --network=postgres-network -e "POSTGRES_PASSWORD=Postgres2018!" -p 5432:5432 -v /home/renatogroffe/Desenvolvimento/PostgreSQL:/var/lib/postgresql/data -d postgres
+
+docker run --name pgadmin --network=postgres-network -p 15432:80 -e "PGADMIN_DEFAULT_EMAIL=josehamiltonsantosjunior@yahoo.com.br" -e "PGADMIN_DEFAULT_PASSWORD=admin" -d dpage/pgadmin4
+
+http://localhost:15432
+```
+
 <!-- run `docker-compose up` in your terminal -->
