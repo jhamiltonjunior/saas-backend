@@ -28,54 +28,52 @@ const task = {
   category: '07494423010'
 }
 
-describe('Use Cases of User', () => {
+describe('Use Cases of Task', () => {
   /**
    * This tests does not persist the datas in database
    */
 
-  it('should not create user with invalid name (too few characters)', async () => {
+  it('should not update user with invalid name (too few characters)', async () => {
     task.title = 'C'
-    const title = new TasksUseCases(postgresUserRepository)
-      .updateTasks(task, task.author)
+    const useCases = new TasksUseCases(postgresUserRepository)
+      .updateTasks(task, task.author, task.url)
 
-    // ({ name, email: 'hamilton@gmail.com', password: '1234' })
-
-    expect(await title).toEqual(left(new InvalidTitleError(task.title)))
+    expect(await useCases).toEqual(left(new InvalidTitleError(task.title)))
   })
 
-  it('should not create user with invalid name (too many characters)', async () => {
+  it('should not update user with invalid name (too many characters)', async () => {
     let title: string = ''
     for (let i = 0; i < 256; i++) {
       title += 'h'
     }
     task.title = title
 
-    const tasksUseCases = new TasksUseCases(postgresUserRepository)
-      .createTasksOnDatabase(task, task.author)
-
-    expect(await tasksUseCases).toEqual(left(new InvalidTitleError(title)))
-  })
-
-  test('should not create user with invalid name (only blank spaces)', async () => {
-    task.title = '    '
-
     const useCases = new TasksUseCases(postgresUserRepository)
-      .createTasksOnDatabase(task, task.author)
+      .updateTasks(task, task.author, task.url)
 
     expect(await useCases).toEqual(left(new InvalidTitleError(task.title)))
   })
 
-  // test('should not create user with invalid email (empity string)', async () => {
+  it('should not update user with invalid name (only blank spaces)', async () => {
+    task.title = '    '
+
+    const useCases = new TasksUseCases(postgresUserRepository)
+      .updateTasks(task, task.author, task.url)
+
+    expect(await useCases).toEqual(left(new InvalidTitleError(task.title)))
+  })
+
+  // it('should not update user with invalid email (empity string)', async () => {
   //   task.title = 'Jose Hamilton'
   //   task.body = ''
 
   //   const useCases = new TasksUseCases(postgresUserRepository)
-  //     .createTasksOnDatabase(task, task.author)
+  //     .updateTasksOnDatabase(task, task.author)
 
   //   expect(await useCases).toEqual(left(new InvalidBodyError(task.body)))
   // })
 
-  test('should not create user with invalid name (only blank spaces)', async () => {
+  it('should not update user with invalid name (only blank spaces)', async () => {
     let url = ''
 
     for (let i = 0; i < 256; i++) {
@@ -85,12 +83,12 @@ describe('Use Cases of User', () => {
     task.url = url
 
     const useCases = new TasksUseCases(postgresUserRepository)
-      .createTasksOnDatabase(task, task.author)
+      .updateTasks(task, task.author, task.url)
 
     expect(await useCases).toEqual(left(new InvalidURLError(url)))
   })
 
-  test('should not create user with invalid name (only blank spaces)', async () => {
+  it('should not update user with invalid name (only blank spaces)', async () => {
     let url = ''
 
     for (let i = 0; i < 256; i++) {
@@ -99,7 +97,7 @@ describe('Use Cases of User', () => {
     task.url = url
 
     const useCases = new TasksUseCases(postgresUserRepository)
-      .createTasksOnDatabase(task, task.author)
+      .updateTasks(task, task.author, task.url)
 
     expect(await useCases).toEqual(left(new InvalidURLError(url)))
   })

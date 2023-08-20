@@ -28,7 +28,7 @@ const task = {
   category: '07494423010'
 }
 
-describe('Use Cases of User', () => {
+describe('Use Cases of Task', () => {
   /**
    * This tests does not persist the datas in database
    */
