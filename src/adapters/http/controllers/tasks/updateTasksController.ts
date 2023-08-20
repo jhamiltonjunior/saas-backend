@@ -37,7 +37,7 @@ export class UpdateTasksController {
         return badRequest(new MissingParamError(field))
       }
       const tasksResponse: allErrorsResponse =
-        await this.tasksUseCases.updateTasks(tasksData, author, urlOfParams)
+        await this.tasksUseCases.updateTask(tasksData, author, urlOfParams)
 
       if (tasksResponse.isLeft()) {
         return badRequest(tasksResponse.value)

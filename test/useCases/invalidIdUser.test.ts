@@ -40,7 +40,7 @@ describe('Use Cases of Tasks', () => {
 
   it('should not update user with invalid name (too few characters)', async () => {
     const useCases = new TasksUseCases(postgresUserRepository)
-      .createTasksOnDatabase(task, task.author, task.url)
+      .createTasksOnDatabase(task, task.author)
 
     expect(await useCases).toEqual(left(new InvalidUserDoesNotPermission(task.author.user_id)))
   })

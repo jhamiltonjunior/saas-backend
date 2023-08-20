@@ -36,7 +36,7 @@ describe('Use Cases of Task', () => {
   it('should not update user with invalid name (too few characters)', async () => {
     task.title = 'C'
     const useCases = new TasksUseCases(postgresUserRepository)
-      .updateTasks(task, task.author, task.url)
+      .updateTask(task, task.author, task.url)
 
     expect(await useCases).toEqual(left(new InvalidTitleError(task.title)))
   })
@@ -49,7 +49,7 @@ describe('Use Cases of Task', () => {
     task.title = title
 
     const useCases = new TasksUseCases(postgresUserRepository)
-      .updateTasks(task, task.author, task.url)
+      .updateTask(task, task.author, task.url)
 
     expect(await useCases).toEqual(left(new InvalidTitleError(task.title)))
   })
@@ -58,7 +58,7 @@ describe('Use Cases of Task', () => {
     task.title = '    '
 
     const useCases = new TasksUseCases(postgresUserRepository)
-      .updateTasks(task, task.author, task.url)
+      .updateTask(task, task.author, task.url)
 
     expect(await useCases).toEqual(left(new InvalidTitleError(task.title)))
   })
@@ -83,7 +83,7 @@ describe('Use Cases of Task', () => {
     task.url = url
 
     const useCases = new TasksUseCases(postgresUserRepository)
-      .updateTasks(task, task.author, task.url)
+      .updateTask(task, task.author, task.url)
 
     expect(await useCases).toEqual(left(new InvalidURLError(url)))
   })
@@ -97,7 +97,7 @@ describe('Use Cases of Task', () => {
     task.url = url
 
     const useCases = new TasksUseCases(postgresUserRepository)
-      .updateTasks(task, task.author, task.url)
+      .updateTask(task, task.author, task.url)
 
     expect(await useCases).toEqual(left(new InvalidURLError(url)))
   })

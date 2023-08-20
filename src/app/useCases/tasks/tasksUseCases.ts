@@ -103,7 +103,7 @@ export class TasksUseCases implements TasksInterface {
     return right(tasksData)
   }
 
-  async updateTasks (tasksData: ITasksData, author: AuthorData, urlParams: string): Promise<allErrorsResponse> {
+  async updateTask (tasksData: ITasksData, author: AuthorData, urlParams: string): Promise<allErrorsResponse> {
     const tasksOrError: Either<
     InvalidTitleError |
     InvalidBodyError |
@@ -164,6 +164,9 @@ export class TasksUseCases implements TasksInterface {
   }
 
   async deleteTasks (urlParams: string): Promise<DeleteResponse> {
+    //         adicionar uma camada de validação aqui somentoe usarios com permissa de apagar
+    //         ou quem criou a tarefa pode apagar
+
     const urlOrError = URL.create(urlParams)
 
     if (urlOrError.isLeft()) {
