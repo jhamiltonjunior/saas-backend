@@ -9,7 +9,6 @@ import { left } from '../../src/shared/either'
 // import { IRegisterUser } from '../src/app/useCases/users/interfaces/registerUser'
 import { TasksUseCases } from '../../src/app/useCases/tasks/tasksUseCases'
 import { PostgresTasksRepository } from '../../src/external/database/postgreSQL/tasks/postgresTasksRepository'
-import { InvalidUserDoesNotPermission } from '../../src/app/useCases/tasks/errors/invalidUserDoesNotPermission'
 
 dotenvConfig()
 
@@ -21,27 +20,14 @@ const postgresUserRepository = new PostgresTasksRepository({
   port: process.env.DB_PORT,
 })
 
-const task = {
-  title: 'Jose Hamilton',
-  author: { user_id: '98283789-145a-4ec4-a385-e08d6095ceb6', name: 'string' },
-  body: { name: '123456' },
-  url: '1341454514',
-  createdAt: new Date(),
-  category: '07494423010'
-}
-
 describe('Use Cases of Tasks', () => {
-  it('should not update user with invalid name (too few characters)', async () => {
+  it('should not delete task if id is not exists', async () => {
+    const id = '4188bd4f-8334-4859-89fa-eee99ad69cf4'
+
     const useCases = new TasksUseCases(postgresUserRepository)
-      .updateTask(task, task.author, task.url)
 
-    expect(await useCases).toEqual(left(new InvalidUserDoesNotPermission(task.author.user_id)))
-  })
+    const newInvalidTask = await useCases.deleteTasks(id)
 
-  it('should not update user with invalid name (too few characters)', async () => {
-    const useCases = new TasksUseCases(postgresUserRepository)
-      .createTasksOnDatabase(task, task.author, task.url)
-
-    expect(await useCases).toEqual(left(new InvalidUserDoesNotPermission(task.author.user_id)))
+    expect(newInvalidTask).toEqual(left(new Error('Task ID not exist!')))
   })
 })
