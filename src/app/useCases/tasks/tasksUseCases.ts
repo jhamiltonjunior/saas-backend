@@ -126,7 +126,7 @@ export class TasksUseCases implements TasksInterface {
 
     // tasks.url.value vai enviar a string da url já com o valor formatado
     const result = await this.tasksRepository.findByURL(urlParams)
-    const permissions = await this.userRepository?.getPermission(tasks.author.value.user_id)
+    const permissions = await this.tasksRepository.getPermission(tasks.author.value.user_id)
 
     console.log('--- tasks use case ----')
     console.log('id do author', (<any>result).user_id)

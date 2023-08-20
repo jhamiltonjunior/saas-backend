@@ -6,4 +6,5 @@ export interface ITasksRepository {
   deleteByURL: (id: string) => Promise<void>
   add: (tasks: ITasksData, id: string) => Promise<void>
   update: (tasks: ITasksData, url: string) => Promise<void>
+  getPermission: (id: string) => Promise<string[]>
 }

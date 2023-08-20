@@ -13,7 +13,13 @@ export class PostgresTasksRepository implements ITasksRepository {
   }
 
   async findAllTasks (): Promise<ITasksData[]> {
-    const result = await this.postgresHelper.query('SELECT * FROM tasks', [])
+    const result = await this.postgresHelper.query(`
+    SELECT *
+    FROM tasks
+    JOIN users ON users.user_id = tasks.user_id
+    `, [])
+
+    result.rows[0].password = ''
 
     return result.rows
   }
@@ -81,6 +87,47 @@ export class PostgresTasksRepository implements ITasksRepository {
         urlParams
       ]
     )
+  }
+
+  async getPermission (id: string): Promise<string[]> {
+    const usersPermissions = await this.postgresHelper.reader(
+      `
+        SELECT name, description, created_at
+        FROM users_permissions
+        JOIN permissions ON permissions.permissions_id = users_permissions.permissions_id
+        WHERE user_id = $1`,
+      [id]
+    )
+
+    return usersPermissions.rows
+    /*
+    const permissionsId: any[] = []
+
+    usersPermissions.rows.forEach((column: any) => {
+      permissionsId.push(column.permissions_id)
+    })
+
+    const permissionsNameToArrays = permissionsId.map(async (id: string): Promise<string> => {
+      const permissions = await this.postgresHelper.reader(
+        `
+          SELECT *
+          FROM permissions
+          WHERE permissions_id = $1`,
+        [id]
+      )
+
+      return permissions.rows[0].name
+    })
+
+    let permissionsName: string = ''
+
+    for (const value of permissionsNameToArrays) {
+      permissionsName += `${(await value).toString()} `
+    }
+
+    // ESTOU RETORNANDO AS PERMISSÕES QUE UM USUÁRIO TEM
+    return permissionsName.trim()
+    */
   }
 
   async deleteByURL (url: string): Promise<void> {

@@ -194,8 +194,8 @@ INSERT INTO users_permissions (
 )
 VALUES (
   uuid_generate_v4(),
-  'ebceb0cf-0c02-470e-b50e-32f5e6096756',
-  '9e13b046-af01-48e9-8418-d72e2773486f'
+  'ee2a1e16-5853-457f-8920-e04702f0c16b',
+  '13cfee1c-af9e-4f3a-8e10-afce2ac13ce3'
 );
 
 INSERT INTO users_permissions (
@@ -205,8 +205,8 @@ INSERT INTO users_permissions (
 )
 VALUES (
   uuid_generate_v4(),
-  'ebceb0cf-0c02-470e-b50e-32f5e6096756',
-  'b41f98d8-154c-4cc3-a24f-1d34bcac00a5'
+  '840e2fec-efcb-409d-a130-fcb6d16f93ba',
+  '5d44430e-0790-4fcd-95b5-dcf18422634d'
 );
 
 
