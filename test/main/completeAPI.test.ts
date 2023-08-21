@@ -1,120 +1,148 @@
-// /* eslint-disable no-undef */
+/* eslint-disable no-undef */
 
-// import { config as dotenvConfig } from 'dotenv'
-// import request from 'supertest'
-// import app from '../../src/main/config/app'
-// import { randomUUID } from 'crypto'
+// import { IUserData } from '../src/domain/entities/users/interfaces/userData'
 
-// // globalThis.fetch = fetch
+import { config as dotenvConfig } from 'dotenv'
+import request from 'supertest'
+import app from '../../src/main/config/app'
+import { randomUUID } from 'crypto'
 
-// dotenvConfig()
+dotenvConfig()
 
-// // const HOSTNAME = `${process.env.HOST}:${process.env.PORT}`
+const task = {
+  title: 'Jose Hamilton',
+  author: { user_id: 'ee2a1e16-5853-457f-8920-e04702f0c16b', name: 'string' },
+  body: { name: '123456' },
+  url: randomUUID(),
+  createdAt: new Date(),
+  category: 'important',
+  password: ''
+}
 
-// const user = {
-//   name: 'Jose Hamilton',
-//   email: randomUUID() + '@gmail.com',
-//   password: '123456',
-//   mobilePhone: '75981849068',
-//   cpfCnpj: '07494423010',
-//   notificationDisabled: false
-// }
+const token: string = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNWI3YWU3MjQtNGJiZS00MjY0LTk2MTAtMTI3ZWI1NTc4ZGRjIiwiaWF0IjoxNjkyNTc3MjM5LCJleHAiOjE2OTI2NjM2Mzl9.9kDPZstAxPJjJGPCSlMFuneEf7nq2PVeWuyV2MyxmAs'
+// "jest": "^27.5.1"
 
-// let token:string
-// // "jest": "^27.5.1"
+describe('External Server', () => {
+  it('test api /api/tasks - get', async () => {
+    const response = await request(app).get('/api/tasks')
 
-// describe('External Server', () => {
-//   it('test api /api/user/test', async () => {
-//     const response = await request(app).get('/api/user/test')
+    if (response.statusCode === 404) {
+      throw Error('Task not found')
+    }
 
-//     expect(response.statusCode).toEqual(200)
-//     expect(typeof response.body).toEqual('object')
-//   })
+    expect(response.statusCode).toEqual(200)
+    expect(typeof response.body).toEqual('object')
+  })
 
-//   it('test /api/user/register - post', async () => {
-//     // user.email = randomUUID() + '@gmail.com
+  it('test /api/tasks/create - post', async () => {
+    // user.email = randomUUID() + '@gmail.com
 
-//     const response = await request(app)
-//       .post('/api/user/register')
-//       .send(user)
+    const response = await request(app)
+      .post('/api/tasks/create')
+      .send(task)
+      .set('Authorization', 'Bearer ' + token)
 
-//     user.password = ''
+    if (response.statusCode === 400) {
+      expect(response.body).toEqual('User ID not exists!')
 
-//     // console.log(response.statusCode)
-//     // console.log(response.body)
+      return
+    }
 
-//     expect(typeof response.body.token).toEqual('string')
-//     expect(response.body.token).toBeDefined()
-//     expect(response.body.token).toBeTruthy()
+    if (response.statusCode === 401) {
+      expect(response.body.message).toEqual('no token provided')
 
-//     delete response.body.token
+      return
+    }
 
-//     expect(response.body).toEqual(user)
-//     expect(response.statusCode).toEqual(201)
-//   })
+    if (response.statusCode === 404) {
+      throw Error('Task not found')
+    }
 
-//   it('test /api/user/auth - post', async () => {
-//     user.password = '123456'
-//     const response = await request(app)
-//       .post('/api/user/auth')
-//       .send(user)
+    expect(response.body).toBeTruthy()
+    expect(response.body).toBeDefined()
+    expect(typeof response.body).toBe('object')
+    expect(response.statusCode).toEqual(201)
+  })
 
-//     expect(typeof response.body.token).toEqual('string')
-//     expect(response.body.token).toBeDefined()
-//     expect(response.body.token).toBeTruthy()
+  it('test /api/tasks/find/:url - post', async () => {
+    const response = await request(app)
+      .get(`/api/tasks/find/${task.url}`)
+      .set('Authorization', 'Bearer ' + token)
 
-//     token = response.body.token
-//     delete response.body.token
+    if (response.statusCode === 400) {
+      expect(response.body).toEqual('User ID not exists!')
 
-//     const authUser = {
-//       email: user.email,
-//       password: user.password
-//     }
+      return
+    }
 
-//     expect(response.statusCode).toEqual(200)
-//     expect(response.body).toEqual(authUser)
-//   })
+    if (response.statusCode === 401) {
+      expect(response.body.message).toEqual('no token provided')
 
-//   it('test /api/user/find/:id - get user', async () => {
-//     const response = await request(app)
-//       .get('/api/user/find/112b339f-5980-4097-8d72-63fe3612766f')
-//       .set('Authorization', 'Bearer ' + token)
+      return
+    }
 
-//     const body = response.body.body
+    if (response.statusCode === 404) {
+      throw Error('Task not found')
+    }
 
-//     // console.log(response)
-//     // console.log(response.body)
+    expect(response.body).toBeTruthy()
+    expect(response.body).toBeDefined()
+    expect(typeof response.body).toBe('object')
+    expect(response.statusCode).toEqual(200)
+  })
 
-//     if (response.statusCode === 401) {
-//       expect(response.body.message).toEqual('no token provided')
+  it('test /api/tasks/edit/:url - post', async () => {
+    const response = await request(app)
+      .put(`/api/tasks/edit/${task.url}`)
+      .send(task)
+      .set('Authorization', 'Bearer ' + token)
 
-//       return
-//     }
+    if (response.statusCode === 400) {
+      expect(response.body).toEqual('Missing Param Error')
 
-//     expect(response.statusCode).toEqual(200)
-//     expect(typeof body).toEqual('object')
-//     expect(typeof body.name).toEqual('string')
-//     expect(typeof body.email).toEqual('string')
-//   })
+      return
+    }
 
-//   it('test /api/user/delete/:id - delete', async () => {
-//     const response = await request(app)
-//       .delete('/api/user/delete/cf2ce777-f1aa-44e7-91b2-cf65c28e42a8')
-//       .set('Authorization', 'Bearer ' + token)
+    if (response.statusCode === 401) {
+      expect(response.body.message).toEqual('no token provided')
 
-//     if (response.statusCode === 400) {
-//       expect(response.body).toEqual('User ID not exists!')
+      return
+    }
 
-//       return
-//     }
+    if (response.statusCode === 404) {
+      throw Error('Task not found')
+    }
 
-//     if (response.statusCode === 401) {
-//       expect(response.body.message).toEqual('no token provided')
+    expect(response.body).toBeTruthy()
+    expect(response.body).toBeDefined()
+    expect(typeof response.body).toBe('object')
+    expect(response.statusCode).toEqual(200)
+  })
 
-//       return
-//     }
+  it('test /api/tasks/delete/:url - post', async () => {
+    const response = await request(app)
+      .delete(`/api/tasks/delete/${task.url}`)
+      .set('Authorization', 'Bearer ' + token)
 
-//     expect(response.statusCode).toEqual(200)
-//     expect(response.body).toEqual({ value: 'User Deleted' })
-//   })
-// })
+    if (response.statusCode === 400) {
+      expect(response.body).toEqual('Missing Param Error')
+
+      return
+    }
+
+    if (response.statusCode === 401) {
+      expect(response.body.message).toEqual('no token provided')
+
+      return
+    }
+
+    if (response.statusCode === 404) {
+      throw Error('Task not found')
+    }
+
+    expect(response.body).toBeTruthy()
+    expect(response.body).toBeDefined()
+    expect(typeof response.body).toBe('object')
+    expect(response.statusCode).toEqual(200)
+  })
+})

@@ -1,5 +1,5 @@
 import { IHttpRequest, IHttpResponse } from '../ports/http'
-import { badRequest, created, serverError } from '../helpers/httpHelper'
+import { badRequest, ok, serverError } from '../helpers/httpHelper'
 import { allErrorsResponse } from '../../../../app/useCases/tasks/responses/allErrorsResponse'
 import { MissingParamError } from '../errors/missingParamError'
 import { AuthorData } from '../../../../domain/entities/tasks/validators/author'
@@ -26,6 +26,8 @@ export class UpdateTasksController {
       url: httpRequest.body.url,
     }
 
+    console.log(tasksData)
+
     try {
       if (Object.keys(httpRequest.body).length < 1) {
         const field = !httpRequest.body
@@ -46,6 +48,6 @@ export class UpdateTasksController {
       console.log(error)
       return serverError('internal')
     }
-    return created(httpRequest.body)
+    return ok(httpRequest.body)
   }
 }
