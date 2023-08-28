@@ -14,8 +14,8 @@ import { UpdatedAt } from './validators/updatedAt'
 export class Boards {
   public readonly author: Author
   public readonly createdAt: CreatedAt
-  public readonly title?: Title
-  public readonly url?: URL
+  public readonly title: Title
+  public readonly url: URL
   public readonly updatedAt?: UpdatedAt
   // public readonly commentary?: Commentary
 
@@ -23,7 +23,7 @@ export class Boards {
     title: Title,
     author: Author,
     createdAt: CreatedAt,
-    url?: URL,
+    url: URL,
     updatedAt?: UpdatedAt,
     // commentary?: Commentary,
   ) {
@@ -48,8 +48,7 @@ export class Boards {
     const createdAtOrError: Either<InvalidCreatedAtError, CreatedAt> = CreatedAt.create(tasks.createdAt)
     const titleOrError: Either<InvalidTitleError, Title> = Title.create(tasks.title)
     const urlOrError: Either<InvalidURLError, URL> = URL.create(tasks.url)
-    // const commentaryOrError: Either<InvalidCommentaryError, Commentary> = Commentary.create(tasks.commentary)
-
+src/adapters/http/controllers/tasks
     if (authorOrError.isLeft()) {
       return left(authorOrError.value)
     }
