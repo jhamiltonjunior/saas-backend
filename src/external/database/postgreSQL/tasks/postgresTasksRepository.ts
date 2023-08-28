@@ -1,9 +1,9 @@
-import { IBoardsData } from '../../../../domain/entities/boards/interfaces/boardsData'
-import { IBoardsRepository } from '../../../../app/repositories/boardsRepository'
+import { ITasksData } from '../../../../domain/entities/tasks/interfaces/tasksData'
+import { ITasksRepository } from '../../../../app/repositories/tasksRepository'
 import { PostgresHelper } from '../helpers/postgresHelper'
 import { v4 as uuidv4 } from 'uuid'
 
-export class PostgresBoardsRepository implements IBoardsRepository {
+export class PostgresTasksRepository implements ITasksRepository {
   postgresHelper: PostgresHelper
 
   constructor (
@@ -12,10 +12,10 @@ export class PostgresBoardsRepository implements IBoardsRepository {
     this.postgresHelper = new PostgresHelper(connectionObject)
   }
 
-  async findAllBoards (): Promise<IBoardsData[]> {
+  async findAllTasks (): Promise<ITasksData[]> {
     const result = await this.postgresHelper.query(`
     SELECT *
-    FROM boards
+    FROM tasks
     JOIN users ON users.user_id = tasks.user_id
     `, [])
 
@@ -24,7 +24,7 @@ export class PostgresBoardsRepository implements IBoardsRepository {
     return result.rows
   }
 
-  async findByURL (url: string): Promise<IBoardsData> {
+  async findByURL (url: string): Promise<ITasksData> {
     const result = await this.postgresHelper.query(`
       SELECT tasks.*, users.* as author FROM tasks
       JOIN users ON users.user_id = tasks.user_id
@@ -34,7 +34,7 @@ export class PostgresBoardsRepository implements IBoardsRepository {
     return result.rows[0]
   }
 
-  async add (tasks: IBoardsData, userId: string): Promise<any> {
+  async add (tasks: ITasksData, userId: string): Promise<any> {
     await this.postgresHelper.query(
       `INSERT INTO tasks(
         tasks_id,
@@ -57,13 +57,15 @@ export class PostgresBoardsRepository implements IBoardsRepository {
         uuidv4(),
         userId,
         tasks.title,
+        JSON.stringify(tasks.body),
+        tasks.category,
         tasks.url,
         new Date(),
       ]
     )
   }
 
-  async update (tasks: IBoardsData, urlParams: string): Promise<any> {
+  async update (tasks: ITasksData, urlParams: string): Promise<any> {
     return await this.postgresHelper.query(
       `
       UPDATE tasks
@@ -78,6 +80,8 @@ export class PostgresBoardsRepository implements IBoardsRepository {
       `,
       [
         tasks.title,
+        JSON.stringify(tasks.body),
+        tasks.category,
         tasks.url,
         new Date(),
         urlParams
@@ -96,6 +100,34 @@ export class PostgresBoardsRepository implements IBoardsRepository {
     )
 
     return usersPermissions.rows
+    /*
+    const permissionsId: any[] = []
+
+    usersPermissions.rows.forEach((column: any) => {
+      permissionsId.push(column.permissions_id)
+    })
+
+    const permissionsNameToArrays = permissionsId.map(async (id: string): Promise<string> => {
+      const permissions = await this.postgresHelper.reader(
+        `
+          SELECT *
+          FROM permissions
+          WHERE permissions_id = $1`,
+        [id]
+      )
+
+      return permissions.rows[0].name
+    })
+
+    let permissionsName: string = ''
+
+    for (const value of permissionsNameToArrays) {
+      permissionsName += `${(await value).toString()} `
+    }
+
+    // ESTOU RETORNANDO AS PERMISSÕES QUE UM USUÁRIO TEM
+    return permissionsName.trim()
+    */
   }
 
   async deleteByURL (url: string): Promise<void> {

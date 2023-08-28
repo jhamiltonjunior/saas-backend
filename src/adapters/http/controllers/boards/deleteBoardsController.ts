@@ -3,7 +3,7 @@ import { BoardsUseCases } from '../../../../app/useCases/boards/boardsUseCases'
 import { badRequest, ok, serverError } from '../helpers/httpHelper'
 import { IHttpRequest, IHttpResponse } from '../ports/http'
 
-export class DeleteTasksController {
+export class DeleteBoardsController {
   private readonly boardsUseCases: BoardsUseCases
 
   constructor (boardsUseCases: BoardsUseCases) {

@@ -1,9 +1,9 @@
-import { ITasksData } from '../../../../domain/entities/tasks/interfaces/tasksData'
-import { ITasksRepository } from '../../../../app/repositories/tasksRepository'
+import { IBoardsData } from '../../../../domain/entities/boards/interfaces/boardsData'
+import { IBoardsRepository } from '../../../../app/repositories/boardsRepository'
 import { PostgresHelper } from '../helpers/postgresHelper'
 import { v4 as uuidv4 } from 'uuid'
 
-export class PostgresTasksRepository implements ITasksRepository {
+export class PostgresBoardsRepository implements IBoardsRepository {
   postgresHelper: PostgresHelper
 
   constructor (
@@ -12,11 +12,11 @@ export class PostgresTasksRepository implements ITasksRepository {
     this.postgresHelper = new PostgresHelper(connectionObject)
   }
 
-  async findAllTasks (): Promise<ITasksData[]> {
-    const result = await this.postgresHelper.query(`
+  async findAllBoards (): Promise<IBoardsData[]> {
+    const result = await this.postgresHelper.query(`z
     SELECT *
-    FROM tasks
-    JOIN users ON users.user_id = tasks.user_id
+    FROM boards
+    JOIN users ON users.user_id = boards.user_id
     `, [])
 
     result.rows[0].password = ''
@@ -24,24 +24,22 @@ export class PostgresTasksRepository implements ITasksRepository {
     return result.rows
   }
 
-  async findByURL (url: string): Promise<ITasksData> {
+  async findByURL (url: string): Promise<IBoardsData> {
     const result = await this.postgresHelper.query(`
-      SELECT tasks.*, users.* as author FROM tasks
-      JOIN users ON users.user_id = tasks.user_id
+      SELECT boards.*, users.* as author FROM boards
+      JOIN users ON users.user_id = boards.user_id
       WHERE url = $1 
     `, [url])
 
     return result.rows[0]
   }
 
-  async add (tasks: ITasksData, userId: string): Promise<any> {
+  async add (boards: IBoardsData, userId: string): Promise<any> {
     await this.postgresHelper.query(
-      `INSERT INTO tasks(
-        tasks_id,
+      `INSERT INTO boards(
+        boards_id,
         user_id,
         title,
-        body,
-        category,
         url,
         createdAt
       ) VALUES(
@@ -50,39 +48,31 @@ export class PostgresTasksRepository implements ITasksRepository {
         $3,
         $4,
         $5,
-        $6,
-        $7
       )`,
       [
         uuidv4(),
         userId,
-        tasks.title,
-        JSON.stringify(tasks.body),
-        tasks.category,
-        tasks.url,
+        boards.title,
+        boards.url,
         new Date(),
       ]
     )
   }
 
-  async update (tasks: ITasksData, urlParams: string): Promise<any> {
+  async update (boards: IBoardsData, urlParams: string): Promise<any> {
     return await this.postgresHelper.query(
       `
-      UPDATE tasks
+      UPDATE boards
       SET 
         title = $1,
-        body = $2,
-        category = $3,
-        url = $4,
-        updatedAt = $5
+        url = $2,
+        updatedAt = $3
       WHERE
-        url = $6
+        url = $4
       `,
       [
-        tasks.title,
-        JSON.stringify(tasks.body),
-        tasks.category,
-        tasks.url,
+        boards.title,
+        boards.url,
         new Date(),
         urlParams
       ]
@@ -100,39 +90,11 @@ export class PostgresTasksRepository implements ITasksRepository {
     )
 
     return usersPermissions.rows
-    /*
-    const permissionsId: any[] = []
-
-    usersPermissions.rows.forEach((column: any) => {
-      permissionsId.push(column.permissions_id)
-    })
-
-    const permissionsNameToArrays = permissionsId.map(async (id: string): Promise<string> => {
-      const permissions = await this.postgresHelper.reader(
-        `
-          SELECT *
-          FROM permissions
-          WHERE permissions_id = $1`,
-        [id]
-      )
-
-      return permissions.rows[0].name
-    })
-
-    let permissionsName: string = ''
-
-    for (const value of permissionsNameToArrays) {
-      permissionsName += `${(await value).toString()} `
-    }
-
-    // ESTOU RETORNANDO AS PERMISSÕES QUE UM USUÁRIO TEM
-    return permissionsName.trim()
-    */
   }
 
   async deleteByURL (url: string): Promise<void> {
     await this.postgresHelper.query(`
-      DELETE FROM tasks
+      DELETE FROM boards
       WHERE url = $1
     `, [
       url

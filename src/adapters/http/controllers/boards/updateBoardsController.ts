@@ -5,7 +5,7 @@ import { MissingParamError } from '../errors/missingParamError'
 import { AuthorData } from '../../../../domain/entities/boards/validators/author'
 import { BoardsUseCases } from '../../../../app/useCases/boards/boardsUseCases'
 
-export class UpdateTasksController {
+export class UpdateBoardsController {
   private readonly boardsUseCases: BoardsUseCases
 
   constructor (boardsUseCases: BoardsUseCases) {
