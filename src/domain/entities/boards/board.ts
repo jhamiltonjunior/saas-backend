@@ -48,7 +48,7 @@ export class Boards {
     const createdAtOrError: Either<InvalidCreatedAtError, CreatedAt> = CreatedAt.create(tasks.createdAt)
     const titleOrError: Either<InvalidTitleError, Title> = Title.create(tasks.title)
     const urlOrError: Either<InvalidURLError, URL> = URL.create(tasks.url)
-src/adapters/http/controllers/tasks
+
     if (authorOrError.isLeft()) {
       return left(authorOrError.value)
     }

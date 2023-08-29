@@ -41,6 +41,24 @@ CREATE TABLE tasks(
         ON UPDATE CASCADE
 );
 
+CREATE TABLE boards(
+  boards_id uuid PRIMARY KEY,
+  -- boards_id uuid DEFAULT uuid_generate_v4 (),
+  -- boards_id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY NOT NULL,
+  title VARCHAR(255),
+  url VARCHAR(100) UNIQUE,
+
+  createdAt TIMESTAMP,
+  updatedAt TIMESTAMP,
+
+  user_id uuid,
+  FOREIGN KEY(user_id)
+    REFERENCES users(user_id)
+      ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+
 CREATE TABLE permissions (
   permissions_id uuid PRIMARY KEY,
   

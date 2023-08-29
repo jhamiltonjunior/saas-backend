@@ -25,7 +25,6 @@ export class CreateBoardsController {
     try {
       if (
         !httpRequest.body.url ||
-        !httpRequest.body.body ||
         !httpRequest.body.title
       ) {
         const field = !httpRequest.body

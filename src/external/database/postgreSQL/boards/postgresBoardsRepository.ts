@@ -13,14 +13,15 @@ export class PostgresBoardsRepository implements IBoardsRepository {
   }
 
   async findAllBoards (): Promise<IBoardsData[]> {
-    const result = await this.postgresHelper.query(`z
+    const result = await this.postgresHelper.query(`
     SELECT *
     FROM boards
     JOIN users ON users.user_id = boards.user_id
     `, [])
 
-    result.rows[0].password = ''
-
+    if (result.rows.length > 0) {
+      result.rows[0].password = null
+    }
     return result.rows
   }
 
@@ -30,6 +31,8 @@ export class PostgresBoardsRepository implements IBoardsRepository {
       JOIN users ON users.user_id = boards.user_id
       WHERE url = $1 
     `, [url])
+
+    if (result.rows.length > 0) result.rows[0].password = null
 
     return result.rows[0]
   }
@@ -47,7 +50,7 @@ export class PostgresBoardsRepository implements IBoardsRepository {
         $2,
         $3,
         $4,
-        $5,
+        $5
       )`,
       [
         uuidv4(),

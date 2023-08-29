@@ -10,8 +10,8 @@ server.listen(process.env.PORT, () => {
 
 // captura erros não tratados
 // se não tiver ele o sistema quebra
-// process.on('uncaughtException', (error, origin) => {
-//   console.log(`${origin} signal received. \n${error}`)
-// })
+process.on('uncaughtException', (error, origin) => {
+  console.log(`${origin} signal received. \n${error}`)
+})
 
 export default server
