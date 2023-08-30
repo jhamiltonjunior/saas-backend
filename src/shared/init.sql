@@ -22,34 +22,38 @@
 
 
 CREATE TABLE users(
-  user_id uuid PRIMARY KEY,
+  user_id uuid PRIMARY KEY NOT NULL,
   -- user_id uuid PRIMARY KEY DEFAULT uuid_generate_v4 (),
   -- user_id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY NOT NULL,
   -- user_id TEXT PRIMARY KEY NOT NULL,
   
-  name VARCHAR(80),
+  name VARCHAR(80) NOT NULL,
   image_file VARCHAR(255),
   identifier VARCHAR(255),
-  email VARCHAR(80),
-  password VARCHAR(80),
+  email VARCHAR(80) NOT NULL UNIQUE,
+  password VARCHAR(80) NOT NULL,
+
+  user_is_active BOOLEAN NOT NULL,
 
   user_payment_id VARCHAR(20)
 );
 
 
 CREATE TABLE workspaces(
-  workspace_id uuid PRIMARY KEY,
+  workspace_id uuid PRIMARY KEY NOT NULL,
   -- board_id uuid DEFAULT uuid_generate_v4 (),
   -- board_id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY NOT NULL,
-  title VARCHAR(255),
-  url VARCHAR(100),
+  title VARCHAR(255) NOT NULL,
+  url VARCHAR(100) NOT NULL,
   tag VARCHAR(100),
   description VARCHAR(255),
   workspaces_type VARCHAR(200),
 
-  createdAt TIMESTAMP,
+  createdAt TIMESTAMP  NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updatedAt TIMESTAMP,
   deletedAt TIMESTAMP,
+
+  workspace_is_active BOOLEAN  NOT NULL,
 
   user_id uuid,
   FOREIGN KEY(user_id)
@@ -59,15 +63,18 @@ CREATE TABLE workspaces(
 );
 
 CREATE TABLE boards(
-  board_id uuid PRIMARY KEY,
+  board_id uuid PRIMARY KEY NOT NULL,
   -- board_id uuid DEFAULT uuid_generate_v4 (),
   -- board_id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY NOT NULL,
   title VARCHAR(255),
   url VARCHAR(100) UNIQUE,
 
-  createdAt TIMESTAMP,
+  createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updatedAt TIMESTAMP,
   deletedAt TIMESTAMP,
+
+  board_is_active BOOLEAN  NOT NULL,
+
   user_id uuid,
   workspace_id uuid,
   FOREIGN KEY(user_id)
@@ -81,19 +88,17 @@ CREATE TABLE boards(
         ON UPDATE CASCADE
 );
 
-tasks se relaciona com lists e lists se relaciona com boards
 
 CREATE TABLE lists (
   list_id uuid PRIMARY KEY,
   
-  title VARCHAR(255),
-  body json,
-  category VARCHAR(20),
-  url VARCHAR(100) UNIQUE,
+  title VARCHAR(200),
 
-  createdAt TIMESTAMP,
+  createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updatedAt TIMESTAMP,
   deletedAt TIMESTAMP,
+
+  list_is_active BOOLEAN,
 
   user_id uuid,
   list_id uuid,
@@ -110,17 +115,19 @@ CREATE TABLE lists (
 
 
 CREATE TABLE tasks(
-  task_id uuid PRIMARY KEY,
+  task_id uuid PRIMARY KEY NOT NULL,
   -- tasks_id uuid DEFAULT uuid_generate_v4 (),
   -- tasks_id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY NOT NULL,
-  title VARCHAR(255),
+  title VARCHAR(255)  NOT NULL,
   body json,
   category VARCHAR(20),
-  url VARCHAR(100) UNIQUE,
+  url VARCHAR(100)  NOT NULL UNIQUE,
 
-  createdAt TIMESTAMP,
+  createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updatedAt TIMESTAMP,
   deletedAt TIMESTAMP,
+
+  task_is_active BOOLEAN NOT NULL,
 
   user_id uuid,
   list_id uuid,
@@ -136,9 +143,9 @@ CREATE TABLE tasks(
 );
 
 CREATE TABLE members_workspaces (
-  member_workspace_id uuid PRIMARY KEY,
+  member_workspace_id uuid PRIMARY KEY  NOT NULL,
 
-  created_at TIMESTAMP,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   removed_at TIMESTAMP,
 
   user_id uuid,
@@ -155,9 +162,9 @@ CREATE TABLE members_workspaces (
 )
 
 CREATE TABLE members_boards (
-  member_board_id uuid PRIMARY KEY,
+  member_board_id uuid PRIMARY KEY  NOT NULL,
 
-  created_at TIMESTAMP,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   removed_at TIMESTAMP,
 
   user_id uuid,
@@ -174,9 +181,9 @@ CREATE TABLE members_boards (
 )
 
 CREATE TABLE members_tasks (
-  member_board_id uuid PRIMARY KEY,
+  member_board_id uuid PRIMARY KEY  NOT NULL,
 
-  created_at TIMESTAMP,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   removed_at TIMESTAMP,
 
   user_id uuid,
@@ -193,17 +200,20 @@ CREATE TABLE members_tasks (
 )
 
 CREATE TABLE permissions (
-  permission_id uuid PRIMARY KEY,
+  permission_id uuid PRIMARY KEY NOT NULL,
   
   name VARCHAR(20) DEFAULT 'reader',
   description VARCHAR (50),
 
-  created_at TIMESTAMP
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  removed_at TIMESTAMP,
+
+  permission_is_active BOOLEAN,
 );
 
 
 CREATE TABLE members_workspaces_permissions (
-  member_workspace_permission_id uuid PRIMARY KEY,
+  member_workspace_permission_id uuid PRIMARY KEY NOT NULL,
 
   member_workspace_id uuid,
   permission_id uuid,
@@ -237,7 +247,7 @@ CREATE TABLE members_boards_permissions (
 );
 
 CREATE TABLE members_tasks_permissions (
-  member_task_permission_id uuid PRIMARY KEY,
+  member_task_permission_id uuid PRIMARY KEY NOT NULL,
 
   member_task_id uuid,
   permission_id uuid,
@@ -254,7 +264,7 @@ CREATE TABLE members_tasks_permissions (
 );
 
 CREATE TABLE users_permissions (
-  users_permission_id uuid PRIMARY KEY,
+  users_permission_id uuid PRIMARY KEY NOT NULL,
 
   user_id uuid,
   permission_id uuid,
