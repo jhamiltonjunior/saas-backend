@@ -21,6 +21,7 @@
       "no-new": "off",
       "no-prototype-builtins": "off",
       "no-restricted-syntax": "off",
+      "no-unused-expressions": "off",
       "max-classes-per-file": "off",
       "@typescript-eslint/no-explicit-any": "off",
       "no-console": "off",

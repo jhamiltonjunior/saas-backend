@@ -1,9 +1,24 @@
-DROP TABLE IF EXISTS users_permissions;
-DROP TABLE IF EXISTS permissions;
-DROP TABLE IF EXISTS tasks;
-DROP TABLE IF EXISTS users;
+-- DROP TABLE IF EXISTS users_permissions;
+-- DROP TABLE IF EXISTS permissions;
+-- DROP TABLE IF EXISTS tasks;
+-- DROP TABLE IF EXISTS workspaces;
+-- DROP TABLE IF EXISTS boards;
+-- DROP TABLE IF EXISTS users;
 
 
+-- quando for usar isso em produção, adicionar campos como obrigátios
+-- como email VARCHAR(80) UNIQUE, name VARCHAR(80) NOT NULL, etc.
+
+
+
+ INSERT INTO boards
+ VALUES (
+ 	uuid_generate_v4(),
+	 'board',
+	 'url-oparms',
+	 NOW(),
+	 'ee2a1e16-5853-457f-8920-e04702f0c16b'
+ )
 
 
 CREATE TABLE users(
@@ -13,6 +28,8 @@ CREATE TABLE users(
   -- user_id TEXT PRIMARY KEY NOT NULL,
   
   name VARCHAR(80),
+  image_file VARCHAR(255),
+  identifier VARCHAR(255),
   email VARCHAR(80),
   password VARCHAR(80),
 
@@ -20,19 +37,19 @@ CREATE TABLE users(
 );
 
 
-
-
-CREATE TABLE tasks(
-  tasks_id uuid PRIMARY KEY,
-  -- tasks_id uuid DEFAULT uuid_generate_v4 (),
-  -- tasks_id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY NOT NULL,
+CREATE TABLE workspaces(
+  workspace_id uuid PRIMARY KEY,
+  -- board_id uuid DEFAULT uuid_generate_v4 (),
+  -- board_id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY NOT NULL,
   title VARCHAR(255),
-  body json,
-  category VARCHAR(20),
-  url VARCHAR(100) UNIQUE,
+  url VARCHAR(100),
+  tag VARCHAR(100),
+  description VARCHAR(255),
+  workspaces_type VARCHAR(200),
 
   createdAt TIMESTAMP,
   updatedAt TIMESTAMP,
+  deletedAt TIMESTAMP,
 
   user_id uuid,
   FOREIGN KEY(user_id)
@@ -42,44 +59,213 @@ CREATE TABLE tasks(
 );
 
 CREATE TABLE boards(
-  boards_id uuid PRIMARY KEY,
-  -- boards_id uuid DEFAULT uuid_generate_v4 (),
-  -- boards_id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY NOT NULL,
+  board_id uuid PRIMARY KEY,
+  -- board_id uuid DEFAULT uuid_generate_v4 (),
+  -- board_id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY NOT NULL,
   title VARCHAR(255),
   url VARCHAR(100) UNIQUE,
 
   createdAt TIMESTAMP,
   updatedAt TIMESTAMP,
-
+  deletedAt TIMESTAMP,
   user_id uuid,
+  workspace_id uuid,
   FOREIGN KEY(user_id)
     REFERENCES users(user_id)
+      ON DELETE CASCADE
+        ON UPDATE CASCADE,
+
+  FOREIGN KEY(workspace_id)
+    REFERENCES workspaces(workspace_id)
       ON DELETE CASCADE
         ON UPDATE CASCADE
 );
 
+tasks se relaciona com lists e lists se relaciona com boards
+
+CREATE TABLE lists (
+  list_id uuid PRIMARY KEY,
+  
+  title VARCHAR(255),
+  body json,
+  category VARCHAR(20),
+  url VARCHAR(100) UNIQUE,
+
+  createdAt TIMESTAMP,
+  updatedAt TIMESTAMP,
+  deletedAt TIMESTAMP,
+
+  user_id uuid,
+  list_id uuid,
+  FOREIGN KEY(user_id)
+    REFERENCES users(user_id)
+      ON DELETE CASCADE
+        ON UPDATE CASCADE
+
+  FOREIGN KEY(board_id)
+    REFERENCES boards(board_id)
+      ON DELETE CASCADE
+        ON UPDATE CASCADE
+)
+
+
+CREATE TABLE tasks(
+  task_id uuid PRIMARY KEY,
+  -- tasks_id uuid DEFAULT uuid_generate_v4 (),
+  -- tasks_id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY NOT NULL,
+  title VARCHAR(255),
+  body json,
+  category VARCHAR(20),
+  url VARCHAR(100) UNIQUE,
+
+  createdAt TIMESTAMP,
+  updatedAt TIMESTAMP,
+  deletedAt TIMESTAMP,
+
+  user_id uuid,
+  list_id uuid,
+  FOREIGN KEY(user_id)
+    REFERENCES users(user_id)
+      ON DELETE CASCADE
+        ON UPDATE CASCADE
+
+  FOREIGN KEY(list_id)
+    REFERENCES lists(list_id)
+      ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+CREATE TABLE members_workspaces (
+  member_workspace_id uuid PRIMARY KEY,
+
+  created_at TIMESTAMP,
+  removed_at TIMESTAMP,
+
+  user_id uuid,
+  workspace_id uuid,
+  FOREIGN KEY(user_id)
+    REFERENCES users(user_id)
+      ON DELETE CASCADE
+        ON UPDATE CASCADE,
+
+  FOREIGN KEY(workspace_id)
+    REFERENCES workspaces(workspace_id)
+      ON DELETE CASCADE
+        ON UPDATE CASCADE
+)
+
+CREATE TABLE members_boards (
+  member_board_id uuid PRIMARY KEY,
+
+  created_at TIMESTAMP,
+  removed_at TIMESTAMP,
+
+  user_id uuid,
+  board_id uuid,
+  FOREIGN KEY(user_id)
+    REFERENCES users(user_id)
+      ON DELETE CASCADE
+        ON UPDATE CASCADE,
+
+  FOREIGN KEY(board_id)
+    REFERENCES boards(board_id)
+      ON DELETE CASCADE
+        ON UPDATE CASCADE
+)
+
+CREATE TABLE members_tasks (
+  member_board_id uuid PRIMARY KEY,
+
+  created_at TIMESTAMP,
+  removed_at TIMESTAMP,
+
+  user_id uuid,
+  task_id uuid,
+  FOREIGN KEY(user_id)
+    REFERENCES users(user_id)
+      ON DELETE CASCADE
+        ON UPDATE CASCADE,
+
+  FOREIGN KEY(task_id)
+    REFERENCES tasks(task_id)
+      ON DELETE CASCADE
+        ON UPDATE CASCADE
+)
 
 CREATE TABLE permissions (
-  permissions_id uuid PRIMARY KEY,
+  permission_id uuid PRIMARY KEY,
   
   name VARCHAR(20) DEFAULT 'reader',
   description VARCHAR (50),
 
   created_at TIMESTAMP
 );
+
+
+CREATE TABLE members_workspaces_permissions (
+  member_workspace_permission_id uuid PRIMARY KEY,
+
+  member_workspace_id uuid,
+  permission_id uuid,
+  
+  FOREIGN KEY(member_workspace_id)
+    REFERENCES members_workspaces(member_workspace_id)
+      ON DELETE CASCADE
+        ON UPDATE CASCADE,
+
+  FOREIGN KEY(permission_id)
+    REFERENCES permissions(permission_id)
+      ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+CREATE TABLE members_boards_permissions (
+  member_board_permission_id uuid PRIMARY KEY,
+
+  member_board_id uuid,
+  permission_id uuid,
+  
+  FOREIGN KEY(member_board_id)
+    REFERENCES members_boards(member_board_id)
+      ON DELETE CASCADE
+        ON UPDATE CASCADE,
+
+  FOREIGN KEY(permission_id)
+    REFERENCES permissions(permission_id)
+      ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+CREATE TABLE members_tasks_permissions (
+  member_task_permission_id uuid PRIMARY KEY,
+
+  member_task_id uuid,
+  permission_id uuid,
+  
+  FOREIGN KEY(member_task_id)
+    REFERENCES members_tasks(member_task_id)
+      ON DELETE CASCADE
+        ON UPDATE CASCADE,
+
+  FOREIGN KEY(permission_id)
+    REFERENCES permissions(permission_id)
+      ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
 CREATE TABLE users_permissions (
-  users_permissions_id uuid PRIMARY KEY,
+  users_permission_id uuid PRIMARY KEY,
 
   user_id uuid,
-  permissions_id uuid,
+  permission_id uuid,
   
   FOREIGN KEY(user_id)
     REFERENCES users(user_id)
       ON DELETE CASCADE
         ON UPDATE CASCADE,
 
-  FOREIGN KEY(permissions_id)
-    REFERENCES permissions(permissions_id)
+  FOREIGN KEY(permission_id)
+    REFERENCES permissions(permission_id)
       ON DELETE CASCADE
         ON UPDATE CASCADE
 );
@@ -89,7 +275,19 @@ CREATE TABLE users_permissions (
 
 
 
-
+drop table if exists Tasks                        ;
+ drop table if exists _prisma_migrations           ;
+--  drop table if exists User                         ;
+ drop table if exists members_boards_permissions   ;
+ drop table if exists members_boards               ;
+ drop table if exists members_workspaces_permission;
+ drop table if exists members_workspaces           ;
+ drop table if exists users_permissions            ;
+ drop table if exists tasks                        ;
+ drop table if exists boards                       ;
+ drop table if exists workspaces ;
+ drop table if exists permissions                  ;
+ drop table if exists users                        ;
 
 
 
@@ -130,7 +328,7 @@ VALUES (
 
 
 INSERT INTO tasks (
-  tasks_id,
+  task_id,
   title,
   body,
   category,
@@ -168,7 +366,7 @@ VALUES (
 
 
 INSERT INTO permissions (
-  permissions_id,
+  permission_id,
   description,
   created_at
 )
@@ -180,7 +378,7 @@ VALUES (
 
 
 INSERT INTO permissions (
-  permissions_id,
+  permission_id,
   name,
   description,
   created_at
@@ -208,7 +406,7 @@ VALUES (
 INSERT INTO users_permissions (
   users_permissions_id,
   user_id,
-  permissions_id
+  permission_id
 )
 VALUES (
   uuid_generate_v4(),
@@ -219,7 +417,7 @@ VALUES (
 INSERT INTO users_permissions (
   users_permissions_id,
   user_id,
-  permissions_id
+  permission_id
 )
 VALUES (
   uuid_generate_v4(),
@@ -239,7 +437,7 @@ VALUES (
 
 
 INSERT INTO permissions (
-  permissions_id,
+  permission_id,
   description,
   created_at
 )

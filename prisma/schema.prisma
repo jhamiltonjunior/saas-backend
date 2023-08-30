@@ -7,41 +7,5 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://postgres:0000@172.17.0.3:5432/postgres"
-}
-
-model User {
-  id              String            @id @default(uuid())
-  title           String
-  Tasks           Tasks[]
-  UserPermissions UserPermissions[]
-}
-
-model Tasks {
-  id              String            @id @default(uuid())
-  title           String            @unique
-  description     String
-  url             String            @unique
-  published       Boolean           @default(false)
-  videoTime       Int
-  createdAt       DateTime          @default(now())
-  updatedAt       DateTime?
-  author          User              @relation(fields: [authorId], references: [id])
-  authorId        String
-  UserPermissions UserPermissions[]
-}
-
-model Permissions {
-  id          String   @id @default(uuid())
-  name        String
-  description String
-  createdAt   DateTime @default(now())
-}
-
-model UserPermissions {
-  id      String @id @default(uuid())
-  user    User   @relation(fields: [userId], references: [id])
-  tasks   Tasks  @relation(fields: [tasksId], references: [id])
-  userId  String
-  tasksId String
+  url      = env("DATABASE_URL")
 }

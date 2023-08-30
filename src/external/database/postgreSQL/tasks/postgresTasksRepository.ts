@@ -17,9 +17,14 @@ export class PostgresTasksRepository implements ITasksRepository {
     SELECT *
     FROM tasks
     JOIN users ON users.user_id = tasks.user_id
-    `, [])
+    JOIN boards ON boards.boards_id = tasks.boards_id
+    WHERE tasks.deletedAt IS NULL
+    AND boards.deletedAt IS NULL
+    -- AND tasks_id
+    `, []
+    )
 
-    result.rows[0].password = ''
+    result.rows.length > 0 ? result.rows[0].password = '' : null
 
     return result.rows
   }
@@ -31,14 +36,17 @@ export class PostgresTasksRepository implements ITasksRepository {
       WHERE url = $1 
     `, [url])
 
+    result.rows.length > 0 ? result.rows[0].password = '' : null
+
     return result.rows[0]
   }
 
-  async add (tasks: ITasksData, userId: string): Promise<any> {
+  async add (tasks: ITasksData, userId: string, boardsId: string): Promise<any> {
     await this.postgresHelper.query(
       `INSERT INTO tasks(
         tasks_id,
         user_id,
+        boards_id,
         title,
         body,
         category,
@@ -51,11 +59,13 @@ export class PostgresTasksRepository implements ITasksRepository {
         $4,
         $5,
         $6,
-        $7
+        $7,
+        $8
       )`,
       [
         uuidv4(),
         userId,
+        boardsId,
         tasks.title,
         JSON.stringify(tasks.body),
         tasks.category,
