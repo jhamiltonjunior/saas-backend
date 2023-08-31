@@ -82,22 +82,18 @@ export class TasksUseCases implements TasksInterface {
     // "reader" is temporary
     // if (permissions?.includes('reader')) {
     if (
+      result !== undefined
+    ) {
+      return left('this url already exist')
+    }
+    if (
       result === undefined
     ) {
-      await this.tasksRepository.add({
-        title: tasks.title.value,
-        author: tasks.author.value,
-        body: tasks.body.value,
-        url: tasks.url.value,
-        category: tasks.category.value,
-        createdAt: tasks.createdAt.value
-      },
-      String(author.user_id)
-      )
+      await this.tasksRepository.add(tasksData)
       // }
       // Aqui poderia ter um else caso exist uma url igual
     } else {
-      return left(new InvalidUserDoesNotPermission(tasks.author.value.name))
+      return left(new InvalidUserDoesNotPermission(tasks.author.value))
     }
 
     return right(tasksData)

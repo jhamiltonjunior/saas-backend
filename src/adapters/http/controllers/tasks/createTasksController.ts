@@ -4,6 +4,8 @@ import { allErrorsResponse } from '../../../../app/useCases/tasks/responses/allE
 import { MissingParamError } from '../errors/missingParamError'
 import { AuthorData } from '../../../../domain/entities/tasks/validators/author'
 import { TasksUseCases } from '../../../../app/useCases/tasks/tasksUseCases'
+import { ITasksData } from '../../../../domain/entities/tasks/interfaces/tasksData'
+import { randomUUID } from 'crypto'
 
 export class CreateTasksController {
   private readonly tasksUseCases: TasksUseCases
@@ -12,22 +14,24 @@ export class CreateTasksController {
     this.tasksUseCases = tasksUseCases
   }
 
-  async handle (httpRequest: IHttpRequest, author: AuthorData): Promise<IHttpResponse> {
+  async handle (httpRequest: IHttpRequest, author: AuthorData, listOfIds: any): Promise<IHttpResponse> {
     // const url = httpRequest.body.url.trim().replace(/( )+/g, ' ').split(' ').join('-')
 
-    const tasksData = {
+    const tasksData: ITasksData = {
+      task_id: randomUUID(),
       title: httpRequest.body.title,
-      body: httpRequest.body.body,
-      author,
-      category: httpRequest.body.category,
-      createdAt: new Date(),
+      description: httpRequest.body.body,
+      user_id: listOfIds.userId,
+      list_id: listOfIds.listId,
+      task_is_active: true,
+      tag: httpRequest.body.tag,
+      createdat: new Date(),
       url: httpRequest.body.url,
     }
 
     try {
       if (
         !httpRequest.body.url ||
-        !httpRequest.body.body ||
         !httpRequest.body.title
       ) {
         const field = !httpRequest.body
@@ -41,6 +45,8 @@ export class CreateTasksController {
         await this.tasksUseCases.createTasksOnDatabase(tasksData, author)
 
       if (tasksResponse.isLeft()) {
+        if (typeof tasksResponse.value === 'string') return badRequest(new Error(tasksResponse.value))
+
         return badRequest(tasksResponse.value)
       }
     } catch (error) {

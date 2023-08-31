@@ -17,5 +17,6 @@ InvalidCategoryError |
 InvalidCreatedAtError |
 InvalidURLError |
 InvalidUpdatedAtError |
+string |
 InvalidUserDoesNotPermission,
 ITasksData>
