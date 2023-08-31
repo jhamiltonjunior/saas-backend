@@ -2,35 +2,35 @@ import { Either, left, right } from '../../../../shared/either'
 import { InvalidAuthorError } from '../errors/invalidAuthor'
 
 // eslint-disable-next-line camelcase
-export type AuthorData = { user_id: string, name: string }
+export type AuthorData = { userId: string, name: string }
 
 export class Author {
-  private readonly author: AuthorData
+  private readonly userId: string
 
-  constructor (author: AuthorData) {
-    this.author = author
+  constructor (userId: string) {
+    this.userId = userId
   }
 
-  static create (author: AuthorData): Either <InvalidAuthorError, Author> {
-    author.name = author.name.trim().replace(/( )+/g, ' ')
+  static create (userId: string): Either <InvalidAuthorError, Author> {
+    userId = userId.trim().replace(/( )+/g, ' ')
 
     if (!Author.validator) {
-      return left(new InvalidAuthorError(author))
+      return left(new InvalidAuthorError(userId))
     }
 
-    return right(new Author(author))
+    return right(new Author(userId))
   }
 
-  get value (): AuthorData {
-    return this.author
+  get value (): string {
+    return this.userId
   }
 
-  static validator (author: AuthorData): boolean {
+  static validator (userId: string): boolean {
     if (
-      !author.user_id ||
-      !author.name ||
-      author.name.length < 2 ||
-      author.name.length > 255
+      !userId ||
+      !userId ||
+      userId.length < 2 ||
+      userId.length > 255
     ) {
       return false
     }

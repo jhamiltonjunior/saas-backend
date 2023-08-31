@@ -67,8 +67,8 @@ export class PostgresTasksRepository implements ITasksRepository {
         userId,
         boardsId,
         tasks.title,
-        JSON.stringify(tasks.body),
-        tasks.category,
+        JSON.stringify(tasks.decription),
+        tasks.tag,
         tasks.url,
         new Date(),
       ]

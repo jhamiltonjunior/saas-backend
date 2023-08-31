@@ -13,34 +13,26 @@ export class PrismaTasksRepository implements ITasksRepository {
   async findAllTasks (): Promise<ITasksData[]> {
     const allUsers = await this.prisma.tasks.findMany()
 
-    return []
+    return allUsers
   }
 
-  async findByURL (url: string): Promise<ITasksData> {
-    const tasks = await this.prisma.tasks.findUnique({
+  async findByURL (url: string): Promise<ITasksData | null> {
+    const task = await this.prisma.tasks.findUnique({
       where: {
         url
       }
     })
 
-    return (<any>tasks)
+    return task
   }
 
   async deleteByURL (id: string): Promise<void> {
     console.log(id)
   }
 
-  async add (tasks: ITasksData, id: string): Promise<void> {
+  async add (task: ITasksData): Promise<any> {
     await this.prisma.tasks.create({
-      data: {
-        title: tasks.title,
-        description: 'text',
-        url: 'my-first-video',
-        published: false,
-        videoTime: 642,
-        createdAt: new Date(),
-        authorId: id
-      },
+      data: task,
     }).then(async () => {
       await this.prisma.$disconnect()
     })
@@ -51,7 +43,12 @@ export class PrismaTasksRepository implements ITasksRepository {
       })
   }
 
-  async update (tasks: ITasksData, url: string): Promise < void> {
+  async update (tasks: ITasksData, url: string): Promise <void> {
     console.log(tasks, url)
+  }
+
+  async getUserPermission (id: string): Promise<string[]> {
+    console.log(id)
+    return ['']
   }
 }
