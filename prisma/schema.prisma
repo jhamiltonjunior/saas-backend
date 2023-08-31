@@ -15,10 +15,10 @@ model Boards {
   updatedat       DateTime?        @db.Timestamp(6)
   deletedat       DateTime?        @db.Timestamp(6)
   board_is_active Boolean
-  user_id         String?          @db.Uuid
-  workspace_id    String?          @db.Uuid
-  Users           Users?           @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
-  Workspaces      Workspaces?      @relation(fields: [workspace_id], references: [workspace_id], onDelete: Cascade)
+  user_id         String           @db.Uuid
+  workspace_id    String           @db.Uuid
+  Users           Users            @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
+  Workspaces      Workspaces       @relation(fields: [workspace_id], references: [workspace_id], onDelete: Cascade)
   Lists           Lists[]
   Members_boards  Members_boards[]
 }
@@ -30,10 +30,10 @@ model Lists {
   updatedat      DateTime? @db.Timestamp(6)
   deletedat      DateTime? @db.Timestamp(6)
   list_is_active Boolean?
-  user_id        String?   @db.Uuid
-  board_id       String?   @db.Uuid
-  Boards         Boards?   @relation(fields: [board_id], references: [board_id], onDelete: Cascade)
-  Users          Users?    @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
+  user_id        String    @db.Uuid
+  board_id       String    @db.Uuid
+  Boards         Boards    @relation(fields: [board_id], references: [board_id], onDelete: Cascade)
+  Users          Users     @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
   Tasks          Tasks[]
 }
 
@@ -41,62 +41,62 @@ model Members_boards {
   member_board_id            String                       @id @db.Uuid
   created_at                 DateTime                     @default(now()) @db.Timestamp(6)
   removed_at                 DateTime?                    @db.Timestamp(6)
-  user_id                    String?                      @db.Uuid
-  board_id                   String?                      @db.Uuid
-  Boards                     Boards?                      @relation(fields: [board_id], references: [board_id], onDelete: Cascade)
-  Users                      Users?                       @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
+  user_id                    String                       @db.Uuid
+  board_id                   String                       @db.Uuid
+  Boards                     Boards                       @relation(fields: [board_id], references: [board_id], onDelete: Cascade)
+  Users                      Users                        @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
   Members_boards_permissions Members_boards_permissions[]
 }
 
 model Members_boards_permissions {
-  member_board_permission_id String          @id @db.Uuid
-  member_board_id            String?         @db.Uuid
-  permission_id              String?         @db.Uuid
-  Members_boards             Members_boards? @relation(fields: [member_board_id], references: [member_board_id], onDelete: Cascade)
-  Permissions                Permissions?    @relation(fields: [permission_id], references: [permission_id], onDelete: Cascade)
+  member_board_permission_id String         @id @db.Uuid
+  member_board_id            String         @db.Uuid
+  permission_id              String         @db.Uuid
+  Members_boards             Members_boards @relation(fields: [member_board_id], references: [member_board_id], onDelete: Cascade)
+  Permissions                Permissions    @relation(fields: [permission_id], references: [permission_id], onDelete: Cascade)
 }
 
 model Members_tasks {
   member_task_id            String                      @id @db.Uuid
   created_at                DateTime                    @default(now()) @db.Timestamp(6)
   removed_at                DateTime?                   @db.Timestamp(6)
-  user_id                   String?                     @db.Uuid
-  task_id                   String?                     @db.Uuid
-  Tasks                     Tasks?                      @relation(fields: [task_id], references: [task_id], onDelete: Cascade)
-  Users                     Users?                      @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
+  user_id                   String                      @db.Uuid
+  task_id                   String                      @db.Uuid
+  Tasks                     Tasks                       @relation(fields: [task_id], references: [task_id], onDelete: Cascade)
+  Users                     Users                       @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
   Members_tasks_permissions Members_tasks_permissions[]
 }
 
 model Members_tasks_permissions {
-  member_task_permission_id String         @id @db.Uuid
-  member_task_id            String?        @db.Uuid
-  permission_id             String?        @db.Uuid
-  Members_tasks             Members_tasks? @relation(fields: [member_task_id], references: [member_task_id], onDelete: Cascade)
-  Permissions               Permissions?   @relation(fields: [permission_id], references: [permission_id], onDelete: Cascade)
+  member_task_permission_id String        @id @db.Uuid
+  member_task_id            String        @db.Uuid
+  permission_id             String        @db.Uuid
+  Members_tasks             Members_tasks @relation(fields: [member_task_id], references: [member_task_id], onDelete: Cascade)
+  Permissions               Permissions   @relation(fields: [permission_id], references: [permission_id], onDelete: Cascade)
 }
 
 model Members_workspaces {
   member_workspace_id            String                           @id @db.Uuid
   created_at                     DateTime                         @default(now()) @db.Timestamp(6)
   removed_at                     DateTime?                        @db.Timestamp(6)
-  user_id                        String?                          @db.Uuid
-  workspace_id                   String?                          @db.Uuid
-  Users                          Users?                           @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
-  Workspaces                     Workspaces?                      @relation(fields: [workspace_id], references: [workspace_id], onDelete: Cascade)
+  user_id                        String                           @db.Uuid
+  workspace_id                   String                           @db.Uuid
+  Users                          Users                            @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
+  Workspaces                     Workspaces                       @relation(fields: [workspace_id], references: [workspace_id], onDelete: Cascade)
   Members_workspaces_permissions Members_workspaces_permissions[]
 }
 
 model Members_workspaces_permissions {
-  member_workspace_permission_id String              @id @db.Uuid
-  member_workspace_id            String?             @db.Uuid
-  permission_id                  String?             @db.Uuid
-  Members_workspaces             Members_workspaces? @relation(fields: [member_workspace_id], references: [member_workspace_id], onDelete: Cascade)
-  Permissions                    Permissions?        @relation(fields: [permission_id], references: [permission_id], onDelete: Cascade)
+  member_workspace_permission_id String             @id @db.Uuid
+  member_workspace_id            String             @db.Uuid
+  permission_id                  String             @db.Uuid
+  Members_workspaces             Members_workspaces @relation(fields: [member_workspace_id], references: [member_workspace_id], onDelete: Cascade)
+  Permissions                    Permissions        @relation(fields: [permission_id], references: [permission_id], onDelete: Cascade)
 }
 
 model Permissions {
   permission_id                  String                           @id @db.Uuid
-  name                           String?                          @default("reader") @db.VarChar(20)
+  name                           String                           @default("reader") @db.VarChar(20)
   description                    String?                          @db.VarChar(50)
   created_at                     DateTime                         @default(now()) @db.Timestamp(6)
   removed_at                     DateTime?                        @db.Timestamp(6)
@@ -110,23 +110,23 @@ model Permissions {
 model Tasks {
   task_id        String          @id @db.Uuid
   title          String          @db.VarChar(255)
-  body           Json?           @db.Json
-  category       String?         @db.VarChar(20)
   url            String          @unique @db.VarChar(100)
   createdat      DateTime        @default(now()) @db.Timestamp(6)
   updatedat      DateTime?       @db.Timestamp(6)
   deletedat      DateTime?       @db.Timestamp(6)
   task_is_active Boolean
-  user_id        String?         @db.Uuid
-  list_id        String?         @db.Uuid
+  user_id        String          @db.Uuid
+  list_id        String          @db.Uuid
+  description    String?
+  tag            String?         @db.VarChar(60)
   Members_tasks  Members_tasks[]
-  Lists          Lists?          @relation(fields: [list_id], references: [list_id], onDelete: Cascade)
-  Users          Users?          @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
+  Lists          Lists           @relation(fields: [list_id], references: [list_id], onDelete: Cascade)
+  Users          Users           @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
 }
 
 model Users {
   user_id            String               @id @db.Uuid
-  name               String               @db.VarChar(80)
+  name               String               @db.VarChar(255)
   image_file         String?              @db.VarChar(255)
   identifier         String?              @db.VarChar(255)
   email              String               @unique @db.VarChar(80)
@@ -144,11 +144,11 @@ model Users {
 }
 
 model Users_permissions {
-  users_permission_id String       @id @db.Uuid
-  user_id             String?      @db.Uuid
-  permission_id       String?      @db.Uuid
-  Permissions         Permissions? @relation(fields: [permission_id], references: [permission_id], onDelete: Cascade)
-  Users               Users?       @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
+  users_permission_id String      @id @db.Uuid
+  user_id             String      @db.Uuid
+  permission_id       String      @db.Uuid
+  Permissions         Permissions @relation(fields: [permission_id], references: [permission_id], onDelete: Cascade)
+  Users               Users       @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
 }
 
 model Workspaces {
@@ -162,8 +162,8 @@ model Workspaces {
   updatedat           DateTime?            @db.Timestamp(6)
   deletedat           DateTime?            @db.Timestamp(6)
   workspace_is_active Boolean
-  user_id             String?              @db.Uuid
+  user_id             String               @db.Uuid
   Boards              Boards[]
   Members_workspaces  Members_workspaces[]
-  Users               Users?               @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
+  Users               Users                @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
 }

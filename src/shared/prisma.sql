@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS "public"."Users"(
   -- user_id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY NOT NULL,
   -- user_id TEXT PRIMARY KEY NOT NULL,
   
-  name VARCHAR(80) NOT NULL,
+  name VARCHAR(255) NOT NULL,
   image_file VARCHAR(255),
   identifier VARCHAR(255),
   email VARCHAR(80) UNIQUE NOT NULL,
@@ -96,8 +96,8 @@ CREATE TABLE IF NOT EXISTS "public"."Tasks"(
   -- tasks_id uuid DEFAULT uuid_generate_v4 (),
   -- tasks_id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY NOT NULL,
   title VARCHAR(255)  NOT NULL,
-  body json,
-  category VARCHAR(20),
+  description TEXT,
+  tag VARCHAR(60),
   url VARCHAR(100)  NOT NULL UNIQUE,
 
   createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,

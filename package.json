@@ -17,7 +17,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@prisma/client": "^4.13.0",
+    "@prisma/client": "^5.2.0",
     "@types/connect": "^3.4.35",
     "bcrypt": "^5.0.1",
     "compression": "^1.7.4",

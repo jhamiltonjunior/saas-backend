@@ -11,6 +11,8 @@ export class PrismaTasksRepository implements ITasksRepository {
   }
 
   async findAllTasks (): Promise<ITasksData[]> {
+    const allUsers = await this.prisma.tasks.findMany()
+
     return []
   }
 
