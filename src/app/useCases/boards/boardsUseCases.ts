@@ -56,7 +56,7 @@ export class BoardsUseCases implements BoardsInterface {
    * He go verify if exist a URL equal if not exist and the user have permission of writer
    * the boards go be created
    */
-  async createBoardOnDatabase (boardsData: IBoardsData, author: AuthorData): Promise<allErrorsResponse> {
+  async createBoardOnDatabase (boardsData: IBoardsData, userId: string): Promise<allErrorsResponse> {
     const boardsOrError: Either<
     InvalidTitleError |
     InvalidAuthorError |
@@ -82,11 +82,11 @@ export class BoardsUseCases implements BoardsInterface {
     ) {
       await this.boardRepository.add({
         title: boards.title.value,
-        author: boards.author.value,
+        user_id: boards.author.value.user_id,
         url: boards.url.value,
         createdAt: boards.createdAt.value
       },
-      String(author.user_id)
+      String(userId)
       )
       // }
       // Aqui poderia ter um else caso exist uma url igual
@@ -126,22 +126,22 @@ export class BoardsUseCases implements BoardsInterface {
       if (
         result !== undefined
       ) {
-        await this.boardRepository.update({
-          /**
-           * (<any>result)... this is to maintain the datas
-           * case not be actualized with some value
-           */
+        // await this.boardRepository.update({
+        //   /**
+        //    * (<any>result)... this is to maintain the datas
+        //    * case not be actualized with some value
+        //    */
 
-          title: boards.title.value || (<any>result).title,
-          author: boards.author.value || (<any>result).author,
-          url: boards.url.value || (<any>result).url,
+        //   title: boards.title.value || (<any>result).title,
+        //   author: boards.author.value || (<any>result).author,
+        //   url: boards.url.value || (<any>result).url,
 
-          // this values not necessary
-          createdAt: result.createdAt,
-          updatedAt: boards.updatedAt?.value
-        },
-        urlParams
-        )
+        //   // this values not necessary
+        //   createdAt: result.createdAt,
+        //   updatedAt: boards.updatedAt?.value
+        // },
+        // urlParams
+        // )
       } else {
         return left(new InvalidURLNotFound(urlParams))
       }

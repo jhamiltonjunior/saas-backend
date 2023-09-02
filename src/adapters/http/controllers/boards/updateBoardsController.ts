@@ -2,7 +2,6 @@ import { IHttpRequest, IHttpResponse } from '../ports/http'
 import { badRequest, ok, serverError } from '../helpers/httpHelper'
 import { allErrorsResponse } from '../../../../app/useCases/boards/responses/allErrorsResponse'
 import { MissingParamError } from '../errors/missingParamError'
-import { AuthorData } from '../../../../domain/entities/boards/validators/author'
 import { BoardsUseCases } from '../../../../app/useCases/boards/boardsUseCases'
 
 export class UpdateBoardsController {
@@ -12,14 +11,14 @@ export class UpdateBoardsController {
     this.boardsUseCases = boardsUseCases
   }
 
-  async handle (httpRequest: IHttpRequest, author: AuthorData): Promise<IHttpResponse> {
+  async handle (httpRequest: IHttpRequest, userId: string): Promise<IHttpResponse> {
     const urlOfParams: string = httpRequest.params.url
     const date = new Date()
 
     const boardsData = {
       title: httpRequest.body.title,
       body: httpRequest.body.body,
-      author,
+      author: userId,
       category: httpRequest.body.category,
       createdAt: date,
       updatedAt: date,
@@ -39,7 +38,7 @@ export class UpdateBoardsController {
         return badRequest(new MissingParamError(field))
       }
       const boardsResponse: allErrorsResponse =
-        await this.boardsUseCases.updateBoard(boardsData, author, urlOfParams)
+        await this.boardsUseCases.updateBoard(boardsData, userId, urlOfParams)
 
       if (boardsResponse.isLeft()) {
         return badRequest(boardsResponse.value)

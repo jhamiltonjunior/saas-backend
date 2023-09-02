@@ -25,6 +25,8 @@ export class ShowUniqueTasksController {
         await this.tasksUseCases.showUniqueTasks(url)
 
       if (tasksResponse.isLeft()) {
+        if (typeof tasksResponse.value === 'string') return badRequest(new Error(tasksResponse.value))
+        
         return badRequest(tasksResponse.value)
       }
 

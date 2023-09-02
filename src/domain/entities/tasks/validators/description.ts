@@ -10,7 +10,7 @@ export class Description {
   }
 
   static create (body: string): Either<InvalidBodyError, Description> {
-    // body = body.trim().replace(/( )+/g, ' ')
+    body = body ? body.trim().replace(/( )+/g, ' ') : ''
 
     if (!Description.validator(body)) {
       return left(new InvalidBodyError(body))
@@ -24,12 +24,13 @@ export class Description {
   }
 
   static validator (body: string): boolean {
-    if (
-      !body ||
-      typeof body !== 'string' ||
+    if (body) {
+      if (
+        typeof body !== 'string' ||
       body.length < 10
-    ) {
-      return false
+      ) {
+        return false
+      }
     }
     return true
   }

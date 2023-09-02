@@ -46,7 +46,7 @@ export class TasksUseCases implements TasksInterface {
 
     const tasks = await this.tasksRepository.findByURL(url.value)
 
-    if (tasks !== undefined) {
+    if (tasks !== undefined && tasks !== null) {
       return right(tasks)
     } else {
       return left(new InvalidURLNotFound(urlParams))
@@ -58,16 +58,16 @@ export class TasksUseCases implements TasksInterface {
    * He go verify if exist a URL equal if not exist and the user have permission of writer
    * the tasks go be created
    */
-  async createTasksOnDatabase (tasksData: ITasksData, author: AuthorData): Promise<allErrorsResponse> {
+  async createTasksOnDatabase (tasksData: ITasksData): Promise<allErrorsResponse> {
     const tasksOrError: Either<
-    InvalidTitleError |
-    InvalidBodyError |
-    InvalidAuthorError |
-    InvalidCategoryError |
-    InvalidCreatedAtError |
-    InvalidURLError |
-    InvalidUpdatedAtError,
-    Tasks> = Tasks.create(tasksData)
+      InvalidTitleError |
+      InvalidBodyError |
+      InvalidAuthorError |
+      InvalidCategoryError |
+      InvalidCreatedAtError |
+      InvalidURLError |
+      InvalidUpdatedAtError,
+      Tasks> = Tasks.create(tasksData)
 
     if (tasksOrError.isLeft()) {
       return left(tasksOrError.value)
@@ -77,17 +77,17 @@ export class TasksUseCases implements TasksInterface {
 
     // tasks.url.value vai enviar a string da url já com o valor formatado
     const result = await this.tasksRepository.findByURL(tasks.url.value)
+    console.log(result)
     // const permissions = await this.userRep ository?.getPermission(tasks.author.value.user_id)
 
     // "reader" is temporary
     // if (permissions?.includes('reader')) {
-    if (
-      result !== undefined
-    ) {
+    if (result !== null || result) {
       return left('this url already exist')
     }
+
     if (
-      result === undefined
+      result === undefined || result === null || !result
     ) {
       await this.tasksRepository.add(tasksData)
       // }
@@ -101,14 +101,14 @@ export class TasksUseCases implements TasksInterface {
 
   async updateTask (tasksData: ITasksData, author: AuthorData, urlParams: string): Promise<allErrorsResponse> {
     const tasksOrError: Either<
-    InvalidTitleError |
-    InvalidBodyError |
-    InvalidAuthorError |
-    InvalidCategoryError |
-    InvalidCreatedAtError |
-    InvalidURLError |
-    InvalidUpdatedAtError,
-    Tasks> = Tasks.create(tasksData)
+      InvalidTitleError |
+      InvalidBodyError |
+      InvalidAuthorError |
+      InvalidCategoryError |
+      InvalidCreatedAtError |
+      InvalidURLError |
+      InvalidUpdatedAtError,
+      Tasks> = Tasks.create(tasksData)
 
     if (tasksOrError.isLeft()) {
       return left(tasksOrError.value)
@@ -125,35 +125,32 @@ export class TasksUseCases implements TasksInterface {
     // permissions.includes('writer') &&
 
       // only user who create the tasks can edit it
-      author.user_id === (<any>result).user_id
+      author.userId === (<any>result).user_id
     ) {
       if (
-        result !== undefined
+        result !== undefined &&
+        result !== null &&
+        result
       ) {
-        await this.tasksRepository.update({
-          /**
-           * (<any>result)... this is to maintain the datas
-           * case not be actualized with some value
-           */
+        await this.tasksRepository.update(
+          {
+            task_is_active: result.task_is_active,
+            title: tasks.title.value || (<any>result).title,
+            description: tasks.description ? tasks.description.value : (<any>result),
+            url: tasks.url.value || (<any>result).url,
+            tag: tasks.tag ? tasks.tag.value : (<any>result).tag,
+            list_id: result.list_id,
 
-          title: tasks.title.value || (<any>result).title,
-          author: tasks.author.value || (<any>result).author,
-          body: tasks.body.value || (<any>result).body,
-          url: tasks.url.value || (<any>result).url,
-          category: tasks.category.value || (<any>result).category,
-
-          // this values not necessary
-          createdAt: result.createdAt,
-          updatedAt: tasks.updatedAt?.value
-        },
-        urlParams
+            updated_at: tasks.updatedAt?.value as Date
+          },
+          urlParams
         )
       } else {
         return left(new InvalidURLNotFound(urlParams))
       }
       // Aqui poderia ter um else caso exist uma url igual
     } else {
-      return left(new InvalidUserDoesNotPermission(tasks.author.value.name))
+      return left(new InvalidUserDoesNotPermission(tasks.author.value))
     }
 
     return right(tasksData)
@@ -173,7 +170,7 @@ export class TasksUseCases implements TasksInterface {
 
     const tasks = await this.tasksRepository.findByURL(url.value)
 
-    if (tasks !== undefined) {
+    if (tasks !== undefined && tasks !== null) {
       this.tasksRepository.deleteByURL(tasks.url)
 
       return right('This Tasks has been deleted')

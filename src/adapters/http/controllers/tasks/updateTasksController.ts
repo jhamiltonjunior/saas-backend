@@ -4,6 +4,7 @@ import { allErrorsResponse } from '../../../../app/useCases/tasks/responses/allE
 import { MissingParamError } from '../errors/missingParamError'
 import { AuthorData } from '../../../../domain/entities/tasks/validators/author'
 import { TasksUseCases } from '../../../../app/useCases/tasks/tasksUseCases'
+import { randomUUID } from 'crypto'
 
 export class UpdateTasksController {
   private readonly tasksUseCases: TasksUseCases
@@ -14,19 +15,20 @@ export class UpdateTasksController {
 
   async handle (httpRequest: IHttpRequest, author: AuthorData): Promise<IHttpResponse> {
     const urlOfParams: string = httpRequest.params.url
-    const date = new Date()
 
     const tasksData = {
+      task_id: randomUUID(),
       title: httpRequest.body.title,
-      body: httpRequest.body.body,
-      author,
-      category: httpRequest.body.category,
-      createdAt: date,
-      updatedAt: date,
+      description: httpRequest.body.body,
+      user_id: author.userId,
+      indice: 2,
+      list_id: 'listId',
+      task_is_active: true,
+      tag: httpRequest.body.tag,
+      created_at: new Date(),
+      update_at: new Date(),
       url: httpRequest.body.url,
     }
-
-    console.log(tasksData)
 
     try {
       if (Object.keys(httpRequest.body).length < 1) {
@@ -42,6 +44,8 @@ export class UpdateTasksController {
         await this.tasksUseCases.updateTask(tasksData, author, urlOfParams)
 
       if (tasksResponse.isLeft()) {
+        if (typeof tasksResponse.value === 'string') return badRequest(new Error(tasksResponse.value))
+
         return badRequest(tasksResponse.value)
       }
     } catch (error) {

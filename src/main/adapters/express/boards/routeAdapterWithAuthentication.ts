@@ -33,12 +33,7 @@ export const adapterRouteWithAuthentication = (
 
     const id = validateUser(token)
 
-    const author = {
-      user_id: id,
-      name: 'any'
-    }
-
-    const httpResponse = await controller.handle(httpRequest, author)
+    const httpResponse = await controller.handle(httpRequest, id)
 
     res.status(httpResponse.statusCode).json(httpResponse.body)
   }

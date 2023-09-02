@@ -1,4 +1,4 @@
-import { ITasksData } from './interfaces/tasksData'
+import { ITasksData, ITasksUpdateData } from './interfaces/tasksData'
 import { InvalidAuthorError } from './errors/invalidAuthor'
 import { InvalidBodyError } from './errors/invalidBody'
 import { InvalidCategoryError } from './errors/invalidCategory'
@@ -60,7 +60,7 @@ export class Tasks {
       tasks.description !== null ? Description.create(tasks.description) : undefined
     const tagOrError: Either<InvalidCategoryError, Category> | undefined =
     tasks.tag !== null ? Category.create(tasks.tag) : undefined
-    const createdAtOrError: Either<InvalidCreatedAtError, CreatedAt> = CreatedAt.create(tasks.createdat)
+    const createdAtOrError: Either<InvalidCreatedAtError, CreatedAt> = CreatedAt.create(tasks.created_at)
     const titleOrError: Either<InvalidTitleError, Title> = Title.create(tasks.title)
     const urlOrError: Either<InvalidURLError, URL> = URL.create(tasks.url)
 
@@ -99,63 +99,83 @@ export class Tasks {
       tag,
     ))
   }
+}
 
-  // static update (tasks: ITasksData): Either<
-  // InvalidTitleError |
-  // InvalidBodyError |
-  // InvalidAuthorError |
-  // InvalidCategoryError |
-  // InvalidCreatedAtError |
-  // InvalidURLError |
-  // InvalidUpdatedAtError,
-  // Tasks> {
-  //   const authorOrError: Either<InvalidAuthorError, Author> = Author.create(tasks.author)
-  //   const bodyOrError: Either<InvalidBodyError, Description> = Description.create(tasks.body)
-  //   const categoryOrError: Either<InvalidCategoryError, Category> = Category.create(tasks.category)
-  //   const createdAtOrError: Either<InvalidCreatedAtError, CreatedAt> = CreatedAt.create(tasks.createdAt)
-  //   const titleOrError: Either<InvalidTitleError, Title> = Title.create(tasks.title)
-  //   const urlOrError: Either<InvalidURLError, URL> = URL.create(tasks.url)
-  //   const updatedAtOrError: Either<InvalidUpdatedAtError, UpdatedAt> = UpdatedAt.create(tasks.updatedAt)
-  //   // const commentaryOrError: Either<InvalidCommentaryError, Commentary> = Commentary.create(tasks.commentary)
+export class TasksUpdate {
+  public readonly description?: Description | null
+  public readonly tag?: Category | null
+  public readonly title?: Title
+  public readonly url?: URL
+  public readonly updatedAt: UpdatedAt
+  // public readonly commentary?: Commentary
 
-  //   if (authorOrError.isLeft()) {
-  //     return left(authorOrError.value)
-  //   }
-  //   if (bodyOrError.isLeft()) {
-  //     return left(bodyOrError.value)
-  //   }
-  //   if (categoryOrError.isLeft()) {
-  //     return left(categoryOrError.value)
-  //   }
-  //   if (createdAtOrError.isLeft()) {
-  //     return left(createdAtOrError.value)
-  //   }
-  //   if (titleOrError.isLeft()) {
-  //     return left(titleOrError.value)
-  //   }
-  //   if (urlOrError.isLeft()) {
-  //     return left(urlOrError.value)
-  //   }
-  //   if (updatedAtOrError.isLeft()) {
-  //     return left(updatedAtOrError.value)
-  //   }
+  constructor (
+    updatedAt: UpdatedAt,
+    title?: Title,
+    url?: URL,
+    description?: Description | undefined,
+    tag?: Category | null,
+    // commentary?: Commentary,
+  ) {
+    this.updatedAt = updatedAt
+    this.description = description || undefined
+    this.tag = tag || undefined
+    this.title = title || undefined
+    this.url = url || undefined
 
-  //   const title: Title = titleOrError.value
-  //   const body: Description = bodyOrError.value
-  //   const author: Author = authorOrError.value
-  //   const category: Category = categoryOrError.value
-  //   const createdAt: CreatedAt = createdAtOrError.value
-  //   const url: URL = urlOrError.value
-  //   const updatedAt: UpdatedAt = updatedAtOrError.value
+    Object.freeze(this)
+  }
 
-  //   return right(new Tasks(
-  //     title,
-  //     body,
-  //     author,
-  //     category,
-  //     createdAt,
-  //     url,
-  //     updatedAt,
-  //   ))
-  // }
+  static update (tasks: ITasksUpdateData): Either<
+  InvalidTitleError |
+  InvalidBodyError |
+  InvalidAuthorError |
+  InvalidCategoryError |
+  InvalidCreatedAtError |
+  InvalidURLError |
+  InvalidUpdatedAtError,
+  TasksUpdate> {
+    const bodyOrError: Either<InvalidBodyError, Description> | undefined =
+      tasks.description !== undefined ? Description.create(tasks.description) : undefined
+
+    const categoryOrError: Either<InvalidCategoryError, Category> | undefined =
+      tasks.tag !== undefined ? Category.create(tasks.tag) : undefined
+
+    const titleOrError: Either<InvalidTitleError, Title> | undefined =
+      tasks.title !== undefined ? Title.create(tasks.title) : undefined
+
+    const urlOrError: Either<InvalidURLError, URL> | undefined =
+      tasks.url !== undefined ? URL.create(tasks.url) : undefined
+    const updatedAtOrError: Either<InvalidUpdatedAtError, UpdatedAt> = UpdatedAt.create(tasks.updated_at)
+
+    if (bodyOrError && bodyOrError.isLeft()) {
+      return left(bodyOrError.value)
+    }
+    if (categoryOrError && categoryOrError.isLeft()) {
+      return left(categoryOrError.value)
+    }
+    if (titleOrError && titleOrError.isLeft()) {
+      return left(titleOrError.value)
+    }
+    if (urlOrError && urlOrError.isLeft()) {
+      return left(urlOrError.value)
+    }
+    if (updatedAtOrError.isLeft()) {
+      return left(updatedAtOrError.value)
+    }
+
+    const title: Title | undefined = titleOrError?.value
+    const description: Description | undefined = bodyOrError?.value
+    const tag: Category | undefined = categoryOrError?.value
+    const url: URL | undefined = urlOrError?.value
+    const updatedAt: UpdatedAt = updatedAtOrError?.value
+
+    return right(new TasksUpdate(
+      updatedAt,
+      title,
+      url,
+      description,
+      tag,
+    ))
+  }
 }

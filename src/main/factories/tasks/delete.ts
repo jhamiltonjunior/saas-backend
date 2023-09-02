@@ -1,10 +1,9 @@
-import { PostgresTasksRepository } from '../../../external/database/postgreSQL/tasks/postgresTasksRepository'
-import { connectionObject } from '../utils/connectionObject'
 import { DeleteTasksController } from '../../../adapters/http/controllers/tasks/deleteTasksController'
 import { TasksUseCases } from '../../../app/useCases/tasks/tasksUseCases'
+import { PrismaTasksRepository } from '../../../external/database/prisma/tasks/prismaTasksRepository'
 
 export const makeDeleteTasksController = (): DeleteTasksController => {
-  const deleteTasksRepository = new PostgresTasksRepository(connectionObject)
+  const deleteTasksRepository = new PrismaTasksRepository()
   const deleteTasks = new TasksUseCases(deleteTasksRepository)
   const deleteTasksController = new DeleteTasksController(deleteTasks)
   return deleteTasksController

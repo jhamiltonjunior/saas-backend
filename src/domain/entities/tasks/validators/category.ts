@@ -9,7 +9,7 @@ export class Category {
   }
 
   static create (category: string): Either<InvalidCategoryError, Category> {
-    category = category.trim().replace(/( )+/g, ' ')
+    category = category ? category.trim().replace(/( )+/g, ' ') : ''
 
     if (!Category.validator) {
       return left(new InvalidCategoryError(category))
@@ -29,12 +29,13 @@ export class Category {
     //   return false
     // }
 
-    if (
-      !category ||
-      category.length < 6 ||
-      category.length > 20
-    ) {
-      return false
+    if (category) {
+      if (
+        category.length < 6 ||
+        category.length > 20
+      ) {
+        return false
+      }
     }
 
     return false

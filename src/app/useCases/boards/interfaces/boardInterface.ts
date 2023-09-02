@@ -9,6 +9,6 @@ export interface BoardsInterface {
   boardRepository: IBoardsRepository
   showAllBoards: () => Promise<string | IBoardsData[]>
   showUniqueBoard: (urlParams: string) => Promise<ShowUniqueResponse>
-  createBoardOnDatabase: (user: IBoardsData, author: AuthorData) => Promise<allErrorsResponse>
+  createBoardOnDatabase: (user: IBoardsData, userId: string) => Promise<allErrorsResponse>
   deleteBoard: (urlParams: string) => Promise<DeleteResponse>
 }

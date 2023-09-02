@@ -4,19 +4,19 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://postgres:0000@172.17.0.3:5432/postgres"
+  url      = env("DATABASE_URL")
 }
 
 model Boards {
   board_id        String           @id @db.Uuid
   title           String?          @db.VarChar(255)
   url             String?          @unique @db.VarChar(100)
-  createdat       DateTime         @default(now()) @db.Timestamp(6)
-  updatedat       DateTime?        @db.Timestamp(6)
-  deletedat       DateTime?        @db.Timestamp(6)
   board_is_active Boolean
   user_id         String           @db.Uuid
   workspace_id    String           @db.Uuid
+  created_at      DateTime         @default(now()) @db.Timestamp(6)
+  deleted_at      DateTime?        @db.Timestamp(6)
+  updated_at      DateTime?        @db.Timestamp(6)
   Users           Users            @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
   Workspaces      Workspaces       @relation(fields: [workspace_id], references: [workspace_id], onDelete: Cascade)
   Lists           Lists[]
@@ -25,13 +25,14 @@ model Boards {
 
 model Lists {
   list_id        String    @id @db.Uuid
-  title          String?   @db.VarChar(200)
-  createdat      DateTime  @default(now()) @db.Timestamp(6)
-  updatedat      DateTime? @db.Timestamp(6)
-  deletedat      DateTime? @db.Timestamp(6)
+  title          String    @db.VarChar(200)
   list_is_active Boolean?
   user_id        String    @db.Uuid
   board_id       String    @db.Uuid
+  created_at     DateTime  @default(now()) @db.Timestamp(6)
+  deleted_at     DateTime? @db.Timestamp(6)
+  indice         Int       @db.SmallInt
+  updated_at     DateTime? @db.Timestamp(6)
   Boards         Boards    @relation(fields: [board_id], references: [board_id], onDelete: Cascade)
   Users          Users     @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
   Tasks          Tasks[]
@@ -111,14 +112,15 @@ model Tasks {
   task_id        String          @id @db.Uuid
   title          String          @db.VarChar(255)
   url            String          @unique @db.VarChar(100)
-  createdat      DateTime        @default(now()) @db.Timestamp(6)
-  updatedat      DateTime?       @db.Timestamp(6)
-  deletedat      DateTime?       @db.Timestamp(6)
   task_is_active Boolean
   user_id        String          @db.Uuid
   list_id        String          @db.Uuid
   description    String?
   tag            String?         @db.VarChar(60)
+  created_at     DateTime        @default(now()) @db.Timestamp(6)
+  deleted_at     DateTime?       @db.Timestamp(6)
+  updated_at     DateTime?       @db.Timestamp(6)
+  indice         Int             @db.SmallInt
   Members_tasks  Members_tasks[]
   Lists          Lists           @relation(fields: [list_id], references: [list_id], onDelete: Cascade)
   Users          Users           @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
@@ -158,11 +160,11 @@ model Workspaces {
   tag                 String?              @db.VarChar(100)
   description         String?              @db.VarChar(255)
   workspaces_type     String?              @db.VarChar(200)
-  createdat           DateTime             @default(now()) @db.Timestamp(6)
-  updatedat           DateTime?            @db.Timestamp(6)
-  deletedat           DateTime?            @db.Timestamp(6)
   workspace_is_active Boolean
   user_id             String               @db.Uuid
+  created_at          DateTime             @default(now()) @db.Timestamp(6)
+  deleted_at          DateTime?            @db.Timestamp(6)
+  updated_at          DateTime?            @db.Timestamp(6)
   Boards              Boards[]
   Members_workspaces  Members_workspaces[]
   Users               Users                @relation(fields: [user_id], references: [user_id], onDelete: Cascade)

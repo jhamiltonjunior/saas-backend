@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client'
 
-import { ITasksData } from '../../../../domain/entities/tasks/interfaces/tasksData'
+import { ITasksData, ITasksUpdateData } from '../../../../domain/entities/tasks/interfaces/tasksData'
 import { ITasksRepository } from '../../../../app/repositories/tasksRepository'
 
 export class PrismaTasksRepository implements ITasksRepository {
@@ -43,7 +43,7 @@ export class PrismaTasksRepository implements ITasksRepository {
       })
   }
 
-  async update (tasks: ITasksData, url: string): Promise <void> {
+  async update (tasks: ITasksUpdateData, url: string): Promise <void> {
     console.log(tasks, url)
   }
 

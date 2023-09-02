@@ -2,9 +2,9 @@ import { AuthorData } from '../validators/author'
 
 export interface IBoardsData {
   title: string
-  author: AuthorData
+  author?: AuthorData
   // eslint-disable-next-line camelcase
-  user_id?: string
+  user_id: string
   // change for slice of strings
   // string []
   createdAt: Date

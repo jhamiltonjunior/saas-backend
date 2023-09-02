@@ -34,7 +34,7 @@ export const adapterRouteWithAuthentication = (
     const id = validateUser(token)
 
     const author = {
-      user_id: id,
+      userId: id,
       name: 'any'
     }
 
