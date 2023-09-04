@@ -50,3 +50,47 @@ export class User {
     ))
   }
 }
+
+export class UserUpdate {
+  public readonly name?: Name
+  public readonly email?: Email
+  public readonly password?: Password
+
+  constructor (
+    email?: Email,
+    password?: Password,
+    name?: Name,
+  ) {
+    this.name = name
+    this.email = email
+    this.password = password
+
+    Object.freeze(this)
+  }
+
+  static update (userData: IUser): Either<InvalidNameError | InvalidEmailError, UserUpdate> {
+    const nameOrError: Either<InvalidNameError, Name> | undefined = Name.create(userData.name)
+    const emailOrError: Either<InvalidEmailError, Email> | undefined = userData.email !== undefined ? Email.create(userData.email) : undefined
+    const passwordOrError: Either<InvalidPasswordError, Password> | undefined = userData.password !== undefined ? Password.create(userData.password) : undefined
+
+    if (nameOrError.isLeft()) {
+      return left(nameOrError.value)
+    }
+    if (emailOrError && emailOrError.isLeft()) {
+      return left(emailOrError.value)
+    }
+    if (passwordOrError && passwordOrError.isLeft()) {
+      return left(passwordOrError.value)
+    }
+
+    const name: Name | undefined = nameOrError.value
+    const email: Email | undefined = emailOrError?.value
+    const password: Password | undefined = passwordOrError?.value
+
+    return right(new UserUpdate(
+      email,
+      password,
+      name,
+    ))
+  }
+}
