@@ -44,7 +44,21 @@ export class PrismaTasksRepository implements ITasksRepository {
   }
 
   async update (tasks: ITasksUpdateData, url: string): Promise <void> {
-    console.log(tasks, url)
+    await this.prisma.tasks.update({
+      where: {
+        url
+      },
+      data: {
+        indice: tasks.indice,
+        title: tasks.title,
+        description: tasks.description,
+        tag: tasks.tag,
+        url: tasks.url,
+        updated_at: tasks.updated_at,
+        task_is_active: tasks.task_is_active,
+        list_id: tasks.list_id,
+      }
+    })
   }
 
   async getUserPermission (id: string): Promise<string[]> {

@@ -139,7 +139,7 @@ export class TasksUseCases implements TasksInterface {
             description: tasks.description ? tasks.description.value : (<any>result),
             url: tasks.url.value || (<any>result).url,
             tag: tasks.tag ? tasks.tag.value : (<any>result).tag,
-            list_id: result.list_id,
+            list_id: tasksData.list_id ? tasksData.list_id : result.list_id,
 
             updated_at: tasks.updatedAt?.value as Date
           },

@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 export interface IUserData {
   // eslint-disable-next-line camelcase
   user_id?: string
@@ -16,9 +17,27 @@ export interface IUserAuthData {
 }
 
 export interface IUser {
-  author: {
-    // eslint-disable-next-line camelcase
-    user_id: string,
-    name: string
-  }
+  user_id: string;
+
+  name: string;
+  email: string;
+  password: string | null;
+
+  image_file?: number;
+  identifier?: string | null;
+
+  user_is_active: boolean;
+  user_payment_id?: string;
+}
+
+export interface IUserUpdateData {
+  name?: string;
+  email?: string;
+  password?: string | null;
+
+  image_file?: number;
+  identifier?: string | null;
+
+  user_is_active?: boolean;
+  user_payment_id?: string;
 }
