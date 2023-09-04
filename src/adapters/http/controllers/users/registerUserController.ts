@@ -1,5 +1,5 @@
 import { UserUseCases } from '@src/app/useCases/users/userUseCases'
-import { UserResponse } from '../../../../app/useCases/users/userResponse'
+import { UserResponse } from '../../../../app/useCases/users/responses/userResponse'
 import { MissingParamError } from '../errors/missingParamError'
 import { badRequest, created, serverError } from '../helpers/httpHelper'
 import { IHttpRequest, IHttpResponse } from '../ports/http'

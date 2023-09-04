@@ -1,4 +1,4 @@
-import { AuthUserResponse } from '../../../../app/useCases/users/authUserResponse'
+import { AuthUserResponse } from '../../../../app/useCases/users/responses/authUserResponse'
 import { MissingParamError } from '../errors/missingParamError'
 import { badRequest, ok, serverError } from '../helpers/httpHelper'
 import { IHttpRequest, IHttpResponse } from '../ports/http'

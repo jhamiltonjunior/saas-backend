@@ -1,13 +1,13 @@
 import { InvalidNameError } from '../../../domain/entities/users/errors/invalidName'
-import { IUserAuthData, IUserData } from '../../../domain/entities/users/interfaces/userData'
+import { IUser, IUserAuthData, IUserData } from '../../../domain/entities/users/interfaces/userData'
 import { Either, left, right } from '../../../shared/either'
 
 import { IUserRepository } from '../../repositories/userRepository'
-import { UserResponse } from './userResponse'
+import { UserResponse } from './responses/userResponse'
 import { InvalidEmailError } from '../../../domain/entities/users/errors/invalidEmail'
 import { InvalidPasswordError } from '../../../domain/entities/users/errors/invalidPassword'
 import { User } from '../../../domain/entities/users/user'
-import { AuthUserResponse } from './authUserResponse'
+import { AuthUserResponse } from './responses/authUserResponse'
 import { UserInterface } from './interfaces/userInterface'
 import { UserId } from './validators/userId'
 import { InvalidUserIdError } from './errors/invalidUserId'
@@ -20,14 +20,14 @@ export class UserUseCases implements UserInterface {
   public validateUser?: (token:string) => string
 
   constructor (
-    registerRepo: IUserRepository,
+    userRepository: IUserRepository,
     validateUser?: (token:string) => string
   ) {
-    this.userRepository = registerRepo
+    this.userRepository = userRepository
     this.validateUser = validateUser || undefined
   }
 
-  async registerUserOnDatabase (userData: IUserData): Promise<UserResponse> {
+  async registerUserOnDatabase (userData: IUser): Promise<UserResponse> {
     const userOrError: Either<
     InvalidNameError | InvalidEmailError | InvalidPasswordError,
     User> = User.create(userData)
@@ -39,6 +39,8 @@ export class UserUseCases implements UserInterface {
     const user: User = userOrError.value
     const exists = this.userRepository.exists(userData.email)
 
+    let token: string = ''
+
     if (!(await exists).valueOf()) {
       if (user.name !== undefined) {
         const userId = await this.userRepository.add({
@@ -47,7 +49,7 @@ export class UserUseCases implements UserInterface {
           password: user.password.value
         })
 
-        userData.token = await this.userRepository.authenticateUser(userId)
+        token = await this.userRepository.authenticateUser(userId)
       }
       return right('User created')
     }
@@ -56,7 +58,7 @@ export class UserUseCases implements UserInterface {
       return left(new InvalidEmailError('email exist'))
     }
 
-    return right(userData)
+    return right({ userData, token })
   }
 
   async authWithEmail (authData: IUserAuthData): Promise<AuthUserResponse> {

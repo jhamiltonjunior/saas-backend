@@ -21,7 +21,7 @@ export interface IUser {
 
   name: string;
   email: string;
-  password: string | null;
+  password: string;
 
   image_file?: number;
   identifier?: string | null;

@@ -1,7 +1,7 @@
 import { Either, left, right } from '../../../shared/either'
 import { InvalidNameError } from './errors/invalidName'
 import { Name } from './name'
-import { IUserData } from './interfaces/userData'
+import { IUser } from './interfaces/userData'
 import { Email } from './email'
 import { InvalidEmailError } from './errors/invalidEmail'
 import { Password } from './password'
@@ -24,8 +24,8 @@ export class User {
     Object.freeze(this)
   }
 
-  static create (userData: IUserData): Either<InvalidNameError | InvalidEmailError, User> {
-    const nameOrError: Either<InvalidNameError, Name> = Name.create(userData.name || undefined)
+  static create (userData: IUser): Either<InvalidNameError | InvalidEmailError, User> {
+    const nameOrError: Either<InvalidNameError, Name> = Name.create(userData.name)
     const emailOrError: Either<InvalidEmailError, Email> = Email.create(userData.email)
     const passwordOrError: Either<InvalidPasswordError, Password> = Password.create(userData.password)
 
