@@ -18,27 +18,33 @@ export class UpdateTasksController {
 
     const tasksData = {
       task_id: randomUUID(),
-      title: httpRequest.body.title,
-      description: httpRequest.body.body,
-      user_id: author.userId,
+      title: httpRequest.body?.title,
+      description: httpRequest.body?.description,
       indice: 2,
-      list_id: 'listId',
+
+      // user_id: author.userId,
+      // list_id: httpRequest.body.listId,
+
+      //
+      //
+      //
+
+      user_id: 'd2c86e88-f013-4430-a194-d4b1c0e674ac',
+      list_id: '48f5c81d-fa34-4245-9e08-4cf3c5bd3c1f',
+
+      //
+      //
+      //
       task_is_active: true,
-      tag: httpRequest.body.tag,
+      tag: httpRequest.body?.tag,
       created_at: new Date(),
       update_at: new Date(),
-      url: httpRequest.body.url,
+      url: httpRequest.body?.url,
     }
 
     try {
       if (Object.keys(httpRequest.body).length < 1) {
-        const field = !httpRequest.body
-          ? 'url' ||
-        'title' ||
-        'author'
-          : 'category'
-
-        return badRequest(new MissingParamError(field))
+        return badRequest(new MissingParamError('field'))
       }
       const tasksResponse: allErrorsResponse =
         await this.tasksUseCases.updateTask(tasksData, author, urlOfParams)
