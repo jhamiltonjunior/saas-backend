@@ -23,17 +23,17 @@ export interface IUser {
   email: string;
   password: string;
 
-  image_file?: number;
+  image_file?: string | null;
   identifier?: string | null;
 
   user_is_active: boolean;
-  user_payment_id?: string;
+  user_payment_id?: string | null;
 }
 
 export interface IUserUpdateData {
   name?: string;
   email?: string;
-  password?: string | null;
+  password?: string;
 
   image_file?: number;
   identifier?: string | null;

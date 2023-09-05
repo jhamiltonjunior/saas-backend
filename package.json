@@ -18,7 +18,9 @@
   "description": "",
   "dependencies": {
     "@prisma/client": "^5.2.0",
+    "@types/amqplib": "^0.10.1",
     "@types/connect": "^3.4.35",
+    "amqplib": "^0.10.3",
     "bcrypt": "^5.0.1",
     "compression": "^1.7.4",
     "connect": "^3.7.0",

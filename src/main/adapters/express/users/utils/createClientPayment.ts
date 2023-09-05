@@ -1,4 +1,4 @@
-import { IHttpResponse } from '../../../../adapters/http/controllers/ports/http'
+import { IHttpResponse } from '../../../../../adapters/http/controllers/ports/http'
 
 export const createClient = async (content: IHttpResponse): Promise<any> => {
   // eslint-disable-next-line no-undef

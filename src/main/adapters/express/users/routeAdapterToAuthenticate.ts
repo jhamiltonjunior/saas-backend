@@ -1,8 +1,8 @@
 import { Request, Response } from 'express'
 
-import { AuthUserController } from '../../../adapters/http/controllers/users/authUserController'
+import { AuthUserController } from '../../../../adapters/http/controllers/users/authUserController'
 
-import { IHttpRequest } from '../../../adapters/http/controllers/ports/http'
+import { IHttpRequest } from '../../../../adapters/http/controllers/ports/http'
 
 export const routeAdapterToAuthenticate = (controller:
   AuthUserController

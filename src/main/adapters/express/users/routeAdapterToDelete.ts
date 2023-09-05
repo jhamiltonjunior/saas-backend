@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 
-import { IHttpRequest } from '../../../adapters/http/controllers/ports/http'
-import { DeleteUserController } from '../../../adapters/http/controllers/users/DeleteUserController'
+import { IHttpRequest } from '../../../../adapters/http/controllers/ports/http'
+import { DeleteUserController } from '../../../../adapters/http/controllers/users/DeleteUserController'
 
 export const routeAdapterToDelete = (controller:
   DeleteUserController

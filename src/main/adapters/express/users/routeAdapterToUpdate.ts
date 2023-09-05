@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 
-import { IHttpRequest } from '../../../adapters/http/controllers/ports/http'
-import { UpdateUserController } from '../../../adapters/http/controllers/users/updateController'
+import { IHttpRequest } from '../../../../adapters/http/controllers/ports/http'
+import { UpdateUserController } from '../../../../adapters/http/controllers/users/updateController'
 
 export const routeAdapterToUpdate = (controller:
   UpdateUserController

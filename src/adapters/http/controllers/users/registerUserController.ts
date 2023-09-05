@@ -1,8 +1,9 @@
-import { UserUseCases } from '@src/app/useCases/users/userUseCases'
+import { UserUseCases } from '../../../../app/useCases/users/userUseCases'
 import { UserResponse } from '../../../../app/useCases/users/responses/userResponse'
 import { MissingParamError } from '../errors/missingParamError'
 import { badRequest, created, serverError } from '../helpers/httpHelper'
 import { IHttpRequest, IHttpResponse } from '../ports/http'
+import { randomUUID } from 'crypto'
 
 export class RegisterUserController {
   private readonly registerUser: UserUseCases
@@ -12,10 +13,15 @@ export class RegisterUserController {
   }
 
   async handle (httpRequest: IHttpRequest): Promise<IHttpResponse> {
+    const email = httpRequest.body.email
     const userData = {
+      user_id: randomUUID(),
       name: httpRequest.body.name,
-      email: httpRequest.body.email,
+      email,
       password: String(httpRequest.body.password),
+      user_is_active: true,
+
+      image_file: httpRequest.body.imageFile,
 
       // Payament API
       mobilePhone: httpRequest.body.mobilePhone,

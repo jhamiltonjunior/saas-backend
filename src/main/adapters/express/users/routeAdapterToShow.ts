@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 
-import { IHttpRequest } from '../../../adapters/http/controllers/ports/http'
-import { ShowUserController } from '../../../adapters/http/controllers/users/showUserController'
+import { IHttpRequest } from '../../../../adapters/http/controllers/ports/http'
+import { ShowUserController } from '../../../../adapters/http/controllers/users/showUserController'
 
 export const routeAdapterToShowUser = (controller:
   ShowUserController

@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 
-import { RegisterUserController } from '../../../adapters/http/controllers/users/registerUserController'
-import { IHttpRequest } from '../../../adapters/http/controllers/ports/http'
+import { RegisterUserController } from '../../../../adapters/http/controllers/users/registerUserController'
+import { IHttpRequest } from '../../../../adapters/http/controllers/ports/http'
 import { createClient } from './utils/createClientPayment'
 import { sendAuthorization } from './utils/sendAuthorization'
 

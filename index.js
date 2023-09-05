@@ -1,11 +1,13 @@
-function called (key, value) {
-  const coll = new Map()
-  const obj = {}
-  for (let i = 0; i < key.length; i++) {
-    coll.set(key[i], value[i])
-    Object.assign(obj, { [key[i]]: value[i] })
-  }
-  return [coll, obj]
+const obj = {
+  NOT: 'this.prisma.users.fields.user_id',
+  name: 'John',
 }
 
-console.log(called(['a', 'b'], [1, 2, 3]))
+const obj2 = {
+  where: {
+    email: 'email',
+    ...obj[0]
+  }
+}
+
+console.log(obj2)

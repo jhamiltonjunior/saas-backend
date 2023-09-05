@@ -1,5 +1,5 @@
 // import { AuthorData } from '../../domain/entities/articles/validators/author'
-import { IUserAuthData, IUserData } from '../../domain/entities/users/interfaces/userData'
+import { IUser, IUserAuthData, IUserData, IUserUpdateData } from '../../domain/entities/users/interfaces/userData'
 
 // eslint-disable-next-line camelcase
 // type AuthorData = { user_id: string, name: string }
@@ -19,10 +19,10 @@ export interface IAuthUserRepository {
 }
 
 export interface IUserRepository {
-  add: (user: IUserData) => Promise<string>
-  update: (user: IUserData, tokenId: string) => Promise<string>
+  add: (user: IUser) => Promise<string>
+  update: (user: IUserUpdateData, tokenId: string) => Promise<string>
   generateDefaultPermission: (userId: string, permissionId: string) => Promise<void>
-  findUserById: (id: string) => Promise<IUserData>
+  findUserById: (id: string) => Promise<IUser | null>
   getPermission: (id: string) => Promise<string>
 
   exists: (email: string) => Promise<boolean>
@@ -30,7 +30,7 @@ export interface IUserRepository {
   deleteById: (url: string) => Promise<void>
 
   // methods more used for authenticate
-  findUserByEmail: (email: string) => Promise<IUserAuthData>
+  findUserByEmail: (email: string, where?: any) => Promise<IUser | null>
   comparePassword: (password: string, hash: string) => Promise<boolean>
   authenticateUser: (id: string | undefined, token?: string) => Promise<string>
 }

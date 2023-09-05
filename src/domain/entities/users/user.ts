@@ -1,7 +1,7 @@
 import { Either, left, right } from '../../../shared/either'
 import { InvalidNameError } from './errors/invalidName'
 import { Name } from './name'
-import { IUser } from './interfaces/userData'
+import { IUser, IUserAuthData, IUserUpdateData } from './interfaces/userData'
 import { Email } from './email'
 import { InvalidEmailError } from './errors/invalidEmail'
 import { Password } from './password'
@@ -68,12 +68,12 @@ export class UserUpdate {
     Object.freeze(this)
   }
 
-  static update (userData: IUser): Either<InvalidNameError | InvalidEmailError, UserUpdate> {
-    const nameOrError: Either<InvalidNameError, Name> | undefined = Name.create(userData.name)
+  static update (userData: IUserUpdateData): Either<InvalidNameError | InvalidEmailError, UserUpdate> {
+    const nameOrError: Either<InvalidNameError, Name> | undefined = userData.name !== undefined ? Name.create(userData.name) : undefined
     const emailOrError: Either<InvalidEmailError, Email> | undefined = userData.email !== undefined ? Email.create(userData.email) : undefined
     const passwordOrError: Either<InvalidPasswordError, Password> | undefined = userData.password !== undefined ? Password.create(userData.password) : undefined
 
-    if (nameOrError.isLeft()) {
+    if (nameOrError && nameOrError.isLeft()) {
       return left(nameOrError.value)
     }
     if (emailOrError && emailOrError.isLeft()) {
@@ -83,7 +83,7 @@ export class UserUpdate {
       return left(passwordOrError.value)
     }
 
-    const name: Name | undefined = nameOrError.value
+    const name: Name | undefined = nameOrError?.value
     const email: Email | undefined = emailOrError?.value
     const password: Password | undefined = passwordOrError?.value
 
@@ -91,6 +91,41 @@ export class UserUpdate {
       email,
       password,
       name,
+    ))
+  }
+}
+
+export class UserAuth {
+  public readonly email: Email
+  public readonly password: Password
+
+  constructor (
+    email: Email,
+    password: Password,
+  ) {
+    this.email = email
+    this.password = password
+
+    Object.freeze(this)
+  }
+
+  static auth (userData: IUserAuthData): Either<InvalidNameError | InvalidEmailError, UserAuth> {
+    const emailOrError: Either<InvalidEmailError, Email> = Email.create(userData.email)
+    const passwordOrError: Either<InvalidPasswordError, Password> = Password.create(userData.password)
+
+    if (emailOrError.isLeft()) {
+      return left(emailOrError.value)
+    }
+    if (passwordOrError.isLeft()) {
+      return left(passwordOrError.value)
+    }
+
+    const email: Email = emailOrError.value
+    const password: Password = passwordOrError.value
+
+    return right(new UserAuth(
+      email,
+      password,
     ))
   }
 }

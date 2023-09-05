@@ -1,12 +1,12 @@
 import { InvalidNameError } from '../../../domain/entities/users/errors/invalidName'
-import { IUser, IUserAuthData, IUserData } from '../../../domain/entities/users/interfaces/userData'
+import { IUser, IUserAuthData, IUserUpdateData } from '../../../domain/entities/users/interfaces/userData'
 import { Either, left, right } from '../../../shared/either'
 
 import { IUserRepository } from '../../repositories/userRepository'
 import { UserResponse } from './responses/userResponse'
 import { InvalidEmailError } from '../../../domain/entities/users/errors/invalidEmail'
 import { InvalidPasswordError } from '../../../domain/entities/users/errors/invalidPassword'
-import { User } from '../../../domain/entities/users/user'
+import { User, UserAuth, UserUpdate } from '../../../domain/entities/users/user'
 import { AuthUserResponse } from './responses/authUserResponse'
 import { UserInterface } from './interfaces/userInterface'
 import { UserId } from './validators/userId'
@@ -36,36 +36,27 @@ export class UserUseCases implements UserInterface {
       return left(userOrError.value)
     }
 
-    const user: User = userOrError.value
     const exists = this.userRepository.exists(userData.email)
 
-    let token: string = ''
-
     if (!(await exists).valueOf()) {
-      if (user.name !== undefined) {
-        const userId = await this.userRepository.add({
-          name: user.name.value,
-          email: user.email.value,
-          password: user.password.value
-        })
+      const userId = await this.userRepository.add(userData)
 
-        token = await this.userRepository.authenticateUser(userId)
-      }
-      return right('User created')
+      const token = await this.userRepository.authenticateUser(userId)
+      return right({ userData, token })
     }
 
     if ((await exists).valueOf()) {
       return left(new InvalidEmailError('email exist'))
     }
 
-    return right({ userData, token })
+    return right('Server Error')
   }
 
   async authWithEmail (authData: IUserAuthData): Promise<AuthUserResponse> {
     const userOrError: Either<
     InvalidNameError |
     InvalidEmailError,
-    User> = User.create(authData)
+    UserAuth> = UserAuth.auth(authData)
 
     if (userOrError.isLeft()) {
       return left(userOrError.value)
@@ -97,42 +88,47 @@ export class UserUseCases implements UserInterface {
     return right(authData)
   }
 
-  async updateUserOnDatabase (userData: IUserData, id: string, token: string): Promise<UserResponse> {
+  async updateUserOnDatabase (userData: IUserUpdateData, id: string, token: string): Promise<UserResponse> {
     const userOrError: Either<
     InvalidNameError | InvalidEmailError | InvalidPasswordError,
-    User> = User.create(userData)
+    UserUpdate> = UserUpdate.update(userData)
 
     if (userOrError.isLeft()) {
       return left(userOrError.value)
     }
 
-    const userFromEmail = this.userRepository.findUserByEmail(userData.email)
+    if (id === undefined) return left(new InvalidUserIdError(id))
 
-    if (await userFromEmail) {
-      if ((await userFromEmail).user_id !== id) {
+    if (userData.email) {
+      const userFromEmail = this.userRepository.findUserByEmail(
+        userData.email,
+        { NOT: id }
+      )
+      if (userFromEmail === null) return left(new InvalidEmailError('email exist'))
+
+      if ((await userFromEmail)?.user_id !== id) {
         return left(new InvalidEmailError('email exist'))
       }
     }
 
-    let idRequest
-    if (this.validateUser) idRequest = this.validateUser(token)
-    const userDB = this.userRepository.findUserById(id)
+    const idRequest = this.validateUser!(token)
+    const userDB = await this.userRepository.findUserById(id)
 
-    if (idRequest !== (await userDB).user_id) {
+    if (userDB === null) return left(new InvalidUserIdError('User not exist'))
+
+    if (idRequest !== userDB.user_id) {
       return left(new InvalidUserIdError('User not allowed'))
     }
 
-    const user: User = userOrError.value
+    const user: UserUpdate = userOrError.value
 
-    if (Object.keys(await userDB).length === 0) {
-      return left(new InvalidEmailError('email not exist'))
-    } else if (id === undefined) {
-      return left(new InvalidUserIdError(id))
-    } else {
+    if (Object.keys(userDB).length === 0) return left(new InvalidEmailError('email not exist'))
+
+    else {
       await this.userRepository.update({
         name: (<any>user.name).value || (await <any>userDB).user_name,
-        email: user.email.value || (await <any>userDB).user_email,
-        password: user.password.value || (await <any>userDB).user_password
+        email: user.email?.value || (await <any>userDB).user_email,
+        password: user.password?.value || (await <any>userDB).user_password
       }, id)
 
       return right('User updated')
@@ -154,7 +150,7 @@ export class UserUseCases implements UserInterface {
 
     const user = await this.userRepository.findUserById(idValue.value)
 
-    if (user === undefined) {
+    if (user === undefined || user === null) {
       return left(new Error('User ID not exists!'))
     }
 
@@ -172,7 +168,7 @@ export class UserUseCases implements UserInterface {
 
     const user = await this.userRepository.findUserById(idValue.value)
 
-    if (user === undefined) {
+    if (user === undefined || user === null) {
       return left(new Error('User ID not exists!'))
     } else if (user.user_id) {
       this.userRepository.deleteById(user.user_id)
@@ -183,3 +179,12 @@ export class UserUseCases implements UserInterface {
     return left(new InvalidUserIdError(id))
   }
 }
+
+// ({
+//   name: user.name.value,
+//   email: user.email.value,
+//   password: user.password.value,
+
+//   identifier: user.email.value.split('@')[0],
+
+// })
