@@ -33,6 +33,10 @@ export class PrismaUsersRepository implements IUserRepository {
   }
 
   async add (user: IUser): Promise<any> {
+    delete (<any>user).mobilePhone
+    delete (<any>user).cpfCnpj
+    delete (<any>user).notificationDisabled
+
     await this.prisma.users.create({
       data: user,
     }).then(async () => {

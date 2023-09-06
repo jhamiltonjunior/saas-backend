@@ -1,6 +1,6 @@
-import { IHttpResponse } from '../../../../../adapters/http/controllers/ports/http'
+// import { IHttpResponse } from '../../../../../adapters/http/controllers/ports/http'
 
-export const createClient = async (content: IHttpResponse): Promise<any> => {
+export const createClient = async (content: any): Promise<any> => {
   // eslint-disable-next-line no-undef
   const data = await fetch(String(process.env.ASAAS_CUSTOMERS_SANDBOX), {
     method: 'POST',

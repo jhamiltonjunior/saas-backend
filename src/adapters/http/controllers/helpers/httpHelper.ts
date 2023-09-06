@@ -6,6 +6,11 @@ export const badRequest = (error: Error): IHttpResponse => ({
   body: error.message,
 })
 
+export const customResponse = (error: Error, statusCode: number): IHttpResponse => ({
+  statusCode,
+  body: error.message,
+})
+
 export const created = (data: any): IHttpResponse => ({
   statusCode: 201,
   body: data,

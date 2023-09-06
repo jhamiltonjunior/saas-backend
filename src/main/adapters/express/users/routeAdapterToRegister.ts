@@ -17,10 +17,17 @@ export const routeAdapterToRegister = (controller:
     const httpResponse = await controller.handle(httpRequest)
 
     if (httpResponse.statusCode === 201) {
-      httpResponse.body.password = '';
+      httpResponse.body.userData.password = ''
+
+      const paymentData = {
+        body: {
+          ...httpResponse.body.userData,
+          ...httpResponse.body.paymentData
+        }
+      };
 
       (async function fastExec () {
-        const data = await createClient(httpResponse)
+        const data = await createClient(paymentData)
 
         if (data.status === 200) {
           const json = await data.json()

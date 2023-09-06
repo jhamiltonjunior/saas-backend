@@ -23,6 +23,9 @@ export class RegisterUserController {
 
       image_file: httpRequest.body.imageFile,
 
+    }
+
+    const paymentData = {
       // Payament API
       mobilePhone: httpRequest.body.mobilePhone,
       cpfCnpj: httpRequest.body.cpfCnpj,
@@ -47,6 +50,6 @@ export class RegisterUserController {
       serverError('internal')
     }
 
-    return created(userData)
+    return created({ userData, paymentData })
   }
 }
